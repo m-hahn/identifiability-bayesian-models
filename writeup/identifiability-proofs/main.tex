@@ -183,7 +183,7 @@ be two models in $\mathfrak{M}$. In the absence of motor noise ($\tau=0$), the f
 \item The response bias and variance of $M_1$ and $M_2$ differ only by $\mathcal{O}(\sigma^4)$ when $\sigma$ is small.
 \end{enumerate}
 \end{thm}
-The second property intuitively indicates that, when $\sigma$ is small, $M_1$ and $M_2$ are essentially indistinguishable, as bias and variance scale with $\sigma^4$, which is much larger than $\sigma^6$ when $\sigma$ is small. We note that, in the notation used in Section~\ref{sec:theorems-two-levels}, this condition amounts to stating that $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ and $\mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$.
+The second property intuitively indicates that, when $\sigma$ is small, $M_1$ and $M_2$ are essentially indistinguishable, as bias and variance scale wirh $\sigma^2$, which is much larger than $\sigma^4$ when $\sigma$ is small. We note that, in the notation used in Section~\ref{sec:theorems-two-levels}, this condition amounts to stating that $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ and $\mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$.
 We illustrate the theorem with a family of models satisfying this property in Figure~\ref{fig:circular-gauge}.
 \begin{proof}
     We first show $1 \Rightarrow 2$.
@@ -210,7 +210,7 @@ Second, retracing the computation of the bias above shows that the only way for 
     In the absence of motor noise, the encoding $F$ and the sensory noise magnitude can be recovered from the response distribution at a single level of sensory noise, with estimation error exponentially small in $\frac{1}{\sigma}$. 
 
 \begin{align*}
- \sqrt{\mathcal{J}(\theta)} = \sqrt{4\pi} \cdot \frac{\operatorname{d}}{\operatorname{d}\theta} \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta)) 
+ \sqrt{\mathcal{J}(\theta)} = \sqrt{4\pi} \cdot \frac{\operatorname{d}}{\operatorname{d}\theta} \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta)) + \mathcal{O}(\exp(-1/\sigma))
 \end{align*}
     
 \end{thm}
