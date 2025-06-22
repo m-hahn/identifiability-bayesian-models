@@ -1,0 +1,384 @@
+
+
+
+
+\section{Implementation}
+
+\subsection{Fitting Procedure}
+
+We used the implementation of the fitting procedure from \citet{hahn2024unifying}.
+It fits the model parameters to maximize data likelihood with gradient descent.
+As described in \citet{hahn2024unifying}, $F'$ and $\Prior$ are defined by assigning one unconstrained real number to each point on the discretized stimulus space grid $x_1, \dots, x_N$, and obtaining $F'(\theta), \Prior(\theta)$ via the softmax transform (matching the theoretical construction of $\mu$ on $\mathcal{F}(\mathcal{X})$ in Section~\ref{sec:space-of-models}).
+A key aspect of this implementation is that it allows the backpropagation algorithm to compute gradients of $\widehat{\theta}$ with respect to the posterior $P$.
+
+The implementation of the $L^p$ ($p=2,4,6,\dots$) estimators is unchanged.
+We add an implementation of the $L^1$ estimator (posterior median), explained in Section~\ref{sec:median}.
+For the MAP estimator, we performed two changes.
+As described in \citet{hahn2024unifying}, the MAP estimator is obtained as the maximum of function $\tilde{P}$ obtained by smoothing the discretized posterior with a Gaussian function.
+First, for circular spaces, we used a von Mises density function instead of a Gaussian function.
+Second, on interval stimulus spaces, a challenge is that the maximum of the smoothed posterior might lie outside the stimulus space, in fact, it may lie at $\pm \infty$, and the need to compute $\frac{\partial \widehat{\theta}}{\partial P(x_i)}$ for gradient-based fitting precludes simply truncating it at the boundary (which would be a nondifferentiable operation). \citet{hahn2024unifying} solved this by adding a smooth function that is almost constant inside the space and rapidly decays to $-\infty$ outside it, but we found this to make numerical fitting challenging when there are datapoints close to the boundary.
+We instead simply set the discretized posterior at the boundary points to be zero ($P(x_0), P(x_N) := 0$), which naturally ensures that the maximum of the smoothed posterior $\widehat{P}$ will be attained at a finite $\widehat{\theta}$. This $\widehat{\theta}$ might lie slightly outside the stimulus space; though the motor likelihood is restricted to points inside the stimulus space.
+
+On interval stimulus spaces, the procedure of \citet{hahn2024unifying} computes the normalization constant of the motor distribution (i.e., the integral of a Gaussian density over an interval) numerically by summing over a grid; imprecision of this computation however can lead to incorrect model likelihoods when motor variance is very small. We found this to cause problems (i.e., spuriously low losses) at $p=0$ and (to a lesser extent) $p=1$, but not larger exponents. Hence, at $p=0,1$ on interval stimulus spaces, we rounded the data to the grid points $x_1, \dots, x_N$, and converted the motor likelihood to a discrete distribution over those, guaranteeing a correct normalization constant. No changes are needed on circular stimulus spaces, where the normalization constant is independent of $\widehat{\theta}$.
+
+
+
+\subsection{$L^1$ estimator (Posterior Median)}\label{sec:median}
+
+Whereas \citet{hahn2024unifying} implemented the $L^p$ estimators at even exponents ($p=0,2,4,6,\dots$), we extended their fitting procedure  to cover the $L^1$ estimator, i.e., the Posterior Median, as it is a relatively popular choice.
+Here, we discuss its definition and implementation.
+
+
+\subsubsection*{Interval Stimulus Space}
+We first discuss the setting where $\mathcal{X}$ is an interval.
+Given a neural encoding $m \in \mathcal{Y}$ and the corresponding posterior $P(x|m)$ over $\mathcal{X}$, the $L^1$ loss for an estimate $\theta \in \mathcal{X}$ is defined as
+\begin{equation}\label{eq:l1-loss}
+    \int |x-\theta| P(x|m) dx
+\end{equation}
+In the implementation of \citet{hahn2024unifying}, we are given the discretized posterior $P(x_1|m), \dots, P(x_N|m)$ based on the discretization $x_1, ..., x_N$ of the stimulus space $\mathcal{X}$ ($x_{i+1}-x_i = \Delta$).
+%The reason for defining the median on an interpolation is that, otherwise, it would not be uniquely defined, or would not smoothly depend on $P$.
+
+
+
+
+
+
+%\paragraph{Interpolating Posterior}
+Whereas $L^p$ losses at $p\geq 2$ can be straightforwardly operationalized by replacing the integral with a sum over the discretized points $x_i$, the situation is more complex at $p=1$, where a discretized version of~(\ref{eq:l1-loss}) results in the median of a discrete distribution, which (depending on its definition) either is not unique or does not smoothly depend on $P$.
+Hence, we interpolate $P(\cdot|m)$ as a function $\widehat{P}$ defined on all of $\mathcal{X}$, and then define the median on that distribution. %; this is also the strategy used for $p=0$ \citep{hahn2024unifying}.
+To obtain a well-defined median, a very simple piecewise constant interpolation of $P$ is sufficient.
+Let $(\phi_i)_{i=1, \dots, N}$ be a sequence of functions $\mathcal{X} \rightarrow \mathbb{R}$, such that we interpolate
+\begin{equation}
+    \widehat{P}(x) := \sum_{i=1}^N P(x_i|m) \phi_i(x)
+\end{equation}
+%where $\lambda_i := P(x_i)$.
+It is sufficient to take
+\begin{equation}
+    \phi_i(x) = \begin{cases}
+        1 & \text{if } |x-x_i| < |\frac{\Delta}{2}| \\
+        0 & \text{else}
+    \end{cases}
+\end{equation}
+Then $\widehat{P}$ is piecewise constant, and interpolates $P(\cdot|m)$.
+We use it to define the implemented $L^1$ estimator:
+\begin{defin}
+We define the $L^1$ estimator (median) as
+\begin{align}\label{eq:interval-l1-estimator}
+     \min_{\theta \in [0,1]} \int_{\mathcal{X}} |\theta-x| \widehat{P}(x) dx 
+\end{align}
+\end{defin}
+To determine it, we solve for $\widehat{\theta}$ satisfying:
+\begin{align}
+   0=  \int_{\mathcal{X}} sign(\widehat{\theta}-x) \widehat{P}(x) dx, 
+%\end{align}
+\ \ \ \ \ \ \ \text{ or equivalently: } \ \ \ \ \ \ \ 
+%\begin{align}
+\int_{x<\theta} \widehat{P}(x) dx  = \int_{x>\theta} \widehat{P}(x) dx 
+\end{align}
+As $P(\cdot|m)$ and hence $\widehat{P}$ is always strictly positive\footnote{This holds because we assume the prior to never be strictly zero, and the Fisher information to always be finite (Section~\ref{sec:basic-setup}).}, there will be a unique solution $x_a$.
+Let $x_a$ be one of $x_1, \dots, x_N$.
+Set
+\begin{align*}
+    A =& P(x_a) &
+    C =& \sum_{j : x_j < x_a} P(x_j)&
+    D =& \sum_{j : x_j>x_a} P(x_j)
+\end{align*}
+We now want to choose $\alpha \in [-\frac{1}{2},\frac{1}{2}]$ such that $\widehat{\theta} = x_a + \alpha\Delta$.
+Then, $\widehat{\theta}$ partitions the patch $[x_a-\frac{\Delta}{2}, x_a+\frac{\Delta}{2}]$ with length $\Delta$ into sub-patches of length $(\frac{1}{2}+\alpha) \Delta$ (on the left) and $(\frac{1}{2}-\alpha) \Delta$ (on the right).
+The overall mass on the left of $\widehat{\theta}$ is
+\begin{equation}
+  \int_{x<\theta} sign(\widehat{\theta}-x) \widehat{P}(x) dx  =  \Delta D + \left(\frac{1}{2}+\alpha\right) \Delta A %+ (\frac{1}{2}-\alpha) \Delta B
+\end{equation}
+The overall mass on the right of $\widehat{\theta}$ is
+\begin{equation}
+  \int_{x>\theta} sign(\widehat{\theta}-x) \widehat{P}(x) dx =   \Delta C + \left(\frac{1}{2}-\alpha\right) \Delta A %+ (\frac{1}{2}+\alpha) \Delta B
+\end{equation}
+Setting these two equal results in
+\begin{equation}\label{eq:interval-median-alpha}
+    \frac{C-D}{2A} =   \alpha
+\end{equation}
+We try all $x_a$'s, and choose the one that ensures $\alpha \in [-\frac{1}{2}, \frac{1}{2}]$ while minimizing (\ref{eq:interval-l1-estimator}). 
+An important feature of the fitting procedure of \citet{hahn2024unifying} is that allows backpropagation of gradients through $\widehat{\theta}$ to the posterior $P(x|m)$, allowing full gradient-based fitting.
+In order to backpropagate through $\widehat{\theta}$, we need its derivatives w.r.t. $P(x_i)$.
+We can simply differentiate Eq.~\ref{eq:interval-median-alpha}.
+\begin{align*}
+    \frac{\partial \alpha}{\partial P(x_i)} = \begin{cases}
+        \frac{1}{2A} & x_i-x_a > 0 \\
+        -\frac{1}{2A} & x_i-x_a < 0 \\
+      \frac{D-C}{2A^2}  & i=a \\
+        -\frac{D-C}{2A^2} & i=b \\
+    \end{cases}
+\end{align*}
+Then
+\begin{equation}
+    \frac{\partial \widehat{\theta}}{\partial P(x_i)} = \frac{\partial \alpha}{\partial P(x_i)} \cdot \Delta
+\end{equation}
+
+
+
+
+\subsubsection*{Circular Stimulus Space}
+
+
+
+We now consider the case where $\mathcal{X}$ is circular.
+For the standard definition of the circular median see, we refer to \citet{otieno2003more}. 
+Essentially, the circular median is defined as a point partitioning the circle into two semicircles that carry equal mass of $P$. There are always at least two antipodal points satisfying this definition; the one closer to most mass of $P$ is chosen.
+
+
+As before, we interpolate the posterior via a piecewise constant function.
+Let $(\phi_i)_{i=1, \dots, N}$ be a sequence of functions $\mathcal{X} \rightarrow \mathbb{R}$, such that we interpolate
+\begin{equation}
+    \widehat{P}(x) := \sum_{i=1}^N P(x_i) \phi_i(x)
+\end{equation}
+We take
+\begin{equation}
+    \phi_i(x) = \begin{cases}
+        1 & \text{if } \cos(x-x_i) > \cos(\frac{\Delta}{2}) \\
+        0 & \text{else}
+    \end{cases}
+\end{equation}
+We first set
+\begin{align*}
+    \ell^1(x,y) := & \min \{|x-y+k2\pi| : k \in \mathbb{Z}\} = \arccos(\cos(x-y))
+\end{align*}
+where $\arccos$ is the usual principal value (mapping to $[0,\pi]$). 
+This function describes the arc-length distance between two points on the unit circle.
+Then we formally define:
+\begin{defin}
+For circular $\mathcal{X}$, we define the circular $L^1$ estimator (median) as
+\begin{align}\label{eq:circular-l1-estimator}
+     \arg\min_{\theta \in [0,2\pi)} \int_0^{2\pi} \ell^1(\theta,x) \widehat{P}(x) dx 
+\end{align}
+\end{defin}
+We note that this, unlike interval stimulus spaces, the median may sometimes be multi-valued on circular spaces; we address this below.
+We connect this definition to the definition of the circular median from \citet{otieno2003more} as follows: 
+\begin{lemma}
+Let $\widehat{\theta}$ be a solution to (\ref{eq:circular-l1-estimator}), and $\widehat{\theta}^\dagger$ its antipode (that is, $\widehat{\theta}^\dagger = (\widehat{\theta} + \pi) \% (2\pi)$).
+Then the diameter $\widehat{\theta} : \widehat{\theta}^\dagger$  divides the circle into two semicircles that carry equal mass of $\widehat{P}$.
+\end{lemma}
+\begin{proof}
+We first note that the derivative of the distance function is given by the following function, a circular analogue of the sign function, defined, for $x \in \mathbb{R}$, as:
+\begin{align*}
+    circsign(x) := sign(\sin(x)) = \begin{cases} 1 & x \in \dots, (-2\pi, -\pi), (0,\pi), (2\pi, 3\pi), \dots \\
+    0 & x \equiv 0 (\operatorname{mod} \pi) \\
+    -1 & x \in \dots, (-\pi, 0), (\pi, 2\pi), (3\pi, 4\pi), \dots
+    \end{cases}
+\end{align*}
+Then:
+\begin{align*}
+    \partial_x \ell^1(x,y) = circsign(x-y)
+    \end{align*}
+To show this, without loss of generality, it is sufficient to show the claim at $y=0$. It then follows from the fact
+\begin{align*}
+    \frac{d}{dx} arccos(\cos(x)) = sign(\sin(x))
+    \end{align*}
+which can be shown by case distinction. Now, by differentiating Eq.~\ref{eq:circular-l1-estimator}, we obtain:
+\begin{align*}
+    0 =  \int circsign(\widehat{\theta}-x) \widehat{P}(x) dx 
+\end{align*}
+This is equivalent to stating that the mass of $\widehat{P}$ is equal on both semicircles.
+\end{proof}
+
+
+
+
+
+
+
+\begin{figure}[h!]
+\centering
+
+\begin{tikzpicture}
+    % Parameters
+    \def\radius{3cm}
+    \def\n{20}
+    \def\angleStep{360/\n}
+
+    \def\histMaxHeight{0.1cm} % Maximum height of histogram bars
+
+    % Draw the circle
+    \draw[thick] (0,0) circle[radius=\radius];
+
+    % Draw the points and labels
+    \foreach \i in {1,...,\n} {
+        \pgfmathsetmacro{\angle}{(\i-1)*\angleStep}
+        \coordinate (P\i) at (\angle:\radius);
+        
+        % Customize specific points
+        \ifnum\i=5
+            \node[red, circle, fill=red, minimum size=4mm] at (P\i) {};
+            \node[above right, red] at (P\i) {$x_{\i}$};
+        \else \ifnum\i=15
+            \node[orange, circle, fill=orange, minimum size=4mm] at (P\i) {};
+            \node[above right, orange] at (P\i) {$x_{\i}$};
+        \else \ifnum\i<5
+            \node[yellow, circle, fill=yellow, opacity=0.3, minimum size=2mm] at (P\i) {};
+            \node[above right, yellow] at (P\i) {$x_{\i}$};
+        \else \ifnum\i>15
+            \node[yellow, circle, fill=yellow, opacity=0.3, minimum size=2mm] at (P\i) {};
+            \node[above right, yellow] at (P\i) {$x_{\i}$};
+        \else \ifnum\i>5 \and \i<15
+            \node[blue, circle, fill=blue, opacity=0.3, minimum size=2mm] at (P\i) {};
+            \node[above right, blue] at (P\i) {$x_{\i}$};
+        \fi
+\fi
+\fi 
+\fi
+\fi
+
+
+        % Draw histogram bars
+
+        % Draw histogram bars
+\pgfmathsetmacro{\barHeight}{\histMaxHeight*exp(3*cos((\i-5)*\angleStep))}
+        \draw[thick, blue] (\angle:\radius) -- (\angle:{\radius+\barHeight});
+    }
+
+    % Draw points \widehat{\theta} and \widehat{\theta}^\dagger
+
+    \pgfmathsetmacro{\thetaAngle}{(5-1)*\angleStep - 5} % Slightly before x_5
+    \pgfmathsetmacro{\thetaDagAngle}{(15-1)*\angleStep + 5} % Slightly after x_15
+
+    \coordinate (Theta) at (\thetaAngle:\radius);
+    \coordinate (ThetaDag) at (\thetaDagAngle:\radius);
+    \node[black, circle, fill, minimum size=2mm] at (Theta) {};
+    \node[below, black] at (Theta) {$\widehat{\theta}$};
+    \node[gray, circle, fill, minimum size=2mm] at (ThetaDag) {};
+    \node[below, gray] at (ThetaDag) {$\widehat{\theta}^\dagger$};
+
+    % Draw semicircles
+%    \draw[thick, blue!30] (Theta) -- (ThetaDag) arc[start angle=260, delta angle=-180, radius=\radius];
+ %   \draw[thick, yellow!30] (Theta) -- (ThetaDag) arc[start angle=260, delta angle=180, radius=\radius];
+
+\end{tikzpicture}
+
+
+\caption{Illustration of the definition of the $L^1$ estimator on a discretization of the circle. We show a discretized distribution with a histogram with blue bars. The points $x_5$ and $x_{15}$ are highlighted in red and orange, respectively. The circular median $\widehat{\theta}$ is shown in black, and its antipode $\widehat{\theta}^\dagger$ in gray. The semicircles between $\widehat{\theta}$ and $\widehat{\theta}^\dagger$ carry equal weight.}
+\end{figure}
+
+Let $x_a$ be a point among $x_1, \dots, x_N$, and let $x_b$ be its antipode.
+Set
+\begin{align*}
+    A =& P(x_a) &
+    B =& P(x_b) &
+    C =& \sum_{j : \sin(x_j-x_a) > 0} P(x_j)&
+    D =& \sum_{j : \sin(x_j-x_a) < 0} P(x_j)
+\end{align*}
+We now want to choose $\alpha \in [-\frac{1}{2},\frac{1}{2}]$ such that $\widehat{\theta} = x_a + \alpha\Delta$.
+Then, among the patch $[x_a-\frac{\Delta}{2}, x_a+\frac{\Delta}{2}]$ with length $\Delta$, it is partitioned into sub-patches of length $(\frac{1}{2}+\alpha) \Delta$ (on the left) and $(\frac{1}{2}-\alpha) \Delta$ (on the right).
+The overall mass on the left of $\widehat{\theta}$ is
+\begin{equation}
+  \int_{x : sin(x-\widehat{\theta}) < 0} \widehat{P}(x) dx =  \Delta D + \left(\frac{1}{2}+\alpha\right) \Delta A + \left(\frac{1}{2}-\alpha\right) \Delta B
+\end{equation}
+The overall mass on the right of $\widehat{\theta}$ is
+\begin{equation}
+  \int_{x : sin(x-\widehat{\theta}) > 0} \widehat{P}(x) dx =  \Delta C + \left(\frac{1}{2}-\alpha\right) \Delta A + \left(\frac{1}{2}+\alpha\right) \Delta B
+\end{equation}
+Setting these two equal results in
+\begin{equation}\label{eq:median-alpha}
+    \frac{D -C}{2B-2A} =   \alpha
+\end{equation}
+Among all $x_a$'s, we choose the one that ensures $\alpha \in [-\frac{1}{2}, \frac{1}{2}]$ while minimizing the $L^1$ loss. There are cases where the circular median is not unique; in particular, when $\widehat{P}$ is uniform or has very wide spread. 
+\footnote{For instance, when $\widehat{P}$ is uniform (not localized) or when it is proportional to $\sin^2(x)$ (which has two modes at antipodal points).
+% This is interesting but not needed
+For, 
+\[
+\int_{\widehat{\theta}}^{\widehat{\theta}+2\pi} \operatorname{sign}(\sin(x-\widehat{\theta}))\,\sin^2(x)\,dx
+\]
+evaluates to \(0\), independent of \(\widehat{\theta}\), because 
+\[
+\int_{\widehat{\theta}}^{\widehat{\theta}+\pi} \sin^2(x)\,dx = \frac{\pi}{2}
+\] for any $\widehat{\theta}$.
+}
+In general, however, the circular median is well-defined on any  localized probability distribution, as is generally relevant to Bayesian modeling of perception, where (assuming the stimulus has been perceived and encoded at all) the posterior will be localized in a region of stimulus space. 
+Importantly, the median on a nowhere-zero probability density $\widehat{P}$ is generally well-behaved and unambiguous, in contrast to the more challenging circular median of a finite number of datapoints (see \citet{otieno2003more} for discussion of the latter).\footnote{In the rare case that multiple candidate solutions nonetheless yield the same minimal $L^1$ loss, we employ a tie-breaking strategy that selects the solution closest to the overall probability mass. Specifically, for each candidate $\widehat{\theta}_i$ that minimizes the $L^1$ loss, we compute
+\begin{align*}
+    \int (1-\cos\bigl(x - \widehat{\theta}_i\bigr)) \widehat{P}(x)  dx
+    %loss(\widehat{\theta}_i) &= 1 - score(\widehat{\theta}_i)
+\end{align*}
+Among all candidate solutions with optimal $L^1$ loss, the candidate minimizing this term is chosen as the final estimator.}
+
+
+
+As before, we obtain the gradient by differentiating Eq.~\ref{eq:median-alpha}. 
+\begin{align*}
+    \frac{\partial \alpha}{\partial P(x_i)} = \begin{cases}
+        \frac{-1}{2B-2A} & \sin(x_i-x_a) > 0 \\
+        \frac{1}{2B-2A} & \sin(x_i-x_a) < 0 \\
+      \frac{(D-C)}{2(B-A)^2}  & i=a \\
+        -\frac{(D-C)}{2(B-A)^2} & i=b \\
+    \end{cases}
+\end{align*}
+Then
+\begin{equation}
+    \frac{\partial \widehat{\theta}}{\partial P(x_i)} = \frac{\partial \alpha}{\partial P(x_i)} \cdot \Delta
+\end{equation}
+Again, implicit differentiation would lead to the same result. 
+
+\subsection{Computation of Encoding Resources}\label{sec:compute-fi}
+
+In general, with Gaussian encoding noise, the Fisher Information is given as
+\begin{equation}
+    \FI(\theta) = \frac{F'(\theta)^2}{\sigma^2}
+\end{equation}
+We compute the plotted resource allocation $\sqrt{\FI(\theta)}$ as in \cite{hahn2024unifying}. Here, we recapitulate the calculation for completeness.
+At $i=1, \dots, N-1$, write:
+\begin{equation}
+    V_i := F(\theta_{i+1}) - F(\theta_{i})
+\end{equation}
+so that
+\begin{equation}
+    F'(\theta_i) \approx \frac{F(\theta_{i+1}) - F(\theta_i)}{\theta_{i+1}-\theta_i} = \frac{V_i N}{\operatorname{Vol}(\mathcal{X})}
+\end{equation}
+For an interval stimulus space, we obtain
+\begin{equation}
+    \sqrt{\FI(\theta_i)} = \frac{F'(\theta_i)}{SD(m|\theta_i)} \approx \frac{V_i N}{\sigma \cdot \operatorname{Vol}(\mathcal{X})}
+\end{equation}
+For a circular variable where sensory noise has von Mises parameter $\kappa$, we analogously take
+\begin{equation}
+    \frac{V_i \sqrt{\kappa} N}{\operatorname{Vol}(\mathcal{X})}
+\end{equation}
+We note that, at large noise, the standard definition of the Fisher information results in an additional term involving Bessel functions, which is close to 1 when noise is small. We follow \cite{hahn2024unifying} in disregarding it in visualization, in order to maintain the direct functional relationship between Fisher information and encoding slope (i.e., $\FI(\theta) = \frac{F'(\theta)^2}{\sigma^2}$).
+
+We note that in our simulations for circular stimulus spaces, we assume an orientation perception setup. While the stimulus space is represented as [0,360] in the implementation, we convert it to [0,180] for plotting purposes. In this transformation, bias and variability are divided by 2, whereas the resources $\sqrt{FI(\theta)}$ are multiplied by 2.
+
+We compare three numerical methods of computing or approximating the Fisher information in Figure~\ref{fig:four-methods-fi}:
+\begin{enumerate}
+\item As described above: for a circular stimulus space
+\begin{equation}
+  \sqrt{\FI(\theta_i)} \approx  \frac{V_i \sqrt{\kappa} N}{\operatorname{Vol}(\mathcal{X})}
+\end{equation}
+and, for an interval stimulus space:
+\begin{equation}
+    \sqrt{\FI(\theta_i)} \approx  \frac{V_i N}{\sigma \cdot \operatorname{Vol}(\mathcal{X})}
+\end{equation}
+\item A finite differences approximation of the result of Theorem 1\footnote{Theorem 1 differs by applying the decoding function to obtain $\widehat{\theta}$. These two variants are equivalent, since the decoding function is monotonic.},
+\begin{equation}
+    \sqrt{\FI(\theta)} = \sqrt{4\pi} \frac{d}{d\theta} \mathbb{P}(m(\theta+h) \geq m(\theta))
+\end{equation}
+where $m(\theta)$ is an encoding sampled for stimulus $\theta$, operationalized on a circular stimulus space as
+\begin{equation}
+    \sqrt{\FI(\theta)} = \sqrt{4\pi} \frac{\mathbb{P}(\sin(m(\theta_{i+1})- m(\theta_i) > 0) + \frac{1}{2}\mathbb{P}(m(\theta_{i+1}) = m(\theta_i)) - 0.5}{\theta_{i+1}-\theta_i}
+\end{equation}
+and on an interval stimulus space as
+\begin{equation}
+    \sqrt{\FI(\theta)} = \sqrt{4\pi} \frac{\mathbb{P}(m(\theta_{i+1}) > m(\theta_i)) + \frac{1}{2}\mathbb{P}(m(\theta_{i+1}) = m(\theta_i)) - 0.5}{\theta_{i+1}-\theta_i}
+\end{equation}
+where $m$ is discretely distributed over $F(\theta_1), \dots, F(\theta_N)$ as specified in the implementation.
+
+\item The general definition of the Fisher information
+\begin{equation}
+    \FI(\theta) = \int_{\mathcal{Y}} \left(\frac{\partial}{\partial \theta} \log p(m | \theta)\right)^2 p(m|\theta) dm
+\end{equation}
+where the derivative is evaluated by a finite-difference approximation, and the likelihood is evaluated over the discrete grid.
+
+\item The inverse variance of the encoding transformed back into stimulus space:
+\begin{equation}
+    \frac{1}{\FI(\theta)} \approx \mathbb{E}_{m|\theta} \left\{\left(F^{-1}(m) - \mathbb{E}_{m|\theta}[F^{-1}(m)]\right)^2\right\}
+\end{equation}
+which is valid when noise is small.
+\end{enumerate}
+Results in Figure~\ref{fig:four-methods-fi} show that the methods result in numerically similar results.
+The third operationalization results in slightly smoothed estimates due to the finite-difference and low-noise approximations, which break exact analytic equivalence to the other expressions.
+Similarly, the fourth operationalization results in more smoothed estimates; it is a valid approximation only when noise is small.

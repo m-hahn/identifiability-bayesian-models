@@ -1,0 +1,221 @@
+
+
+
+
+
+\section{Analytically Solvable Models}
+Here, we show the optimality of our results by considering analytically tractable models.
+
+\subsection{Logarithmic Encoding, Log-Normal Prior (Loss Function and Prior Confounded)}
+We consider a model with logarithmic encoding and log-normal prior, a simple model for scalar stimulus variables satisfying Weber's Law, where the log-normal prior represents a stimulus distribution concentrated in an interval  \cite{Petzschner2011IterativeBE, hahn2024unifying}.
+Remarkably, we will show that this model family\footnote{Strictly speaking, restrictions of this model to a finite stimulus space interval.} is entirely contained in the exceptional set $\Omega$ studied in Theorem 2, and, indeed, \emph{no number of sensory noise levels} will be sufficient for disentangling prior and loss function in this model family. An important implication is thus that $\Omega$, even though it is very small in a mathematically precise sense, may still contain such very natural models.
+We discuss strategies for recovering identifiability in Section~\ref{sec:recover-adaptation}.
+Define the log-normal density as
+\begin{equation}
+LogNormal(M, V)(\theta) := \frac{1}{\theta} \exp(-\frac{(\log \theta - M)^2}{2V}) \\
+\end{equation}
+Then set:
+\begin{align*}
+&\text{(Prior) } & \Prior(\theta) \propto& LogNormal(\log\mu, \sigma^2) := \frac{1}{\theta} \exp(-\frac{(\log \theta - \log \mu)^2}{2\sigma^2}) \\
+&\text{(Encoding)} & F(\theta) = & \log \theta  \text{\ \ \ \ \ \  (hence, } F'(\theta) = \frac{1}{\theta}\text{)}
+\end{align*}
+on the stimulus space $\mathcal{X} = (0,\infty)$ and the corresponding sensory space $\mathcal{Y} = \mathbb{R}$.
+Note that this space is infinite, unlike the other setups we consider; we comment on this below.
+We now show that, for such models, the location parameter $\mu$ is confounded with the loss function:
+\begin{thm}
+Given $p \in \mathbb{N}$, define $\tilde{p}$ as in Equation~\ref{eq:tilde-p}.
+Let $\mu, \sigma^2 > 0$.
+    The family of models
+    \begin{equation}\label{eq:lognormal-family}
+      \{  \langle F'(\theta) = \frac{1}{\theta}, \Prior = LogNormal\left(\log \mu - \frac{\tilde{p}}{2}\sigma^2, \sigma^2\right), p\rangle : p =0, 1, 2, 4, \dots\}
+    \end{equation}
+    defines the same response distribution for any $p$ and any sensory noise magnitude $t$.
+    Hence, no amount of trials and sensory noise levels can distinguish between these models.
+\end{thm}
+
+\begin{proof}
+    For the model
+    \begin{equation}
+        \langle F'(\theta) = \frac{1}{\theta}, \Prior = LogNormal\left(\log \mu - \frac{\tilde{p}}{2}\sigma^2, \sigma^2\right), {p}\rangle
+    \end{equation}
+    the encoding likelihood transformed into stimulus space is
+    \begin{equation}
+        p(m|\theta) \propto LogNormal(\log \theta, t) := \frac{1}{m} \exp(-\frac{(m - \log \theta)^2}{2t}).
+    \end{equation}
+    Hence, the posterior is
+\begin{equation}
+    p(\theta|m) = LogNormal(M, V)(\theta)
+\end{equation}
+with parameters
+\begin{align*} 
+V := &\frac{1}{\frac{1}{\sigma^2}+\frac{1}{t}} &
+    M := &V \cdot \left(\frac{\log m}{t} + \frac{\log\mu - \tilde{p}\sigma^2/2}{\sigma^2}\right)
+\end{align*}
+The $L^{{p}}$ estimator is 
+    \begin{align*}
+        \exp(M + \frac{\tilde{p}-1}{2} V) =& \exp(V \cdot \left[\left(\frac{\log m}{t} + \frac{\log\mu - \tilde{p}\sigma^2/2}{\sigma^2}\right) + \frac{\tilde{p}-1}{2}\right]) \\
+        =& \exp(V \cdot \left[\frac{\log m}{t} + \frac{\log\mu }{\sigma^2} - \frac{\tilde{p}}{2}  + \frac{\tilde{p}-1}{2}\right]) \\
+        =& \exp(V \cdot \left[\frac{\log m}{t} + \frac{\log\mu }{\sigma^2}   - \frac{1}{2}\right])
+    \end{align*}
+    which is independent of $\tilde{p}$.
+    For $p=0,1,2$, the formula for the $L^p$ estimator follows from the standard formulas for mode, median, and mean of the lognormal distribution.
+    For higher even exponents, this follows from Lemma~\ref{lemma:lognormal-p-estimator} below.
+    
+    
+\end{proof}
+We note that the transformation of the prior in the family~(\ref{eq:lognormal-family}) is consistent with Eq. 3 in the main paper: multiplying a log-normal density with a power of $\theta$ amounts to a shift of the density's location parameter:
+\begin{lemma}
+\begin{align*}
+  G(\theta) :=  \Prior(\theta) F'(\theta)^{\frac{p-p'}{2}} \propto LogNormal\left(\log\mu - \frac{p-p'}{2}\sigma^2, \sigma^2\right)
+\end{align*}
+\end{lemma}
+\begin{proof}
+Define
+\[
+\delta = \frac{p-p'}{2}.
+\]
+Then, we can rewrite \(G(\theta)\) as
+\[
+G(\theta) = \frac{1}{\theta^{1+\delta}}\exp\left(-\frac{(\log \theta - \log \mu)^2}{2\sigma^2}\right)
+= \frac{1}{\theta}\exp\left[-\frac{(\log \theta - \log \mu)^2}{2\sigma^2} - \delta \log \theta\right].
+\]
+Notice that \(\delta \log \theta = \frac{p-p'}{2}\log \theta\). %\textcolor{blue}{Here should be \( \frac{p-p'}{2}\log \theta \)} 
+Thus, the exponent becomes
+\[
+-\frac{(\log \theta - \log \mu)^2}{2\sigma^2} - \delta \log \theta 
+= -\frac{1}{2\sigma^2}\left[(\log \theta - \log \mu)^2 + 2\delta\sigma^2\log \theta\right].
+\]
+Expanding the square, combining the linear terms in \(\log \theta\), and completing the square for the quadratic in \(\log \theta\), we have: 
+\begin{align*}
+(\log \theta - \log \mu)^2 + 2\delta\sigma^2\log \theta 
+= & (\log \theta)^2 - 2\log \mu\,\log \theta + (\log \mu)^2 + 2\delta\sigma^2\log \theta \\
+= &(\log \theta)^2 - 2\left(\log \mu - \delta\sigma^2\right)\log \theta + (\log \mu)^2 \\
+= & \left(\log \theta - \left(\log \mu - \delta\sigma^2\right)\right)^2 - \left(\log \mu - \delta\sigma^2\right)^2 + (\log \mu)^2.
+\end{align*}
+Thus, up to a multiplicative constant (which absorbs the \(\theta\)-independent terms), we obtain
+\[
+G(\theta) \propto \frac{1}{\theta}\exp\left[-\frac{\left(\log \theta - \left(\log \mu - \delta\sigma^2\right)\right)^2}{2\sigma^2}\right] = LogNormal\left(\log\mu - \frac{p-p'}{2}\sigma^2, \sigma^2\right).
+\]
+\end{proof}
+
+It remains to show:
+\begin{lemma}\label{lemma:lognormal-p-estimator}
+Let $X$ be a lognormal random variable with $\ln X\sim N(\mu,\sigma^2)$, and let $p\ge 2$ be an even integer. Then the unique minimizer of
+\[
+f(y) = \mathbb{E}\bigl[(X-y)^p\bigr]
+\]
+over $y\in\mathbb{R}$ is
+\[
+y^* = \exp\Bigl(\mu+\frac{p-1}{2}\sigma^2\Bigr).
+\]
+\end{lemma}
+This generalizes the standard formula for the mean and median of lognormal random variables; if one replaces $p=0$ with $\tilde{p}=-1$, it also covers the mode.
+\begin{proof}
+Due to strong convexity, 
+\begin{equation} 
+\mathbb{E}\bigl[(X-y)^{p}\bigr]
+\end{equation}
+has a unique stationary point, where it attains its minimum.
+Setting $f'(y)=0$ yields
+\begin{equation} \label{FOC}
+\mathbb{E}\bigl[(X-y)^{p-1}\bigr]=0.
+\end{equation}
+We now write $X$ in its lognormal form:
+\[
+X = e^{\mu+\sigma Z},\quad \text{with } Z\sim N(0,1).
+\]
+Substituting the ansatz
+\[
+y = \exp\Bigl(\mu+c\,\sigma^2\Bigr),
+\]
+(for some constant $c$ to be determined) into Eq.~\ref{FOC}, we obtain
+\[
+\mathbb{E}\Bigl[\Bigl(e^{\mu+\sigma Z} - \exp\bigl(\mu+c\,\sigma^2\bigr)\Bigr)^{p-1}\Bigr]=0.
+\]
+Factor out $e^\mu$:
+\[
+\mathbb{E}\Bigl[\Bigl(e^{\sigma Z} - \exp(c\,\sigma^2)\Bigr)^{p-1}\Bigr]=0.
+\]
+Denote $M=\exp(c\,\sigma^2)$ so that the condition becomes
+\[
+\mathbb{E}_Z \left[ \Bigl(e^{\sigma z}-M\Bigr)^{p-1} \right]=0.
+\]
+Since $p-1$ is odd (because $p$ is even), we expand the integrand using the binomial theorem:
+\[
+\Bigl(e^{\sigma z}-M\Bigr)^{p-1} = \sum_{k=0}^{p-1} \binom{p-1}{k} (-M)^{p-1-k} e^{k\sigma z}.
+\]
+Taking expectation term-by-term\footnote{Recalling that
+\[
+\mathbb{E}[e^{k\sigma Z}] = \exp\Bigl(\frac{1}{2}k^2\sigma^2\Bigr)
+\]
+by the moment generating function of the normal distribution.}, we have
+\[
+\sum_{k=0}^{p-1} \binom{p-1}{k} (-M)^{p-1-k} \exp\Bigl(\frac{1}{2}k^2\sigma^2\Bigr)=0.
+\]
+Replacing $M$ by $\exp(c\,\sigma^2)$, this sum becomes
+\[
+\sum_{k=0}^{p-1} \binom{p-1}{k} (-1)^{p-1-k} \exp\Bigl(c\,\sigma^2(p-1-k)+\frac{1}{2}k^2\sigma^2\Bigr)=0.
+\]
+Now set 
+\[
+c = \frac{p-1}{2},
+\]
+The key idea is now to show that the terms in the sum pair up and cancel. For each $k$ there is a corresponding term with $k'=(p-1)-k$. The exponent becomes, upon substituting $c=\frac{p-1}{2}$,
+\[
+\Phi(k) := c\,\sigma^2(p-1-k)+\frac{1}{2}k^2\sigma^2 = \frac{p-1}{2} \cdot \sigma^2(p-1-k)+\frac{1}{2}k^2\sigma^2 = \frac{\sigma^2}{2}\Bigl((p-1)^2 - (p-1)k + k^2\Bigr).
+\]
+This expression is symmetric in $k$ and $p-1-k$:
+\begin{align*}
+  \Phi(p-1-k) =  \frac{\sigma^2}{2}\Bigl((p-1)^2 - (p-1)(p-1-k) + (p-1-k)^2\Bigr) =& \frac{\sigma^2}{2}\Bigl((p-1)(k) + (p-1)^2-2(p-1)k+k^2\Bigr) \\
+    =& \frac{\sigma^2}{2}\Bigl((p-1)^2-(p-1)(k)+k^2\Bigr) \\
+    =& \Phi(k)
+\end{align*}
+and the alternating signs $(-1)^{p-1-k}$ (recall that $p$ is even) ensure that the contributions of paired terms cancel. Thus, the sum is zero, and Eq.~\ref{FOC} is satisfied.
+Therefore, the choice
+\[
+y^* = \exp\Bigl(\mu+\frac{p-1}{2}\sigma^2\Bigr)
+\]
+minimizes the function $f(y)$.
+\end{proof}
+
+
+
+We note that the models defined in this section have an infinite sensory space, with infinite precision as $\theta \rightarrow 0$ and an infinite aggregate amount of coding resources, expressed by the infinite volume of $\mathcal{Y}$.
+In reality, one may however expect human subjects to have a finite coding capacity; indeed, infinite resources are not feasible in a finite population code with nonzero noise. Indeed, when fitting such models on behavioral data, the sensory space is generally truncated \citep{Petzschner2011IterativeBE}; in the related domain of log-odds encodings of probabilities, \cite{Zhang2020TheBR} even found finite truncation of the sensory space to be important for fitting behavioral data. In such cases, deviations from the infinite sensory noise space might be beneficial for identifiability by leading to deviations from the theoretically unidentifiable model.
+
+
+\subsection{Gaussian Prior and Uniform Encoding (Prior Identifiable, Loss Function Unidentifiable)}
+Traditional Bayesian models of cognition have sometimes considered a uniform encoding and Gaussian prior.
+In such a model, the loss function is not identifiable, but the prior can be identified uniquely nonetheless.
+This is a unique special case and can only happen for a uniform encoding, as this is the only situation where the bias in the small-noise regime is invariant to changing the loss function.
+
+Likelihood:
+\begin{equation}
+    p(m|\theta) \propto \exp(-\frac{(m-\theta)^2}{2\sigma^2})
+\end{equation}
+
+Prior:
+\begin{equation}
+    p(\theta) \propto \exp(-\frac{\theta^2}{2\tau^2})
+\end{equation}
+
+Posterior:
+\begin{equation}
+p(\theta|m) \propto \exp\left(-\frac{1}{2} \frac{\left(\theta - \frac{m\tau^2}{\sigma^2 + \tau^2}\right)^2}{\frac{\sigma^2 \tau^2}{\sigma^2 + \tau^2}}\right).
+\end{equation}
+This is symmetric in $\theta$; hence, in this special case, all $L^p$ estimators provide the same result.
+Hence, the loss function is not identifiable in this setup.
+However, the prior is uniquely identifiable nonetheless.
+In situations where the prior (but not the loss function) is of primary interest, situations with  a uniform encoding may thus be particularly advantageous.
+
+\subsection{Asymmetric Prior and Uniform Encoding (Prior Identifiable at 1 Level)}
+
+If the prior is asymmetric or multimodal, but the encoding is uniform, the prior is always identifiable, because the transformation from Formula 3 in the main paper leaves the prior unchanged. The loss function will also be identifiable barring special cases.
+This is because the posterior will be asymmetric in general, and different $L^p$ loss functions will generally pick out different points on an asymmetric posterior.
+The bias and variability have the form
+\begin{align*}
+    var(\theta) =& \sigma^2 + \mathcal{O}(\sigma^4) \\
+    bias(\theta) =& \sigma^2 \left(\log\Prior\right)' + \mathcal{O}(\sigma^4)
+\end{align*}
+Even with observations from a single level of sensory noise, the prior is identifiable with error $\mathcal{O}(\sigma^2)$ (because the encoding is uniform), but the loss function cannot be recovered from this.
+
