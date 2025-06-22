@@ -1,0 +1,42 @@
+\documentclass[si.tex]{subfiles}
+\begin{document}
+
+
+\begin{comment}
+
+# First block: i = 2,4,6,8 and j = 1,2,3
+for i in 2 4 6 8; do
+ for j in 1 2 3; do
+ python3 CounterfactualModel_VIZ.py ${i} 0 10.0 180 FOURIER_1${i}${j} FOURIER_2${i}${j} 12345
+
+ python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py ${i} 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_${i}_2345_N10000_FOURIER_1${i}${j}_FOURIER_2${i}${j}.txt
+
+ python3 evaluateCrossValidationResults_Synthetic_Gardelle.py SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_${i}_2345_N10000_FOURIER_1${i}${j}_FOURIER_2${i}${j}.txt
+ done
+done
+
+# Second block: j = 1,2,3 (with static i=1)
+for j in 1 2 3; do
+ python3 CounterfactualModel_VIZ.py  1 0 10.0 180  FOURIER_11${j} FOURIER_21${j}  12345
+
+ python3 RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py  1 0 10.0 180  SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_1_2345_N10000_FOURIER_11${j}_FOURIER_21${j}.txt
+
+ python3 evaluateCrossValidationResults_Synthetic_Gardelle.py  SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_1_2345_N10000_FOURIER_11${j}_FOURIER_21${j}.txt
+done
+
+# For p=0, see individual-fourier/p0.tex
+\end{minipage}
+
+
+\end{comment}
+
+
+\input{individual-fourier/p0}
+\input{individual-fourier/p1}
+\input{individual-fourier/p2}
+\input{individual-fourier/p4}
+\input{individual-fourier/p6}
+\input{individual-fourier/p8}
+
+
+\end{document}

@@ -1,0 +1,508 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\newif\ifshowcode
+\newif\iffalse
+
+\showcodefalse % or \showcodefalse
+\falsefalse % or \showcodefalse
+
+\usepackage{subfiles}
+
+
+\usepackage{fancyvrb}
+
+
+\usepackage[export]{adjustbox} % Load the adjustbox package
+
+\usepackage{fullpage}
+\usepackage[numbers]{natbib}
+
+\usepackage{overpic}
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage{hyperref}
+\newcommand{\Probcap}{P}%
+\newcommand{\Probmin}{P}%
+\newcommand{\Prob}{\mathbb{P}}%
+\newcommand{\Prior}{p_{prior}}%
+\newcommand{\Qrior}{q_{prior}}%
+
+\newcommand{\N}{\mathcal{N}}%
+\newcommand{\E}{\mathbb{E}}%
+%\newcommand{\O}{\mathcal{O}}%
+
+\newcommand{\expP}{q}%
+\newcommand{\expQ}{p}%
+
+\usepackage{amsmath}                                % load AMS math tools
+\DeclareMathOperator*{\argmin}{arg\,min}            % define \argmin as a math operator
+\DeclareMathOperator*{\argmax}{arg\,max}            % define \argmin as a math operator
+
+
+
+
+\newcommand{\sensv}{t}%
+\newcommand{\J}{\mathcal{S}}%
+\newcommand{\FI}{\mathcal{J}}%
+\newcommand{\exponent}{q}%
+\newcommand{\deriv}[1]{\frac{\operatorname{d}}{\operatorname{d} #1}}%
+\newcommand{\derivsecond}[1]{\frac{\operatorname{d}^2}{\operatorname{d} #1^2}}%
+\newcommand{\derivthird}[1]{\frac{\operatorname{d}^3}{\operatorname{d} #1^3}}%
+
+\newcommand{\derivhigher}[2]{\frac{\operatorname{d}^{#2}}{\operatorname{d} #1^{#2}}}%
+
+% This is for page breaks in equations. https://latex.org/forum/viewtopic.php?t=11076
+\allowdisplaybreaks[1]
+
+\usepackage{graphicx}
+\usepackage[export]{adjustbox} % Provides the valign option
+\newcommand{\sideimage}[2]{%
+  \begin{minipage}[c]{0.03\linewidth}
+    \centering
+    \adjustbox{valign=c}{\rotatebox{90}{\footnotesize{#1}}}
+  \end{minipage}%
+  \begin{minipage}[c]{0.96\linewidth}
+    \includegraphics[width=0.95\textwidth]{#2}
+  \end{minipage}%
+}
+
+
+\usepackage{comment}
+
+
+\usepackage{amsthm}
+ 
+\newcounter{theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{defin}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{thm}[theorem]{Theorem}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{informal_assumption}[theorem]{Informal Assumption}
+\newtheorem{highlevel}[theorem]{High-Level Claim}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{pslatex}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{rotating}
+\usepackage{amssymb}
+
+%\allowdisplaybreaks[3]
+\usepackage{amsthm}
+ 
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetheorem}{S\arabic{theorem}}
+
+
+\newcommand{\mhahn}[1]{\textcolor{red}{MH TODO: #1}}
+
+
+
+\title{Identifiability of Bayesian Models of Cognition \\ Supporting Information}
+
+\author{Michael Hahn \\ Entang Wang \\ Xue-Xin Wei}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+
+\tableofcontents
+
+
+
+\input{identifiability-proofs/main-solvable.tex}
+\input{identifiability-proofs/main.tex}
+\input{identifiability-proofs/main-implementation.tex}
+
+\begin{figure}
+\centering
+
+Example 1: Circular Stimulus Space $\mathcal{X} = [0^\circ, 180^\circ]$
+
+\includegraphics[width=0.7\textwidth]{figures/CounterfactualModel_VIZ_CheckFI.py_5_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}
+
+\ \ 
+
+\ \ 
+
+Example 2: Interval Stimulus Space $\mathcal{X} = [0,3]$
+
+\includegraphics[width=0.7\textwidth]{figures/CounterfactualModel_Remington_VIZ_CheckFI.py_5678_UNIFORM_UNIMODAL2_2_0_10.0_400.pdf}
+\caption{Comparing methods of computing or approximating the resource allocation in the implementation, as described in Section~\ref{sec:compute-fi} for a circular (top) or interval (bottom) stimulus space. Method 1 is used throughout plots in this paper, as in \cite{hahn2024unifying}, as it directly reflects the general correspondence between the Fisher information and the slope $F'$ of the encoding function. The other methods are equivalent when noise is small, though the correspondence becomes approximative when noise is larger.}\label{fig:four-methods-fi}
+\end{figure}
+
+
+
+\subfile{recover_encoding}
+
+
+\clearpage
+
+
+\section{Further Simulations Results}
+
+\subfile{si-further-sim}
+
+\clearpage
+
+\section{Identifiability in Other Situations}
+
+\subsection{Identifiability under Two-Alternative Forced Choice Task (2AFC)}
+\subfile{si-2afc}
+
+
+\subsection{Effect of Varying Stimulus Noise}\label{sec:stimulus-noise}
+
+\subfile{si-stimulus-noise}
+
+\subsection{Identifiability when Encoding Varies with Noise Level}
+%\textcolor{red}{TODO these plots need to be fixed}
+\subfile{si-separate-encoding}
+
+
+
+\section{Applications to Experimental Data}
+
+\subfile{si-app-gardelle}
+
+
+
+\clearpage
+
+
+
+
+\begin{figure}
+\begin{comment}
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 UNIFORM STEEPPERIODIC 5
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 UNIFORM STEEPPERIODIC 4
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 UNIFORM STEEPPERIODIC 3
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 UNIFORM STEEPPERIODIC 2
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_UNIFORM_STEEPPERIODIC.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_UNIFORM_STEEPPERIODIC.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_UNIFORM_STEEPPERIODIC.txt
+
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_UNIFORM_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_UNIFORM_STEEPPERIODIC.txt
+
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC STEEPPERIODIC 5
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC STEEPPERIODIC 4
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC STEEPPERIODIC 3
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC STEEPPERIODIC 2
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_STEEPPERIODIC_STEEPPERIODIC.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_STEEPPERIODIC_STEEPPERIODIC.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_STEEPPERIODIC_STEEPPERIODIC.txt
+
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_STEEPPERIODIC_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_STEEPPERIODIC_STEEPPERIODIC.txt
+
+
+
+\end{comment}
+\centering
+
+Ground Truth
+  \ \  \ \ \ \  \ \  \ \ \ \ \ \ \ \ 
+ 1K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  
+ 5K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+ 10K trials 
+ \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+40K trials
+\ \ \ \ \ 
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_4_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_2_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+\ \ 
+
+\ \ 
+
+
+Ground Truth
+  \ \  \ \ \ \  \ \  \ \ \ \ \ \ \ \ 
+ 1K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  
+ 5K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+ 10K trials 
+ \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+40K trials
+\ \ \ \ \ 
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_STEEPPERIODIC_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_4_STEEPPERIODIC_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_STEEPPERIODIC_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_2_STEEPPERIODIC_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+
+\caption{Supplement to Figure 2: We show two combinations of prior (left) and encoding (right), at four noise levels (rows, from low to high noise), by number of trials (columns). See Figure~\ref{fig:supp-to-fig2} for continuation with two more models.}
+\end{figure}
+
+
+\begin{figure}
+\begin{comment}
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPSHIFTED STEEPPERIODIC 5
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPSHIFTED STEEPPERIODIC 4
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPSHIFTED STEEPPERIODIC 3
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPSHIFTED STEEPPERIODIC 2
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_STEEPSHIFTED_STEEPPERIODIC.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_STEEPSHIFTED_STEEPPERIODIC.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_STEEPSHIFTED_STEEPPERIODIC.txt
+
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_STEEPSHIFTED_STEEPPERIODIC.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_STEEPSHIFTED_STEEPPERIODIC.txt
+
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC UNIFORM 5
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC UNIFORM 4
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC UNIFORM 3
+python3 CounterfactualModel_VIZ_Components_Fig2.py 2 0 10.0 180 1000 STEEPPERIODIC UNIFORM 2
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_STEEPPERIODIC_UNIFORM.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_STEEPPERIODIC_UNIFORM.txt
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_STEEPPERIODIC_UNIFORM.txt
+
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_STEEPPERIODIC_UNIFORM.txt
+
+
+
+\end{comment}
+\centering
+
+Ground Truth
+  \ \  \ \ \ \  \ \  \ \ \ \ \ \ \ \ 
+ 1K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  
+ 5K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+ 10K trials 
+ \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+40K trials
+\ \ \ \ \ 
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_STEEPSHIFTED_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_4_STEEPSHIFTED_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_STEEPSHIFTED_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_2_STEEPSHIFTED_STEEPPERIODIC_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}
+
+\ \ 
+
+\ \ 
+
+Ground Truth
+  \ \  \ \ \ \  \ \  \ \ \ \ \ \ \ \ 
+ 1K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  
+ 5K trials
+  \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+ 10K trials 
+ \ \  \ \  \ \  \ \ \ \ \ \ \ \ \ \ \ 
+40K trials
+\ \ \ \ \ 
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N5000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N10000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N40000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_4_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N1000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N5000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N10000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_4_N40000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_5_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N1000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N5000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N10000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_3_N40000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+
+
+\includegraphics[width=0.19\textwidth]{figures/CounterfactualModel_VIZ_Components_Fig2.py_2_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N1000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N5000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N10000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+\includegraphics[width=0.19\textwidth]{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2_N40000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+
+
+
+\caption{Supplement to Figure 2. We show two combinations of prior (left) and encoding (right), at four noise levels (rows, from low to high noise), by number of trials (columns).}\label{fig:supp-to-fig2}
+\end{figure}
+
+
+
+
+\bibliographystyle{plainnat}
+\bibliography{literature}
+
+
+
+
+\end{document}
+

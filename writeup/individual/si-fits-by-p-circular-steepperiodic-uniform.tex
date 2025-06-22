@@ -1,0 +1,96 @@
+\begin{figure}
+
+
+\begin{comment}
+python3 CounterfactualModel_VIZ.py 0 0 10.0 180 STEEPPERIODIC UNIFORM 2345
+python3 CounterfactualModel_VIZ.py 1 0 10.0 180 STEEPPERIODIC UNIFORM 2345
+python3 CounterfactualModel_VIZ.py 2 0 10.0 180 STEEPPERIODIC UNIFORM 2345
+python3 CounterfactualModel_VIZ.py 4 0 10.0 180 STEEPPERIODIC UNIFORM 2345
+python3 CounterfactualModel_VIZ.py 6 0 10.0 180 STEEPPERIODIC UNIFORM 2345
+python3 CounterfactualModel_VIZ.py 8 0 10.0 180 STEEPPERIODIC UNIFORM 2345
+
+python3 RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ.py 0 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py_180_0_2345_N40000_STEEPPERIODIC_UNIFORM.txt         
+python3 RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py 1 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_1_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py 4 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_4_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py 6 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_6_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py 8 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+\end{comment}
+
+
+\begin{comment}
+python3 RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ.py 0 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py_180_0_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+python3 RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py 1 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_1_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+
+for i in 2 4 6 8; do
+  python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py $i 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_${i}_2345_N40000_STEEPPERIODIC_UNIFORM.txt
+done
+
+
+
+\end{comment}
+
+\centering
+
+  \begin{minipage}[b]{0.45\linewidth}
+    \centering
+
+
+$p=0$
+
+\sideimage{Original}{figures/CounterfactualModel_VIZ.py_2345_STEEPPERIODIC_UNIFORM_0_0_10.0_180.pdf}
+
+\sideimage{Fitted}{figures/RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py_180_0_2345_N40000_STEEPPERIODIC_UNIFORM.txt_0_0_10.0_180.pdf}
+
+
+$p=1$
+
+\sideimage{Original}{figures/CounterfactualModel_VIZ.py_2345_STEEPPERIODIC_UNIFORM_1_0_10.0_180.pdf}
+
+\sideimage{Fitted}{figures/RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_1_2345_N40000_STEEPPERIODIC_UNIFORM.txt_1_0_10.0_180.pdf}
+
+$p=2$
+
+\sideimage{Original}{figures/CounterfactualModel_VIZ.py_2345_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}
+
+\sideimage{Fitted}{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N40000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}
+
+
+
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[b]{0.45\linewidth}
+    \centering
+
+$p=4$
+
+\sideimage{Original}{figures/CounterfactualModel_VIZ.py_2345_STEEPPERIODIC_UNIFORM_4_0_10.0_180.pdf}
+
+\sideimage{Fitted}{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_4_2345_N40000_STEEPPERIODIC_UNIFORM.txt_4_0_10.0_180.pdf}
+
+$p=6$
+
+\sideimage{Original}{figures/CounterfactualModel_VIZ.py_2345_STEEPPERIODIC_UNIFORM_6_0_10.0_180.pdf}
+
+\sideimage{Fitted}{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_6_2345_N40000_STEEPPERIODIC_UNIFORM.txt_6_0_10.0_180.pdf}
+
+$p=8$
+
+\sideimage{Original}{figures/CounterfactualModel_VIZ.py_2345_STEEPPERIODIC_UNIFORM_8_0_10.0_180.pdf}
+
+\sideimage{Fitted}{figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N40000_STEEPPERIODIC_UNIFORM.txt_8_0_10.0_180.pdf}
+\end{minipage}
+
+
+\caption{Circular Stimulus Space: Identifiability of encoding and prior (40K trials, 4 levels of sensory noise).
+%While we here assume in fitting that the loss function is already known, results in Figure~\ref{fig:recover-loss-circ-uniform-periodic} show that the loss function is also largely identifiable in this situation.
+For each loss function exponent, we show the ground-truth model at that exponent, and a fit when assuming this exponent.
+See Section~\ref{sec:att-rep} for discussion of Attraction and Repulsion components.
+Importantly, across the different ground truth exponents, encoding resources and prior are well recovered when the loss function is known.
+}
+\label{fig:recover-model-circ-periodic-uniform}
+
+
+\end{figure}
+
+
