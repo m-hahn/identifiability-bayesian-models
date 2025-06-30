@@ -48,7 +48,7 @@ The encoding $m$ is then decoded into the Bayesian estimate
 \begin{equation}
     \widehat{\theta} = \arg_{\widehat{\theta}\in\mathcal{X}}\min\int\ell(\hat{\theta},\theta) P(\theta|m)d\theta
 \end{equation}
-where $P(\theta|m)$ is the posterior, and $\ell$ is an $L^p$ loss function.
+where $P(\theta|m)$ is the posterior, and $\ell$ is an $L_p$ loss function.
 With probability $\gamma \in (0,1)$, the response is uniform on $\mathcal{X}$ (guess).
 With probability $1-\gamma$, the response is $\widehat{\theta} + \epsilon_{Motor}$, where $\epsilon_{Motor} \sim \mathcal{N}(0,\tau^2)$ (or analogously von Mises if $\mathcal{X}$ is a circle).
 
@@ -68,7 +68,7 @@ Let $\mathcal{F}(\mathcal{X})$ the set of real-valued functions $f : \mathcal{X}
 Both the prior $\Prior(\theta)$, and the resource allocation $F'(\theta)$ are of this form. 
 Also, $\mathcal{P} \subset \{0, 1, 2, 4, 6, \dots\}$ is the set of loss function exponents, which we take to be finite.
 The precise set is not important for our theoretical results.
-In particular, we include the Posterior Mean ($p=2$; e.g. \citep{Jazayeri2010TemporalCC}), Median ($p=1$), MAP ($p=0$; e.g. \citep{Stocker2006NoiseCA}) estimators, and higher even-order $L^p$ estimators such as $p=4$ or $p=8$, found to provide better fit in orientation and direction perception \citep{hahn2024unifying}.
+In particular, we include the Posterior Mean ($p=2$; e.g. \citep{Jazayeri2010TemporalCC}), Median ($p=1$), MAP ($p=0$; e.g. \citep{Stocker2006NoiseCA}) estimators, and higher even-order $L_p$ estimators such as $p=4$ or $p=8$, found to provide better fit in orientation and direction perception \citep{hahn2024unifying}.
 
 
 
@@ -262,7 +262,7 @@ We establish an important property of the decoding function, key to establishing
  Let $f$ be the Decoding Function.  If $\mathcal{X}$ is an interval, then $f$ is nondecreasing.
 \end{lemma}
 \begin{proof}
-    We start with the case where $\ell$ represents $L^p$ loss for $p \geq 1$.
+    We start with the case where $\ell$ represents $L_p$ loss for $p \geq 1$.
     Let $P_{lik}(m|x)$ ($x \in \mathcal{X}$, $m\in\mathcal{Y}$) be the likelihood expressed in the sensory space.
     Let $P_{post}(x|m)$ ($x \in \mathcal{X}$, $m\in\mathcal{Y}$) be the posterior.
     By Bayes' Rule,
@@ -655,7 +655,7 @@ In the absence of motor noise, the existence of estimates $\widehat{F}$, $\wideh
         m &= F(\theta) + \delta, \delta \sim N(0, t)\\
         \widehat{\theta} &= f(m) + \epsilon, \epsilon \sim N(0, \rho^2 t)
     \end{align*}
-    ($\delta$ and $\epsilon$ independent) where $f : \mathcal{Y} \rightarrow \mathcal{X}$ is the function computing the $L^p$ estimator on the basis of a neural encoding $m$.
+    ($\delta$ and $\epsilon$ independent) where $f : \mathcal{Y} \rightarrow \mathcal{X}$ is the function computing the $L_p$ estimator on the basis of a neural encoding $m$.
     The bias and variance of human responses in two different levels of sensory noise are given in terms of the decomposition given by Lemma~\ref{lemma:calculation-for-b}:
     \begin{equation}\label{eq:four-expansions}
     \begin{aligned}

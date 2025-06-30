@@ -51,14 +51,14 @@ with parameters
 V := &\frac{1}{\frac{1}{\sigma^2}+\frac{1}{t}} &
     M := &V \cdot \left(\frac{\log m}{t} + \frac{\log\mu - \tilde{p}\sigma^2/2}{\sigma^2}\right)
 \end{align*}
-The $L^{{p}}$ estimator is 
+The $L_{{p}}$ estimator is 
     \begin{align*}
         \exp(M + \frac{\tilde{p}-1}{2} V) =& \exp(V \cdot \left[\left(\frac{\log m}{t} + \frac{\log\mu - \tilde{p}\sigma^2/2}{\sigma^2}\right) + \frac{\tilde{p}-1}{2}\right]) \\
         =& \exp(V \cdot \left[\frac{\log m}{t} + \frac{\log\mu }{\sigma^2} - \frac{\tilde{p}}{2}  + \frac{\tilde{p}-1}{2}\right]) \\
         =& \exp(V \cdot \left[\frac{\log m}{t} + \frac{\log\mu }{\sigma^2}   - \frac{1}{2}\right])
     \end{align*}
     which is independent of $\tilde{p}$.
-    For $p=0,1,2$, the formula for the $L^p$ estimator follows from the standard formulas for mode, median, and mean of the lognormal distribution.
+    For $p=0,1,2$, the formula for the $L_p$ estimator follows from the standard formulas for mode, median, and mean of the lognormal distribution.
     For higher even exponents, this follows from Lemma~\ref{lemma:lognormal-p-estimator} below.
     
     
@@ -203,7 +203,7 @@ Posterior:
 \begin{equation}
 p(\theta|m) \propto \exp\left(-\frac{1}{2} \frac{\left(\theta - \frac{m\tau^2}{\sigma^2 + \tau^2}\right)^2}{\frac{\sigma^2 \tau^2}{\sigma^2 + \tau^2}}\right).
 \end{equation}
-This is symmetric in $\theta$; hence, in this special case, all $L^p$ estimators provide the same result.
+This is symmetric in $\theta$; hence, in this special case, all $L_p$ estimators provide the same result.
 Hence, the loss function is not identifiable in this setup.
 However, the prior is uniquely identifiable nonetheless.
 In situations where the prior (but not the loss function) is of primary interest, situations with  a uniform encoding may thus be particularly advantageous.
@@ -211,7 +211,7 @@ In situations where the prior (but not the loss function) is of primary interest
 \subsection{Asymmetric Prior and Uniform Encoding (Prior Identifiable at 1 Level)}
 
 If the prior is asymmetric or multimodal, but the encoding is uniform, the prior is always identifiable, because the transformation from Formula 3 in the main paper leaves the prior unchanged. The loss function will also be identifiable barring special cases.
-This is because the posterior will be asymmetric in general, and different $L^p$ loss functions will generally pick out different points on an asymmetric posterior.
+This is because the posterior will be asymmetric in general, and different $L_p$ loss functions will generally pick out different points on an asymmetric posterior.
 The bias and variability have the form
 \begin{align*}
     var(\theta) =& \sigma^2 + \mathcal{O}(\sigma^4) \\

@@ -11,8 +11,8 @@ It fits the model parameters to maximize data likelihood with gradient descent.
 As described in \citet{hahn2024unifying}, $F'$ and $\Prior$ are defined by assigning one unconstrained real number to each point on the discretized stimulus space grid $x_1, \dots, x_N$, and obtaining $F'(\theta), \Prior(\theta)$ via the softmax transform (matching the theoretical construction of $\mu$ on $\mathcal{F}(\mathcal{X})$ in Section~\ref{sec:space-of-models}).
 A key aspect of this implementation is that it allows the backpropagation algorithm to compute gradients of $\widehat{\theta}$ with respect to the posterior $P$.
 
-The implementation of the $L^p$ ($p=2,4,6,\dots$) estimators is unchanged.
-We add an implementation of the $L^1$ estimator (posterior median), explained in Section~\ref{sec:median}.
+The implementation of the $L_p$ ($p=2,4,6,\dots$) estimators is unchanged.
+We add an implementation of the $L_1$ estimator (posterior median), explained in Section~\ref{sec:median}.
 For the MAP estimator, we performed two changes.
 As described in \citet{hahn2024unifying}, the MAP estimator is obtained as the maximum of function $\tilde{P}$ obtained by smoothing the discretized posterior with a Gaussian function.
 First, for circular spaces, we used a von Mises density function instead of a Gaussian function.
@@ -23,15 +23,15 @@ On interval stimulus spaces, the procedure of \citet{hahn2024unifying} computes 
 
 
 
-\subsection{$L^1$ estimator (Posterior Median)}\label{sec:median}
+\subsection{$L_1$ estimator (Posterior Median)}\label{sec:median}
 
-Whereas \citet{hahn2024unifying} implemented the $L^p$ estimators at even exponents ($p=0,2,4,6,\dots$), we extended their fitting procedure  to cover the $L^1$ estimator, i.e., the Posterior Median, as it is a relatively popular choice.
+Whereas \citet{hahn2024unifying} implemented the $L_p$ estimators at even exponents ($p=0,2,4,6,\dots$), we extended their fitting procedure  to cover the $L_1$ estimator, i.e., the Posterior Median, as it is a relatively popular choice.
 Here, we discuss its definition and implementation.
 
 
 \subsubsection*{Interval Stimulus Space}
 We first discuss the setting where $\mathcal{X}$ is an interval.
-Given a neural encoding $m \in \mathcal{Y}$ and the corresponding posterior $P(x|m)$ over $\mathcal{X}$, the $L^1$ loss for an estimate $\theta \in \mathcal{X}$ is defined as
+Given a neural encoding $m \in \mathcal{Y}$ and the corresponding posterior $P(x|m)$ over $\mathcal{X}$, the $L_1$ loss for an estimate $\theta \in \mathcal{X}$ is defined as
 \begin{equation}\label{eq:l1-loss}
     \int |x-\theta| P(x|m) dx
 \end{equation}
@@ -44,7 +44,7 @@ In the implementation of \citet{hahn2024unifying}, we are given the discretized 
 
 
 %\paragraph{Interpolating Posterior}
-Whereas $L^p$ losses at $p\geq 2$ can be straightforwardly operationalized by replacing the integral with a sum over the discretized points $x_i$, the situation is more complex at $p=1$, where a discretized version of~(\ref{eq:l1-loss}) results in the median of a discrete distribution, which (depending on its definition) either is not unique or does not smoothly depend on $P$.
+Whereas $L_p$ losses at $p\geq 2$ can be straightforwardly operationalized by replacing the integral with a sum over the discretized points $x_i$, the situation is more complex at $p=1$, where a discretized version of~(\ref{eq:l1-loss}) results in the median of a discrete distribution, which (depending on its definition) either is not unique or does not smoothly depend on $P$.
 Hence, we interpolate $P(\cdot|m)$ as a function $\widehat{P}$ defined on all of $\mathcal{X}$, and then define the median on that distribution. %; this is also the strategy used for $p=0$ \citep{hahn2024unifying}.
 To obtain a well-defined median, a very simple piecewise constant interpolation of $P$ is sufficient.
 Let $(\phi_i)_{i=1, \dots, N}$ be a sequence of functions $\mathcal{X} \rightarrow \mathbb{R}$, such that we interpolate
@@ -60,9 +60,9 @@ It is sufficient to take
     \end{cases}
 \end{equation}
 Then $\widehat{P}$ is piecewise constant, and interpolates $P(\cdot|m)$.
-We use it to define the implemented $L^1$ estimator:
+We use it to define the implemented $L_1$ estimator:
 \begin{defin}
-We define the $L^1$ estimator (median) as
+We define the $L_1$ estimator (median) as
 \begin{align}\label{eq:interval-l1-estimator}
      \min_{\theta \in [0,1]} \int_{\mathcal{X}} |\theta-x| \widehat{P}(x) dx 
 \end{align}
@@ -146,7 +146,7 @@ where $\arccos$ is the usual principal value (mapping to $[0,\pi]$).
 This function describes the arc-length distance between two points on the unit circle.
 Then we formally define:
 \begin{defin}
-For circular $\mathcal{X}$, we define the circular $L^1$ estimator (median) as
+For circular $\mathcal{X}$, we define the circular $L_1$ estimator (median) as
 \begin{align}\label{eq:circular-l1-estimator}
      \arg\min_{\theta \in [0,2\pi)} \int_0^{2\pi} \ell^1(\theta,x) \widehat{P}(x) dx 
 \end{align}
@@ -254,7 +254,7 @@ This is equivalent to stating that the mass of $\widehat{P}$ is equal on both se
 \end{tikzpicture}
 
 
-\caption{Illustration of the definition of the $L^1$ estimator on a discretization of the circle. We show a discretized distribution with a histogram with blue bars. The points $x_5$ and $x_{15}$ are highlighted in red and orange, respectively. The circular median $\widehat{\theta}$ is shown in black, and its antipode $\widehat{\theta}^\dagger$ in gray. The semicircles between $\widehat{\theta}$ and $\widehat{\theta}^\dagger$ carry equal weight.}
+\caption{Illustration of the definition of the $L_1$ estimator on a discretization of the circle. We show a discretized distribution with a histogram with blue bars. The points $x_5$ and $x_{15}$ are highlighted in red and orange, respectively. The circular median $\widehat{\theta}$ is shown in black, and its antipode $\widehat{\theta}^\dagger$ in gray. The semicircles between $\widehat{\theta}$ and $\widehat{\theta}^\dagger$ carry equal weight.}
 \end{figure}
 
 Let $x_a$ be a point among $x_1, \dots, x_N$, and let $x_b$ be its antipode.
@@ -279,7 +279,7 @@ Setting these two equal results in
 \begin{equation}\label{eq:median-alpha}
     \frac{D -C}{2B-2A} =   \alpha
 \end{equation}
-Among all $x_a$'s, we choose the one that ensures $\alpha \in [-\frac{1}{2}, \frac{1}{2}]$ while minimizing the $L^1$ loss. There are cases where the circular median is not unique; in particular, when $\widehat{P}$ is uniform or has very wide spread. 
+Among all $x_a$'s, we choose the one that ensures $\alpha \in [-\frac{1}{2}, \frac{1}{2}]$ while minimizing the $L_1$ loss. There are cases where the circular median is not unique; in particular, when $\widehat{P}$ is uniform or has very wide spread. 
 \footnote{For instance, when $\widehat{P}$ is uniform (not localized) or when it is proportional to $\sin^2(x)$ (which has two modes at antipodal points).
 % This is interesting but not needed
 For, 
@@ -292,12 +292,12 @@ evaluates to \(0\), independent of \(\widehat{\theta}\), because
 \] for any $\widehat{\theta}$.
 }
 In general, however, the circular median is well-defined on any  localized probability distribution, as is generally relevant to Bayesian modeling of perception, where (assuming the stimulus has been perceived and encoded at all) the posterior will be localized in a region of stimulus space. 
-Importantly, the median on a nowhere-zero probability density $\widehat{P}$ is generally well-behaved and unambiguous, in contrast to the more challenging circular median of a finite number of datapoints (see \citet{otieno2003more} for discussion of the latter).\footnote{In the rare case that multiple candidate solutions nonetheless yield the same minimal $L^1$ loss, we employ a tie-breaking strategy that selects the solution closest to the overall probability mass. Specifically, for each candidate $\widehat{\theta}_i$ that minimizes the $L^1$ loss, we compute
+Importantly, the median on a nowhere-zero probability density $\widehat{P}$ is generally well-behaved and unambiguous, in contrast to the more challenging circular median of a finite number of datapoints (see \citet{otieno2003more} for discussion of the latter).\footnote{In the rare case that multiple candidate solutions nonetheless yield the same minimal $L_1$ loss, we employ a tie-breaking strategy that selects the solution closest to the overall probability mass. Specifically, for each candidate $\widehat{\theta}_i$ that minimizes the $L_1$ loss, we compute
 \begin{align*}
     \int (1-\cos\bigl(x - \widehat{\theta}_i\bigr)) \widehat{P}(x)  dx
     %loss(\widehat{\theta}_i) &= 1 - score(\widehat{\theta}_i)
 \end{align*}
-Among all candidate solutions with optimal $L^1$ loss, the candidate minimizing this term is chosen as the final estimator.}
+Among all candidate solutions with optimal $L_1$ loss, the candidate minimizing this term is chosen as the final estimator.}
 
 
 
@@ -341,7 +341,7 @@ For a circular variable where sensory noise has von Mises parameter $\kappa$, we
 \end{equation}
 We note that, at large noise, the standard definition of the Fisher information results in an additional term involving Bessel functions, which is close to 1 when noise is small. We follow \cite{hahn2024unifying} in disregarding it in visualization, in order to maintain the direct functional relationship between Fisher information and encoding slope (i.e., $\FI(\theta) = \frac{F'(\theta)^2}{\sigma^2}$).
 
-We note that in our simulations for circular stimulus spaces, we assume an orientation perception setup. While the stimulus space is represented as [0,360] in the implementation, we convert it to [0,180] for plotting purposes. In this transformation, bias and variability are divided by 2, whereas the resources $\sqrt{FI(\theta)}$ are multiplied by 2.
+We note that in our simulations for circular stimulus spaces, we assume an orientation perception setup. While the stimulus space is represented as [0,360] in the implementation, we convert it to [0,180] for plotting purposes. In this transformation, bias and variability are divided by 2, whereas the resources $\sqrt{\FI(\theta)}$ are multiplied by 2.
 
 We compare three numerical methods of computing or approximating the Fisher information in Figure~\ref{fig:four-methods-fi}:
 \begin{enumerate}
