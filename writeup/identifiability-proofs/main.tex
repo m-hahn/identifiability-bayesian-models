@@ -99,7 +99,6 @@ We parameterize the elements of $\mathcal{F}(\mathcal{X})$ in terms of their log
 \begin{align*}
 f \mapsto L(f) := \text{ where } L(f)(\theta) = \log f(\theta) - \log f(0)
 \end{align*}
-%$L$ defines a bijection between $\mathfrak{A}(X)$ and the set of five-times continuously differentiable functions 
 If $f \in \mathcal{F}(\mathcal{X})$, then $L(f)$ is a general $k$-times differentiable function with $L(f)(0) = 0$.
 \footnote{This is a 1-to-1 correspondence with inverse:
 \begin{align*}
@@ -237,7 +236,7 @@ Then, the above equals
 \begin{equation}\label{eq:comparison-encodings-cumulative}
 \mathbb{P}\left(\widehat{\theta}(\theta_1) \geq \widehat{\theta}(\theta_2)\right) = \mathbb{P}\left(F(\theta_1) - F(\theta_2) > \epsilon_2-\epsilon_1\right) = \Phi\left(\frac{F(\theta_1) - F(\theta_2)}{\sqrt{2\sigma^2}}\right)
 \end{equation}
-where $\epsilon_2-\epsilon_1 \sim N(0,2\sigma^2)$, and $\Phi$ is the cumulative density function of the normal distribution. %\textcolor{blue}{TODO: correct the equation here.}
+where $\epsilon_2-\epsilon_1 \sim N(0,2\sigma^2)$, and $\Phi$ is the cumulative density function of the normal distribution. 
 Now taking
 \begin{align*}
  \frac{\operatorname{d}}{\operatorname{d}\theta}  \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta)) 
@@ -353,12 +352,12 @@ As discussed in Section~\ref{sec:background}, it is convenient to represent the 
 We now prove Theorem 2:
 \begin{thm}[Restated from Theorem 2: One Level of Sensory Noise]\label{thm:identifiability-well-specified}
 Let $\sigma > 0$ be the SD of sensory noise, and $p \in \mathcal{P}$.
-Assume the %fist two moments $b(\theta)$ (bias) and $v(\theta)$ (variance) of the 
-response distribution $P(\widehat{\theta}|M,\theta, \sigma)$ is given at each $\theta$, under a ground-truth model $\langle F', \Prior,p \rangle \in \mathfrak{M}$. 
-There is a function $\Phi_p$ mapping these distributions to $\langle \widehat{F}, \widehat{\Prior},p \rangle \in \mathfrak{M}$ such that 
+Assume the 
+response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma)$ is given at each $\theta$, under a ground-truth model $\langle F', \Prior,p \rangle \in \mathfrak{M}$. 
+There is a functional $\Phi_p$ mapping these distributions to $\langle \widehat{F}', \widehat{\Prior},p \rangle \in \mathfrak{M}$ such that 
 \begin{align*}
-|\widehat{F}(\theta) - F(\theta)| =& \mathcal{O}(\sigma^2) \\
-|\widehat{\Prior}(\theta) - \Prior(\theta) | =& \mathcal{O}(\sigma^2) 
+|\widehat{F}(\theta) - F(\theta)| &= \mathcal{O}(\sigma^2) \\
+|\widehat{\Prior}(\theta) - \Prior(\theta) | &= \mathcal{O}(\sigma^2) 
 \end{align*}
 as $\sigma \rightarrow 0$.
 Constants in $\mathcal{O}(\cdot)$ depend on $F$ and $\Prior$, but not  $\theta$. 
@@ -431,7 +430,7 @@ Given a model $M \in \mathfrak{M}$, we consider the Taylor expansion of the vari
 \begin{align*}
 var(\theta) =& 
 \tau^2 + \mathcal{A}_M(\theta) \sigma^2 + \mathcal{B}_M(\theta) \sigma^4 + \mathcal{O}(\sigma^6) \\
-    bias(\theta) =& %\mathbb{E}[\widehat{\theta}] - \theta = 
+    bias(\theta) =& 
     \mathcal{C}_M(\theta) \sigma^2 + \mathcal{D}_M(\theta) \sigma^4 + \mathcal{O}(\sigma^6)
 \end{align*}
 where $\tau^2$ is the motor noise variance, and $\sigma^2$ is the sensory noise variance. This refines the decomposition reviewed in Section~\ref{sec:background}, by setting
@@ -463,8 +462,7 @@ We have:
 \end{align*}
 \end{lemma}
 \begin{proof}
-  %  \textcolor{red}{@EW: could you take a stab at writing this?}
-First, when $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ and $\mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$, then the form $M_1 = \langle F',\Prior, p\rangle $, $M_2 = \langle F',C \cdot (F')^{\frac{\tilde{p'}-\tilde{p}}{2}} \Prior, p'\rangle$ follows from the expressions for $\mathcal{A}$ and $\mathcal{C}$ (Lemma~\ref{lemma:calculation-for-b}).
+  First, when $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ and $\mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$, then the form $M_1 = \langle F',\Prior, p\rangle $, $M_2 = \langle F',C \cdot (F')^{\frac{\tilde{p'}-\tilde{p}}{2}} \Prior, p'\rangle$ follows from the expressions for $\mathcal{A}$ and $\mathcal{C}$ (Lemma~\ref{lemma:calculation-for-b}).
     It remains to prove the other direction, i.e., that when $M_2 := \langle F',C \cdot (F')^{\frac{\tilde{p}'-\tilde{p}}{2}} \Prior, p')$, then
     $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}, \mathcal{B}_{M_1} \equiv \mathcal{B}_{M_2}, \mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$ follow.
     Since the encoding functions $F$ of $M_1$ and $M_2$ are identical, $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ holds obviously ($\mathcal{A}$ only depends on $F$).
@@ -482,7 +480,7 @@ or equivalently
     \end{align*}
     where $g_M = \frac{d}{d\theta} \mathcal{C}_{dec,M}$.
     Since $\mathcal{C}_{M_1} = \mathcal{C}_{M_2}$, we also have $\mathcal{C}_{dec,M_1} = \mathcal{C}_{dec,M_2}$.
-    Hence, it follows that %$g_{M_1} = g_{M_2}$ and hence 
+    Hence, it follows that 
     $\mathcal{B}_{M_1} = \mathcal{B}_{M_2}$. 
 Overall, we have shown the equivalence of the two expressions for $\Omega$.
 \end{proof}
@@ -527,12 +525,13 @@ For reference, we first restate Theorem 3:
 \begin{thm}[Restated from Theorem 3]\label{thm:identifiability2}
 There is a subset $\Omega \subset \mathfrak{M}$ of volume $0$ such that the following holds.
 Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise.
-Assume the fist two moments of the response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F, \Prior,p \rangle \in \mathfrak{M}$.
+Assume the 
+response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
 There is a functional $\Phi$ mapping the collection of these distributions to $\langle \widehat{F}', \widehat{\Prior},q \rangle \in \mathfrak{M}$
 such that---provided $M \not\in \Omega$---we have
 \begin{align*}
-    \widehat{F}(\theta) &= F(\theta) + \mathcal{O}(\sigma_1^2) \\
-    \widehat{\Prior}(\theta) &= \Prior(\theta) + \mathcal{O}(\sigma_1^2) \\
+    |\widehat{F}(\theta) - F(\theta)| &= \mathcal{O}(\sigma_1^2) \\
+    |\widehat{\Prior}(\theta) - \Prior(\theta)| &= \mathcal{O}(\sigma_1^2) \\
     q &= p  \text{ for $\sigma_1^2$ small}
 \end{align*}
 in the limit where $\sigma_1, \sigma_2 \rightarrow 0$, provided:  
@@ -551,7 +550,7 @@ Our proof applies directly to the overall result covering both Theorems 3 and 4:
 Consider the extended model with Gaussian motor noise and guessing.
 There is a subset $\Omega \subset \mathfrak{M}$ of volume $0$ such that the following holds.
 Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise. Let $\tau^2$ be the variance of motor noise.
-Assume the fist two moments of the response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F, \Prior,p \rangle \in \mathfrak{M}$.
+Assume the fist two moments of the response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
 There is a functional $\Phi$ mapping the collection of these distributions to $\langle \widehat{F}', \widehat{\Prior},q \rangle \in \mathfrak{M}$
 such that---provided $M \not\in \Omega$---we have
 \begin{align*}
@@ -702,8 +701,7 @@ The full proof approaches this challenge by first obtaining an estimate of $\fra
         Based on this, we define: 
         \begin{align*}
         \widehat{b\mathcal{A}t} &:= \frac{var_2 - var_1}{1 - \hat{\frac{a}{b}}} = \frac{bias_2 \cdot var_2 - bias_2 \cdot var_1}{bias_2 - bias_1}=\frac{var_2 - var_1}{1 - \frac{a}{b} + O(t)} = b\mathcal{A}t + O(t^2)\\
-        %\rho^2t &= var_2 - bAt + \mathcal{O}(t^2)\\
-        \widehat{\rho^2t} &:= var_2 - \widehat{b\mathcal{A}t} = \frac{bias_2 \cdot var_1 - bias_1 \cdot var_2}{bias_2 - bias_1}= \rho^2t + \mathcal{O}(t^2) 
+                \widehat{\rho^2t} &:= var_2 - \widehat{b\mathcal{A}t} = \frac{bias_2 \cdot var_1 - bias_1 \cdot var_2}{bias_2 - bias_1}= \rho^2t + \mathcal{O}(t^2) 
     \end{align*}
 A first approach to concluding the proof might be to substitute $t' := bt$, insert $\widehat{(\frac{a}{b})}$ instead of $a$ and $\widehat{\rho^2t}$ instead of $\rho^2t$ into (\ref{eq:four-expansions}), so that this system of equations is now linear in the four remaining unknowns $\mathcal{A}t', \mathcal{B}t', \mathcal{C}t'^2, \mathcal{D}t'^2$. A linear system of four equations in four unknowns should now admit a unique solution, allowing us to extract $\mathcal{A}, \mathcal{B}, \mathcal{C}, \mathcal{D}$ up to the scalar parameter $t'$. While on the right track, this idea requires refinement. The reason is that the estimates $\widehat{\rho^2t}$ and $\widehat{(\frac{a}{b})}$ have an estimation error that, upon inserting these quantities instead of $\rho^2t$ and $a$ would uncontrollably contaminate the terms at order $t^2$, preventing extraction of $\mathcal{C}$ and $\mathcal{D}$. We solve this puzzle by first refining $\widehat{(\frac{a}{b})}$ to a more precise estimator whose estimation error is $O(t^2)$, based on fine-grained understanding of the second-order behavior of the variability; once this has been achieved, we can realize the approach outlined above.
 
@@ -815,7 +813,7 @@ in order to obtain an estimate of:
 \begin{equation*}
     \mathcal{D} = \frac{bias_1 - \frac{a}{b}bias_2}{at \cdot (at - bt)} + \frac{O(t^3)}{at \cdot (at - bt)} = \frac{bias_1 - \frac{a}{b}bias_2}{at \cdot (at - bt)} + O(t)
 \end{equation*}
-To precisely estimate $\mathcal{D}$, we need to obtain a sufficiently precise estimate of  $\frac{a}{b}$. We first need to separate $\rho^2t$, as it otherwise would influence the estimation of $at$. %Note that the motor noise is independent from the stimulus $\theta$.
+To precisely estimate $\mathcal{D}$, we need to obtain a sufficiently precise estimate of  $\frac{a}{b}$. We first need to separate $\rho^2t$, as it otherwise would influence the estimation of $at$. 
 We can differentiate the variance w.r.t. $\theta$, then we have by Lemma~\ref{lemma:calculation-for-b}:
 \begin{align*}
     \frac{d var_1}{d \theta} &= a\frac{d \mathcal{A}}{d \theta}t + a^2 \frac{d \mathcal{B}}{d \theta} t^2 + O(t^3)
@@ -840,7 +838,7 @@ Rearranging,
     \begin{align*}
     \overline{(\frac{a}{b})} &= \frac{\mathfrak{A}}{\mathfrak{B}} = \frac{\frac{d var_1(\theta^*)}{d \theta} - \widehat{a^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}}}{\frac{d var_2(\theta^*)}{d \theta} - \widehat{b^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}}} = \frac{a\frac{d \mathcal{A}(\theta^*)}{d \theta}t + O(t^3)}{b\frac{d \mathcal{A}(\theta^*)}{d \theta}t + O(t^3)} = \frac{a}{b}+O(t^2)
 \end{align*}
-where  $\theta^*$ can be chosen arbitrarily. %to maximize  $\left|\frac{d var_2(\theta^*)}{d\theta}\right|$.
+where  $\theta^*$ can be chosen arbitrarily. 
 The important achievement here is a gap in the order of the error: in this error estimate, there is no term of order $O(t)$.
 Since we have $\overline{\frac{a}{b}} = \frac{a}{b} + O(t^2)$, we can use these conditions to estimate $\mathcal{D}$:
 \begin{align*}
@@ -1142,7 +1140,6 @@ We need to distinguish the decoding bias by the loss function exponent $p$.
     As done there, we first define
     \begin{align*}
         q_{prior}(m) &:= \frac{P_{prior}(m)}{\sqrt{\mathcal{S}(F^{-1}(m))}} \\
-        %q_{prior}(x) &:= q_{prior}(m) + (x-m) \frac{d}{d m} q_{prior}(m) + O(x^2) \\
     \end{align*} 
     Let $r := \widehat{\theta} - F^{-1}(m)$.
     To solve for $\widehat{\theta}$, we expand -- taking without loss of generality $\theta, F(\theta)=0$ here:
@@ -1240,7 +1237,6 @@ Let $r = Rt + St^2 + O(t^3)$ and compare the coefficients of the same order of t
     \end{flalign*}
 
     Then we collect all the second order $t$ terms, the sum of these terms should be 0, i.e.
-    % \textcolor{orange}{@EW: clarify where this comes from}
     \begin{flalign*}
     0 =& \frac{2q_{prior}(m)S}{M} - \frac{q_{prior}(m)R^3}{6M^3} - \frac{d}{d m}q_{prior}(m) \cdot \frac{R^2}{M^2}
     \end{flalign*}
