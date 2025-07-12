@@ -2,7 +2,6 @@
 ## Figures in Main Paper
 
 Each of these figures was compiled using pdflatex. 
-Commands for reproducing the included PDF plots are indicated inside the .tex sources in {comment} blocks.
 
 * [Main paper, Figure 2](figure2New.tex)
 * [Main paper, Figure 3](figure3New2.tex)
