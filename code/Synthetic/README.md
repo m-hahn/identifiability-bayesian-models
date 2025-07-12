@@ -66,26 +66,18 @@
 * [batch script](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_ALL.py)
 * [simulate with stimulus noise](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithStimNoise.py)
 
-### 2AFC
-* [simulate](Simulate_2AFC_Synthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithKL.py)
-* [simulate (noise-less reference)](Simulate_2AFC_Synthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithKL_CleanRef.py)
-* [fitting](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim.py)
-* [fitting (noise-less reference)](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef.py)
-* [batch script](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef_RUNALL.py)
-* [visualization](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef_VIZ.py)
-* [batch script](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_RUNALL.py)
-* [visualization](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_VIZ.py)
+## 2AFC
+* [simulate](Simulate_2AFC_Synthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithKL.py), [simulate (noise-less reference)](Simulate_2AFC_Synthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithKL_CleanRef.py)
+* [fitting](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim.py), [batch script](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef_RUNALL.py), [visualization](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef_VIZ.py)
+* [fitting (noise-less reference)](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef.py), [batch script](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_RUNALL.py), [visualization](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_VIZ.py)
 * [fitting at p=1](Run_2AFC_Synthetic_FreePrior_L1Loss_OnSim.py)
 * [fitting at p=0](Run_2AFC_Synthetic_FreePrior_ZeroTrig_OnSim.py)
 
 ## Collecting Model Fit statistics
-* [(used for Figure 4)](evaluateCrossValidationResults_Synthetic_Gardelle.py)
-* [for 2AFC](evaluateCrossValidationResults_Synthetic_Gardelle_2AFC.py)
-* [for 2AFC (with noise-less reference)](evaluateCrossValidationResults_Synthetic_Gardelle_2AFC_CleanRef.py)
+* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle.py), [for 2AFC](evaluateCrossValidationResults_Synthetic_Gardelle_2AFC.py), [for 2AFC (with noise-less reference)](evaluateCrossValidationResults_Synthetic_Gardelle_2AFC_CleanRef.py)
 * [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py)
-* [visualization of fit](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py)
-* [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py)
-* [(used in Figure 3)](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py)
+* [visualization of fit](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [(used in Figure 3)](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py)
+* [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py) 
 * [stimulus noise](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_StimNoise.py)
 * [possibly used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_ConfusMat.py)
 * [possibly used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_JustCollStat.py)
