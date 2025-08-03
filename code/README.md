@@ -100,7 +100,7 @@ python CounterfactualModel_VIZ.py 2 0 10.0 180 UNIFORM FOURIER_42 25
 which outputs a plot [here](figures/CounterfactualModel_VIZ.py_25_UNIFORM_FOURIER_42_2_0_10.0_180.pdf).
 
 
-## Fitting models
+#### Fitting models
 
 *See [demo](#demo-instructions-to-run-on-demo-data) above for a concrete example.*
 
