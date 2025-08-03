@@ -119,13 +119,33 @@ logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_V
 
 ## Fitting models
 
-python3 RunSynthetic_FreePrior_CosineLoss_OnSim.py 2 0 10.0 180 <NAME_OF_DATASET>
+*See above for a concrete example.*
 
-where `logs/SIMULATED_REPLICATE/<NAME_OF_DATASET>` is the path of the file stored when simulating.
+For P = 2, 4, 6, 8, you can fit the model at
 
-You can plot the model fit at
+```
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim.py <P> 0 10.0 180 <NAME_OF_DATASET>
+```
+where `logs/SIMULATED_REPLICATE/<NAME_OF_DATASET>` is the path of the file stored when simulating, and `<P>` is the exponent used for fitting. Note that this is can be distinct from the exponent used for simulating the dataset.
 
+You can plot the model fit using
+```
+TODO
+```
 which produces
 
+The NLL is stored at
+```
+TODO
+```
+
+The fitted parameters are stored at
+```
+TODO
+```
+
+There are specialized scripts for P=0 and P=1:
+
+TODO
 
 
