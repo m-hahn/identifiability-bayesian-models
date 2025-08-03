@@ -116,6 +116,12 @@ produces a dataset at
 logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt
 ```
 
+You can use `CounterfactualModel_VIZ.py` to plot the model from which the data is simulated:
+```
+python CounterfactualModel_VIZ.py TODO
+```
+For a sample output, see TODO
+
 
 ## Fitting models
 
