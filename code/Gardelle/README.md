@@ -1,5 +1,6 @@
 
-
+# List of Files with Explanation
+This file provides a catalogue of the relevant scripts in this directory. See [instructions for the behavioral data](../Synthetic/README.md#original-data).
 
 ## Fitting
 
