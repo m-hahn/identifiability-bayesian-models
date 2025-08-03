@@ -37,15 +37,15 @@ The following variants differ in what is plotted or the visual formatting. You c
 
 
 ### E: Collecting Model Fit statistics
-The main script is the following:
-* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle.py), which collects NLL statistics for fits on a given dataset across loss functions; [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py)
+The main script is the following, which collects NLL statistics for fits on a given dataset across loss functions:
+* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle.py); [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py)
+* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py) TODO difference to the one above
 
- Further scripts are:
+Further scripts are:
+* [version used for Figure 3](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py)
 * [version used for Figure 4](evaluateCrossValidationResults_Synthetic_Gardelle_Figure4.py)
-* [visualization of fit](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [(used in Figure 3)](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py) TODO difference to the one above
-* [possibly used for Figure 5 TODO](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_ConfusMat.py)
-* [possibly used for Figure 5 TODO](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_JustCollStat.py)
 * jointly plotting results for a combination of prior and encoding, across trial counts, noise levels, and loss functions:  [used for SI Appendix, Section S4.2](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_Poster_Exculde1.py), [used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_Poster_Exculde1_Figure5.py)
+* [collect statistics for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_ConfusMat.py)
 
 
 ## Other Situations (SI Appendix, Section S5)
