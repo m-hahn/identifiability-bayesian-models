@@ -13,7 +13,8 @@ The code base is derived from that of Hahn&Wei 2024 (https://gitlab.com/m-hahn/u
 ###  System requirements
 The code has been developed and tested with the following dependencies:
 * Python 3.9.18, with packages listed at the [list of Python packages](requirements.txt). We ran the code in a Conda virtual environment (Conda version 23.7.4).
-* The code can be run on a standard computer on the command line. The fitting procedure is sped up considerably by running on a CUDA-enabled GPU. For this, set `BIAS_MODEL_DEVICE=cuda`.
+* The code can be run on a standard computer on the command line.
+* Optional note: The fitting procedure can be sped up by running on a CUDA-enabled GPU. For this, set `BIAS_MODEL_DEVICE=cuda` and install a version of PyTorch compatible with your CUDA version, following instructions at https://www.pytorch.org/
 
 ###  Installation guide
 No installation of the code itself is needed, beyond the software dependencies listed above.
