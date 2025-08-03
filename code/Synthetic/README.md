@@ -1,10 +1,14 @@
 # List of Files with Explanation
 
-## Basic Modeling Framewotk
+This file provides a catalogue of the scripts in this directory. For instructions, see [instructions here](../README.md).
+
+Various scripts expect access to the dataset from de Gardelle et al 2011, see [instructions](#original-data).
+
+## Basic Modeling Framework
 
 ### Plotting simulated models
 The main script is:
-* [show a simulated model](CounterfactualModel_VIZ.py) (see [more here](../README.md#Instructions))
+* [show a simulated model](CounterfactualModel_VIZ.py) (see [instructions here](../README.md#Instructions))
   
 The following variants differ in what is plotted or the visual formatting, but generally use the same command line arguments. You can use tools such as `vimdiff` to see how these files differ in implementation.
 * [show a simulated model (without attraction and repulsion components, e.g. for Figure 4)](CounterfactualModel_VIZNoAttRep.py)
@@ -13,17 +17,17 @@ The following variants differ in what is plotted or the visual formatting, but g
 
 
 ### Simulate Datasets
-* [simulating dataset at p>0](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py),  [at p=0](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py)   (see [more here](../README.md#Instructions))
+* [simulating dataset at p>0](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py),  [at p=0](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py)   (see [instructions here](../README.md#Instructions))
 * [batch script (p>1)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ALL.py), [batch script (p=1)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_L1_ALL.py), [batch script (p=0)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_ALL.py)
 
 
 ### Fitting Model on simulated data
 The main script is:
-* [basic script for fitting model (Losses with p >= 2)](RunSynthetic_FreePrior_CosineLoss_OnSim.py) (see [more here](../README.md#Instructions)), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim.py), [version at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim.py)
+* [basic script for fitting model (Losses with p >= 2)](RunSynthetic_FreePrior_CosineLoss_OnSim.py) (see [instructions here](../README.md#Instructions)), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim.py), [version at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim.py)
 
 ### Utilities for visualizing fitted models
 The main script is:
-* [visualizing fit](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py)  (see [../README.md#Instructions](for more)), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py), [version at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ.py)
+* [visualizing fit at p>=2](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py)  (see [instructions here](../README.md#Instructions)), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py), [version at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ.py)
 The following variants differ in what is plotted or the visual formatting. You can use tools such as `vimdiff` to see how these files differ in implementation.
 * [visualizing fit (without attraction and repulsion components)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZNoAttRep.py), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_VIZNoAttRep.py)
 * [visualizing fit (only prior and encoding)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel.py)
@@ -86,11 +90,11 @@ The following scripts are relevant to SI Appendix, Section S5.3.
 - [collect NLL](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_SeparateEncoding.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_SeparateEncoding_ALL.py), [collecting model fit statistics for separate encodings (short file name version due to Unix file name length limit)](evaluateCross_BRIEF_SeparateEncoding.py)
 
 
-## Utilities
+## Miscellaneous
 ### Estimators
 This is generally based on the codebase of Hahn&Wei 2024. The L1 estimator is newly added (see SI Appendix S3.2 for description). 
 * [L1 estimator](l1Estimator.py)
-* [L0 estimator](mapCircularEstimator10.py), [improved implementation eliminating fitting artifacts at boundary](mapCircularEstimatorDebug.py) (see SI Appendix S3.1)
+* [L0 estimator](mapCircularEstimator10.py), [improved implementation eliminating fitting artifacts at boundary](mapCircularEstimatorDebug.py) (the second version expresses all distances in a rotation-invariant manner via sines and cosines, eliminating potential artifacts at 0/360 or 0/180 degrees)
 * [Lp estimator at p>=2 (circular spaces)](cosineEstimator.py), [variant (with clamped Newton updates, sometimes prevents numerical instability)](cosineEstimator6.py).
 
 ### Batch scripts for Figures 4, 5 (and associated figures in SI Appendix)
@@ -111,16 +115,16 @@ These are helpers from the codebase of Hahn&Wei 2024. These are imported by the 
 * [util](util.py)
 
 The following utility stores the different counterfactual priors and encodings:
-* [code for the synthetic priors and encodings](counterfactualComponents.py)  (see [more here](../README.md#Instructions))
+* [code for the synthetic priors and encodings](counterfactualComponents.py)  (see [instructions here](../README.md#Instructions))
 
 
-### Original Data
-The data from de Gardelle et al 2010 was provided by the original authors at https://sites.google.com/site/vincentdegardelle/publications
-The file `data.txt` is expected at `data/GARDELLE/data.txt`.
 
-## Miscellaneous 
+### Other
 * [Comparing methods for FI computation (SI Appendix, Figure S2 top)](CounterfactualModel_VIZ_CheckFI.py)
 * [applying Theorem 1 (used for illustrating Theorem 1, SI Appendix, Figure S3)](recover_encoding.py)
 
+## Original Data
+The data from de Gardelle et al 2010 was provided by the original authors at https://sites.google.com/site/vincentdegardelle/publications
+The file `data.txt` from the file is expected by the codebase at `data/GARDELLE/data.txt`.
 
 
