@@ -110,3 +110,17 @@ These are helpers from the codebase of Hahn&Wei 2024.
 
 ## Note
 The data from de Gardelle et al 2010 was provided by the original authors at https://sites.google.com/site/vincentdegardelle/publications
+
+
+
+# Miscellaneous 
+* [run training for Figure 5](run_training_fig5.sh)
+* [results foir Figure 4](evaluateCrossValidationResults_Synthetic_Gardelle_Figure4.py)
+* [FI computation](CounterfactualModel_VIZ_CheckFI.py)
+* [create synthetic datasets for Figure 2](run_data_sampling_fig2_1000.sh)
+* [run training for Figure 4](run_cross_fitting_fig4.sh), [run training for Figure 4](run_ground_truth_fitting_fig4.sh)
+* [create synthetic datasets for Figure 5](run_data_sampling_fig5.sh)
+* [create synthetic datasets for Figure 4](run_data_sampling_fig4.sh)
+* [results for Figure 5](run_evaluate_fig5.sh)
+
+
