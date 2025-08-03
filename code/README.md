@@ -58,13 +58,14 @@ python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py 2 0 10.0 180 SimulateSynt
 
 which produces this plot [here](figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf).
 
-#  Instructions for use
+###  Instructions for use
 
 Here, we provide instructions for use on circular stimulus spaces. All commands are carried out in `Synthetic/`.
-The code expects the de Gardelle et al 2011 dataset to be present. See TODO for instructions.
+The code expects the de Gardelle et al 2011 dataset to be present. See  [instructions](Synthetic/README.md#original-data).
 
-## Simulating a dataset
+#### Simulating a dataset
 
+We start by simulating a dataset:
 
 ```
 python3 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py <P> 0 10.0 180 <TRIALS> <PRIOR> <ENCODING> <NOISE_LEVELS>
@@ -72,74 +73,52 @@ python3 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py <P> 0 
 
 where
 
-```
-P = 1, 2, 4, 6, 8
 
-TRIALS (number of trials) is any positive integer (e.g., 1000, 10000)
+* P = 1, 2, 4, 6, 8
+* TRIALS (number of trials) is any positive integer (e.g., 1000, 10000)
+* PRIOR and ENCODING are defined in `counterfactualComponents.py`. Relevant options include `UNIFORM`, `STEEPPERIODIC`, `STEEPSHIFTED`, `FOURIER_<SEED>` (where <SEED> is the seed for sampling Fourier components).
+* NOISE_LEVELS is an ordered string of {2,3,4,5} (e.g., 2345, 25, 3, 345, etc), listing the included sensory noise magnitudes. 2 indicates high noise, 5 indicates low noise.
 
-PRIOR and ENCODING are defined in `counterfactualComponents.py`. Relevant options include `UNIFORM`, `STEEPPERIODIC`, `STEEPSHIFTED`, `FOURIER_<SEED>` (where <SEED> is the seed for sampling Fourier components).
-
-NOISE_LEVELS is an ordered string of {2,3,4,5} (e.g., 2345, 25, 3, 345, etc), listing the included sensory noise magnitudes. 2 indicates high noise, 5 indicates low noise.
-```
-
-
-The command produces a file with path:
-
-```
-FILE = f"logs/CROSSVALID/{__file__.replace('_VIZ', '')}_{P}_{FOLD_HERE}_{REG_WEIGHT}_{GRID}.txt"
-```
-
+The command produces a file with path `logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_<P>_<NOISE_LEVELS>_N<TRIALS>_<PRIOR>_<ENCODING>.txt`.
 In the case `P=0`, the script is instead `SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py`, with otherwise identical arguments.
 
 
-This creates a file `logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_<P>_<NOISE_LEVELS>_N<TRIALS>_<PRIOR>_<ENCODING>.txt`.
-
-Example:
+##### Example:
 
 ```
-python3 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py 
+python3 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py 2 0 10.0 180 1000 UNIFORM FOURIER_42 25
 ```
-produces a dataset at
+produces a dataset at ([link](logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_25_N1000_UNIFORM_FOURIER_42.txt)):
 ```
-logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt
+logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_25_N1000_UNIFORM_FOURIER_42.txt
 ```
-
 You can use `CounterfactualModel_VIZ.py` to plot the model from which the data is simulated:
 ```
-python CounterfactualModel_VIZ.py TODO
+python CounterfactualModel_VIZ.py 2 0 10.0 180 UNIFORM FOURIER_42 25
 ```
-For a sample output, see TODO
+which outputs a plot [here](figures/CounterfactualModel_VIZ.py_25_UNIFORM_FOURIER_42_2_0_10.0_180.pdf).
 
 
 ## Fitting models
 
-*See above for a concrete example.*
+*See [demo](#demo-instructions-to-run-on-demo-data) above for a concrete example.*
 
-For P = 2, 4, 6, 8, you can fit the model at
-
+For P = 2, 4, 6, 8, you can fit the model using
 ```
 python3 RunSynthetic_FreePrior_CosineLoss_OnSim.py <P> 0 10.0 180 <NAME_OF_DATASET>
 ```
 where `logs/SIMULATED_REPLICATE/<NAME_OF_DATASET>` is the path of the file stored when simulating, and `<P>` is the exponent used for fitting. Note that this is can be distinct from the exponent used for simulating the dataset.
 
-You can plot the model fit using
-```
-TODO
-```
-which produces
-
 The NLL is stored at
 ```
-TODO
+more losses/RunSynthetic_FreePrior_CosineLoss_OnSim.py_<NAME_OF_DATASET>_<P>_0_10.0_180.txt.txt
 ```
-
 The fitted parameters are stored at
 ```
-TODO
+more logs/CROSSVALID/RunSynthetic_FreePrior_CosineLoss_OnSim.py_<NAME_OF_DATASET>_<P>_0_10.0_180.txt
 ```
 
-There are specialized scripts for P=0 and P=1:
+There are specialized scripts for P=0 and P=1, as detailed in the [list of scripts](Synthetic/README.md).
 
-TODO
 
 
