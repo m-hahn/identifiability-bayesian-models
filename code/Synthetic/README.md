@@ -6,7 +6,7 @@ Various scripts expect access to the dataset from de Gardelle et al 2011, see [i
 
 ## Basic Modeling Framework
 
-### Plotting simulated models
+### A: Plotting simulated models
 The main script is:
 * [show a simulated model](CounterfactualModel_VIZ.py) (see [instructions here](../README.md#Instructions))
   
@@ -16,53 +16,50 @@ The following variants differ in what is plotted or the visual formatting, but g
 * [show a simulated model (only prior and encoding)](CounterfactualModel_VIZ_Components.py), [version for Figure 2](CounterfactualModel_VIZ_Components_Fig2.py), [version for Figure 5](CounterfactualModel_VIZ_Components_Fig5.py)
 
 
-### Simulate Datasets
+### B: Simulate Datasets
 * [simulating dataset at p>0](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py),  [at p=0](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig.py)   (see [instructions here](../README.md#Instructions))
 * [batch script (p>1)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ALL.py), [batch script (p=1)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_L1_ALL.py), [batch script (p=0)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_ALL.py)
 
 
-### Fitting Model on simulated data
+### C: Fitting Model on simulated data
 The main script is:
 * [basic script for fitting model (Losses with p >= 2)](RunSynthetic_FreePrior_CosineLoss_OnSim.py) (see [instructions here](../README.md#Instructions)), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim.py), [version at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim.py)
 
-### Utilities for visualizing fitted models
+### D: Utilities for visualizing fitted models
 The main script is:
 * [visualizing fit at p>=2](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py)  (see [instructions here](../README.md#Instructions)), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_VIZ.py), [version at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ.py)
 The following variants differ in what is plotted or the visual formatting. You can use tools such as `vimdiff` to see how these files differ in implementation.
 * [visualizing fit (without attraction and repulsion components)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZNoAttRep.py), [version at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_VIZNoAttRep.py)
-* [visualizing fit (only prior and encoding)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel.py)
 * [visualizing fit (only prior and encoding)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py)
 * [visualizing fit (only prior and encoding, used for Figure 2)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_Fig2.py)
 * [visualizing fit (only prior and encoding, used for Figure 3)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_Figure3.py), [visualization used in Figure 3 (p=1)](RunSynthetic_FreePrior_L1Loss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py), [used in Figure 3, (p=0)](RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ_OnlyModel_OtherNoiseLevels_Figure3.py)
 * [visualizing fit (only prior and encoding, including ground truth prior)](RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py)
 
 
-### Collecting Model Fit statistics
-TODO add epxlainer
-* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle.py), 
-* [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py)
-* [visualization of fit](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [(used in Figure 3)](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py)
-* [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py) 
-* [stimulus noise](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_StimNoise.py)
-* [possibly used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_ConfusMat.py)
-* [possibly used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_JustCollStat.py)
+### E: Collecting Model Fit statistics
+The main script is the following:
+* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle.py), which collects NLL statistics for fits on a given dataset across loss functions; [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py)
+
+ Further scripts are:
+* [visualization of fit](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [(used in Figure 3)](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py) TODO difference to the one above
+* [possibly used for Figure 5 TODO](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_ConfusMat.py)
+* [possibly used for Figure 5 TODO](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_JustCollStat.py)
 * [used for supplement to Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_Poster_Exculde1.py)
 * [used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_Poster_Exculde1_Figure5.py)
 * [used for Figure 4](evaluateCrossValidationResults_Synthetic_Gardelle_Figure4.py)
 
 ## Other Situations (SI Appendix, Section S5)
-
-
+We use (A), ..., (E) to indicate steps corresponding to those of the main modeling framework described above.
 
 ### 2AFC
 The following scripts are relevant to SI Appendix, Section S5.1. We distinguish two versions: with the reference noised (default) or not (noise-less reference).
-* simulate
+* (B) simulate
   - [simulate](Simulate_2AFC_Synthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithKL.py)
   - [simulate (noise-less reference)](Simulate_2AFC_Synthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithKL_CleanRef.py)
-* fitting
+* (C) fitting
   * [fitting (reference subject to noise)](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim.py), [batch script](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef_RUNALL.py), [visualization](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef_VIZ.py), [fitting at p=1](Run_2AFC_Synthetic_FreePrior_L1Loss_OnSim.py), [fitting at p=0](Run_2AFC_Synthetic_FreePrior_ZeroTrig_OnSim.py)
   * [fitting (noise-less reference)](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_CleanRef.py), [batch script](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_RUNALL.py), [visualization](Run_2AFC_Synthetic_FreePrior_CosineLoss_OnSim_VIZ.py)
-* collecting NLL
+* (E) collecting NLL
   * [reference subject to noise](evaluateCrossValidationResults_Synthetic_Gardelle_2AFC.py)
   * [with noise-less reference](evaluateCrossValidationResults_Synthetic_Gardelle_2AFC_CleanRef.py)
 
@@ -70,24 +67,25 @@ The following scripts are relevant to SI Appendix, Section S5.1. We distinguish 
 
 ### Including Stimulus Noise
 The following scripts are relevant to SI Appendix, Section S5.2.
-* [fitting (including stimulus noise, losses with p >= 2)](RunSynthetic_FreePrior_CosineLoss_OnSim_WithStimNoise.py), [fitting at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_WithStimNoise.py), [fitting at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_WithStimNoise.py), [batch script](runForFigure5_StimNoise.py)
-* [showing fit](RunSynthetic_FreePrior_CosineLoss_OnSim_WithStimNoise_VIZ.py)
-* [simulate dataset](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithStimNoise.py)
-* [show simulated model](CounterfactualModel_VIZ_WithStimNoise.py)
+* (A) [show simulated model](CounterfactualModel_VIZ_WithStimNoise.py)
+* (B) [simulate dataset](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_WithStimNoise.py)
+* (C) [fitting (including stimulus noise, losses with p >= 2)](RunSynthetic_FreePrior_CosineLoss_OnSim_WithStimNoise.py), [fitting at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_WithStimNoise.py), [fitting at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_WithStimNoise.py), [batch script](runForFigure5_StimNoise.py)
+* (D) [showing fit](RunSynthetic_FreePrior_CosineLoss_OnSim_WithStimNoise_VIZ.py)
+* (E) [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_StimNoise.py)
 
 ### With separate encoding per noise level
 The following scripts are relevant to SI Appendix, Section S5.3.
-* simulate data
-  * [simulate (additively related encodings)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_AdditiveEncodings.py),  [simulate (p=0)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_AdditiveEncodings.py), [batch script](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_AdditiveEncodings_ALL.py)
-  * [simulate data (separate random encodings)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_SeparateEncodings.py), [simulate (p=0)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_SeparateEncodings.py)
-* plotting model used for simulations
+* (A) plotting model used for simulations
   * [plotting model used for simulations: separate encodings per noise level (additively related encodings)](CounterfactualModel_AdditiveEncodings_VIZ.py)
   * [plotting model used for simulations: separate encodings per noise level (separate random encodings)](CounterfactualModel_SeparateEncodings_VIZ.py)
-- fit model with separate encoding per noise level
+* (B) simulate data
+  * [simulate (additively related encodings)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_AdditiveEncodings.py),  [simulate (p=0)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_AdditiveEncodings.py), [batch script](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_AdditiveEncodings_ALL.py)
+  * [simulate data (separate random encodings)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_SeparateEncodings.py), [simulate (p=0)](SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_ZeroTrig_SeparateEncodings.py)
+- (C) fit model with separate encoding per noise level
   - [basic script for fitting model with separate encoding per noise level (losses p >= 2)](RunSynthetic_FreePrior_CosineLoss_OnSim_SeparateEncoding.py), [loss p=1](RunSynthetic_FreePrior_L1Loss_OnSim_SeparateEncoding.py), [at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_SeparateEncoding.py)
   - [batch script for fitting (p>=2)](runForFigure5_SeparateEncoding.py), [at p=1](runForFigure5_SeparateEncoding_L1.py),  [at p=0](runForFigure5_SeparateEncoding_Zero.py)
-- [visualizing fit](RunSynthetic_FreePrior_CosineLoss_OnSim_SeparateEncoding_VIZ.py), [at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_SeparateEncoding_VIZ.py), [at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_SeparateEncoding_VIZ.py)
-- [collect NLL](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_SeparateEncoding.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_SeparateEncoding_ALL.py), [collecting model fit statistics for separate encodings (short file name version due to Unix file name length limit)](evaluateCross_BRIEF_SeparateEncoding.py)
+- (D) [visualizing fit](RunSynthetic_FreePrior_CosineLoss_OnSim_SeparateEncoding_VIZ.py), [at p=1](RunSynthetic_FreePrior_L1Loss_OnSim_SeparateEncoding_VIZ.py), [at p=0](RunSynthetic_FreePrior_ZeroTrig_OnSim_SeparateEncoding_VIZ.py)
+-  (E) [collect NLL](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_SeparateEncoding.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_SeparateEncoding_ALL.py), [collecting model fit statistics for separate encodings (short file name version due to Unix file name length limit)](evaluateCross_BRIEF_SeparateEncoding.py)
 
 
 ## Miscellaneous
