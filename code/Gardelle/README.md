@@ -4,7 +4,7 @@ This file provides a catalogue of the relevant scripts in this directory. See [i
 
 ## Fitting
 
-This is from the Hahn&Wei 2024 code base.
+This is from the [Hahn&Wei 2024 code base](https://gitlab.com/m-hahn/unifying-theory-biases/-/blob/main/code/Gardelle/RunGardelle_FreePrior_CosineLoss.py).
 
 * [fitting on the original dataset](RunGardelle_FreePrior_CosineLoss.py)
 
