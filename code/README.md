@@ -1,4 +1,6 @@
-# Model Code
+# Code
+
+## Overview
 
 * [code for generic circular spaces](Synthetic/)
 * [code for data from de Gardelle et al 2010](Gardelle/)
@@ -6,46 +8,36 @@
 
 The code base is derived from that of Hahn&Wei 2024 (https://gitlab.com/m-hahn/unifying-theory-biases), and uses the same utility scripts.
 
-# Installation
-# Installation guide that includes information on the operating system, programing language, software
-dependencies and non-standard hardware or resources needed to run the program and details of typical
-install time on a current computer.
-Demo that runs the code/software in example data and typical run time.
-Provide a link to the code in an open source repository and a digital object identifier (DOI); when available.
-License of use; we recommend using a license approved by the open source initiative. Please note that an open
-license for code published in association with a Nature journal paper is compatible with the terms laid out in
-the Nature journal License to Publish.
-We strongly recommend that you ask colleagues that are not familiar with the tool to test it prior to submission.
+## Getting Started
 
-
-
-#  System requirements
+###  System requirements
 The code has been developed and tested with the following dependencies:
-* Python 3.9.18
-* Software dependencies (including version numbers): See the [list of Python packages](requirements.txt) [for CPU]
-* Software dependencies (including version numbers): See the TODO [for GPU]
-* The code can be run on a standard computer. The fitting procedure  is sped up considerably by running on a CUDA-enabled GPU.
+* Python 3.9.18, with packages listed at the [list of Python packages](requirements.txt). We ran the code in a Conda virtual environment (Conda version 23.7.4).
+* The code can be run on a standard computer on the command line. The fitting procedure is sped up considerably by running on a CUDA-enabled GPU. For this, set `BIAS_MODEL_DEVICE=cuda`.
 
-#  Installation guide
+###  Installation guide
 No installation of the code itself is needed, beyond the software dependencies listed above.
-Instructions
-Typical install time on a "normal" desktop computer
+For getting started, we recommend creating a Conda virtual environment: 
 
 ```
-conda create --name replicate python=3.9 --file requirements.txt -y
-conda activate replicate
+conda create --name identifiability python=3.9 --file requirements.txt -y
+conda activate identifiability 
 ```
 
-#  Demo
-## Instructions to run on data
+### Demo: Instructions to run on demo data
 
+The demo is in the working directory `Synthetic/`.
 We use as demo dataset a [simulated dataset](logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt) with one noise level and 1K trials.
 
-In order to fit a model at `p=2` on this data, run:
+In order to fit a model at `p=2` on this data, first delete the existing log:
 
 ```
-cd Synthetic
 rm losses/RunSynthetic_FreePrior_CosineLoss_OnSim.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.txt.txt
+```
+
+and then run the fitting script:
+
+```
 python3 RunSynthetic_FreePrior_CosineLoss_OnSim.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt
 ```
 
@@ -58,17 +50,13 @@ more losses/RunSynthetic_FreePrior_CosineLoss_OnSim.py_SimulateSynthetic_Paramet
 ```
 is expected to produce `44.991607666015625` plus/minus 0.01. Small numerical deviations are possible.
 
-You can plot the model fit at
+You can plot the model fit by running
 
 ```
-TODO
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py 2 0 10.0 180 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt
 ```
 
-which produces
-
-```
-TODO
-```
+which produces this plot [here](figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf).
 
 #  Instructions for use
 
