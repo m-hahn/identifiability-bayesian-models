@@ -9,7 +9,8 @@ Various scripts expect access to the dataset from de Gardelle et al 2011, see [i
 ### A: Plotting simulated models
 The main script is:
 * [show a simulated model](CounterfactualModel_VIZ.py) (see [instructions here](../README.md#Instructions))
-  
+
+
 The following variants differ in what is plotted or the visual formatting, but generally use the same command line arguments. You can use tools such as `vimdiff` to see how these files differ in implementation.
 * [show a simulated model (without attraction and repulsion components, e.g. for Figure 4)](CounterfactualModel_VIZNoAttRep.py)
 * [show simulated model, with prior transformed based on loss function, for illustrating confoundedness of prior and loss function in SI Appendix, Figure S12](CounterfactualModel_VIZ_ByNoiseMagnGauge.py)
@@ -37,13 +38,9 @@ The following variants differ in what is plotted or the visual formatting. You c
 
 
 ### E: Collecting Model Fit statistics
-The main script is the following, which collects NLL statistics for fits on a given dataset across loss functions:
-* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle.py); [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py)
-* [collecting NLL](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py) TODO difference to the one above
-
-Further scripts are:
-* [version used for Figure 3](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py)
-* [version used for Figure 4](evaluateCrossValidationResults_Synthetic_Gardelle_Figure4.py)
+* The following scripts collect NLL statistics for fits on a given dataset across loss functions:
+  * [version used for other models (SI Appendix, Section S4.2)](evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py), [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_ALL.py), [version used for Figure 3](evaluateCrossValidationResults_Synthetic_Gardelle_NonF_Figure3.py)
+  * [version used for random models (SI Appendix, Section S4.4)](evaluateCrossValidationResults_Synthetic_Gardelle.py); [batch script](evaluateCrossValidationResults_Synthetic_Gardelle_ALL.py), [version used for Figure 4](evaluateCrossValidationResults_Synthetic_Gardelle_Figure4.py)
 * jointly plotting results for a combination of prior and encoding, across trial counts, noise levels, and loss functions:  [used for SI Appendix, Section S4.2](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_Poster_Exculde1.py), [used for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_Poster_Exculde1_Figure5.py)
 * [collect statistics for Figure 5](evaluateCrossValidationResults_Synthetic_Gardelle_VisualizeByNoiseCount_AndSize_ByP_ConfusMat.py)
 
