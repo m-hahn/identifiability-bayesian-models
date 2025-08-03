@@ -17,17 +17,24 @@ license for code published in association with a Nature journal paper is compati
 the Nature journal License to Publish.
 We strongly recommend that you ask colleagues that are not familiar with the tool to test it prior to submission.
 
+
+
 #  System requirements
 The code has been developed and tested with the following dependencies:
-* Python XXX
-* Software dependencies (including version numbers)
-* Versions the software has been tested on>
+* Python 3.9.18
+* Software dependencies (including version numbers): See the [list of Python packages](requirements.txt) [for CPU]
+* Software dependencies (including version numbers): See the TODO [for GPU]
 * The code can be run on a standard computer. The fitting procedure  is sped up considerably by running on a CUDA-enabled GPU.
 
 #  Installation guide
 No installation of the code itself is needed, beyond the software dependencies listed above.
 Instructions
 Typical install time on a "normal" desktop computer
+
+```
+conda create --name replicate python=3.9 --file requirements.txt -y
+conda activate replicate
+```
 
 #  Demo
 ## Instructions to run on data
@@ -51,11 +58,22 @@ more losses/RunSynthetic_FreePrior_CosineLoss_OnSim.py_SimulateSynthetic_Paramet
 ```
 is expected to produce `44.991607666015625` plus/minus 0.01. Small numerical deviations are possible.
 
+You can plot the model fit at
+
+```
+TODO
+```
+
+which produces
+
+```
+TODO
+```
+
 #  Instructions for use
 
-All commands are carried out in `Synthetic/`.
-
-The code expects the de Gardelle et al 2011 dataset to be present. See 
+Here, we provide instructions for use on circular stimulus spaces. All commands are carried out in `Synthetic/`.
+The code expects the de Gardelle et al 2011 dataset to be present. See TODO for instructions.
 
 ## Simulating a dataset
 
@@ -69,7 +87,15 @@ where
 ```
 P = 1, 2, 4, 6, 8
 
-where
+TRIALS (number of trials) is any positive integer (e.g., 1000, 10000)
+
+PRIOR and ENCODING are defined in `counterfactualComponents.py`. Relevant options include `UNIFORM`, `STEEPPERIODIC`, `STEEPSHIFTED`, `FOURIER_<SEED>` (where <SEED> is the seed for sampling Fourier components).
+
+NOISE_LEVELS is an ordered string of {2,3,4,5} (e.g., 2345, 25, 3, 345, etc), listing the included sensory noise magnitudes. 2 indicates high noise, 5 indicates low noise.
+```
+
+
+The command produces a file with path:
 
 ```
 FILE = f"logs/CROSSVALID/{__file__.replace('_VIZ', '')}_{P}_{FOLD_HERE}_{REG_WEIGHT}_{GRID}.txt"
@@ -82,10 +108,13 @@ This creates a file `logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_Ot
 
 Example:
 
+```
 python3 SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py 
-
+```
+produces a dataset at
+```
 logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt
-
+```
 
 
 ## Fitting models
@@ -93,6 +122,10 @@ logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_V
 python3 RunSynthetic_FreePrior_CosineLoss_OnSim.py 2 0 10.0 180 <NAME_OF_DATASET>
 
 where `logs/SIMULATED_REPLICATE/<NAME_OF_DATASET>` is the path of the file stored when simulating.
+
+You can plot the model fit at
+
+which produces
 
 
 
