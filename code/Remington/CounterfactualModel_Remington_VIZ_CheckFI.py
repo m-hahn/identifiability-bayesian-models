@@ -10,7 +10,7 @@ import sys
 import torch
 from lpEstimator import LPEstimator
 from l1IntervalEstimator import L1Estimator
-from mapIntervalEstimator7_Debug import MAPIntervalEstimator
+from mapIntervalEstimator7_DebugFurtherAug import MAPIntervalEstimator
 from matplotlib import rc
 from util import MakeFloatTensor
 from util import MakeLongTensor
