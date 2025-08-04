@@ -21,13 +21,19 @@ No installation of the code itself is needed, beyond the software dependencies l
 For getting started, we recommend creating a Conda virtual environment: 
 
 ```
-conda create --name identifiability python=3.9 --file requirements.txt -y
-conda activate identifiability 
+conda create -n identifiability python=3.9 -y
+conda activate identifiability
+pip install torch==2.5.1 matplotlib==3.9.4 scipy==1.13.1 numpy==2.0.2
 ```
 
 ### Demo: Instructions to run on demo data
 
-The demo is in the working directory `Synthetic/`.
+The demo is in the working directory `Synthetic/`:
+
+```
+cd Synthetic/
+```
+
 We use as demo dataset a [simulated dataset](logs/SIMULATED_REPLICATE/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_5_N1000_UNIFORM_STEEPPERIODIC.txt) with one noise level and 1K trials.
 
 In order to fit a model at `p=2` on this data, first delete the existing log:
