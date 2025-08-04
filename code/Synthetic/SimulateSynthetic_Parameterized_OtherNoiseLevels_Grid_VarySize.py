@@ -379,7 +379,7 @@ print(xValues)
 outPath = f"logs/SIMULATED_REPLICATE/{__file__}_{GRID}_{P}_{NoiseLevels}_N{dataSize}_{PRIOR}_{ENCODING}.txt"
 print(outPath)
 if os.path.exists(outPath):
-   assert False
+   assert False, "A simulated dataset at the path "+outPath+" already exists. If you really want to overwrite it, please manually delete that file."
 with open(outPath, "w") as outFile:
     for z, y in parameters.items():
         print(z, "\t", y.detach().cpu().numpy().tolist(), file=outFile)
