@@ -41,7 +41,7 @@ rc('font', **{'family':'FreeSans'})
 OPTIMIZER_VERBOSE = False
 
 P = int(sys.argv[1])
-assert P >= 0
+assert P > 0
 FOLD_HERE = int(sys.argv[2])
 REG_WEIGHT = float(sys.argv[3])
 GRID = int(sys.argv[4])

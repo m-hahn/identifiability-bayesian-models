@@ -11,11 +11,11 @@ import sys
 import torch
 from computations import computeResources
 from cosineEstimator import CosineEstimator
+from mapCircularEstimatorDebug import MAPCircularEstimator
 from getObservations import retrieveObservations
 from loadGardelle import *
 from loadModel import loadModel
 from matplotlib import rc
-from mapCircularEstimator10 import MAPCircularEstimator
 from l1Estimator import L1Estimator
 from scipy.io import loadmat
 from util import MakeFloatTensor

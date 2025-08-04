@@ -112,3 +112,14 @@ ggsave(
   height  = 1.1*2
 )
 
+
+# Sample Size
+# > nrow(data %>% filter(PFit != PTrue, dataSize != 20000) %>% filter(dataSize==5000) %>% filter(noiseCount==4))
+# [1] 120
+# > nrow(data %>% filter(PFit != PTrue, dataSize != 20000) %>% filter(dataSize==5000) %>% filter(noiseCount==3))
+# [1] 480
+# > nrow(data %>% filter(PFit != PTrue, dataSize != 20000) %>% filter(dataSize==5000) %>% filter(noiseCount==2))
+# [1] 720
+# > nrow(data %>% filter(PFit != PTrue, dataSize != 20000) %>% filter(dataSize==5000) %>% filter(noiseCount==1))
+# [1] 480
+
