@@ -523,48 +523,46 @@ The proof is similar if $p$ or $p' < 2$.
 We jointly prove Theorems 3 and 4. Recall that Theorem 4 extends Theorem 3 by allowing nonzero motor noise.
 For reference, we first restate Theorem 3:
 \begin{thm}[Restated from Theorem 3]\label{thm:identifiability2}
+
 There is a subset $\Omega \subset \mathfrak{M}$ of volume $0$ such that the following holds.
-Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise.
-Assume the 
-response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
+Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise. % ($\alpha >1$).
+Assume the %fist two moments of the
+response distributions $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
 There is a functional $\Phi$ mapping the collection of these distributions to $\langle \widehat{F}', \widehat{\Prior},q \rangle \in \mathfrak{M}$
 such that---provided $M \not\in \Omega$---we have
 \begin{align*}
-    |\widehat{F}(\theta) - F(\theta)| &= \mathcal{O}(\sigma_1^2) \\
-    |\widehat{\Prior}(\theta) - \Prior(\theta)| &= \mathcal{O}(\sigma_1^2) \\
-    q &= p  \text{ for $\sigma_1^2$ small}
+    |\widehat{F}(\theta) - F(\theta)| &= \mathcal{O}(\sigma_2^2) \\
+    |\widehat{\Prior}(\theta) - \Prior(\theta)| &= \mathcal{O}(\sigma_2^2) \\
+    q &= p  \text{ for $\sigma_2^2$ small}
 \end{align*}
-in the limit where $\sigma_1, \sigma_2 \rightarrow 0$, provided:  
-\begin{equation}
-0 < C_1 < \frac{\sigma_1}{\sigma_2} < C_2 < 1    
-\end{equation}
-for some $C_1, C_2$.
-Constants in the $\mathcal{O}(\cdot)$ expressions depend on $C_1, C_2$, and on $F$ and $\Prior$, but not on $\theta$.
+%in the limit where $\sigma_1 \rightarrow 0$.
+Constants in the $\mathcal{O}(\cdot)$ expressions depend on the ratio $\frac{\sigma_2}{\sigma_1}$, and on $F$ and $\Prior$, but not on $\theta$.
+
 \end{thm}
 and Theorem 4:
-\begin{thm}\label{thm:identifiability2-motor}[Restated from Theorem 4]
-Theorem~\ref{thm:identifiability2} is not affected by adding symmetric isotropic motor noise of variance $\tau^2$, and by guessed responses appearing at a rate $0 < \gamma < 1$, in the limit $\tau, \sigma_1, \sigma_2 \rightarrow 0$, while maintaining $D_1 < \frac{\sigma_1}{\tau} < D_2$ for some $0 < D_1 < D_2 < \infty$.
+\begin{thm}[Restated from Theorem 4]\label{thm:identifiability2-motor}
+Theorem 3 is not affected by adding symmetric isotropic motor noise of variance $\tau^2$, and by guessed responses appearing at a rate $0 < \gamma < 1$. The constants in the $\mathcal{O}(\cdot)$ expressions then depend additionally on the ratio $\frac{\tau}{\sigma_1}$ and on $\gamma$.
 \end{thm}
 Our proof applies directly to the overall result covering both Theorems 3 and 4:
-\begin{thm}[Restated from Theorems 3 and 4]
-Consider the extended model with Gaussian motor noise and guessing.
+\begin{thm}[Restated from Theorems 3 and 4]\label{thm:restated-thms3-4}
+Consider the extended model with symmetric isotropic motor noise and guessing.
 There is a subset $\Omega \subset \mathfrak{M}$ of volume $0$ such that the following holds.
 Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise. Let $\tau^2$ be the variance of motor noise.
 Assume the fist two moments of the response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
 There is a functional $\Phi$ mapping the collection of these distributions to $\langle \widehat{F}', \widehat{\Prior},q \rangle \in \mathfrak{M}$
 such that---provided $M \not\in \Omega$---we have
 \begin{align*}
-    \widehat{F}(\theta) &= F(\theta) + \mathcal{O}(\sigma_1^2) \\
-    \widehat{\Prior}(\theta) &= \Prior(\theta) + \mathcal{O}(\sigma_1^2) \\
+    \widehat{F}(\theta) &= F(\theta) + \mathcal{O}(\sigma_2^2) \\
+    \widehat{\Prior}(\theta) &= \Prior(\theta) + \mathcal{O}(\sigma_2^2) \\
     q &= p  \text{ for $\sigma_1^2$ small}
 \end{align*}
-in the limit where $\sigma_1, \sigma_2, \tau \rightarrow 0$, provided: 
-\begin{align*}
-1 < C_1 < \frac{\sigma_2}{\sigma_1} < C_2 < \infty     \\
-0 < C_3 < \frac{\tau}{\sigma_1} < C_4 < \infty
-\end{align*}
-for some $C_1, C_2, C_3, C_4$.
-Constants in the $\mathcal{O}(\cdot)$ expressions depend on $C_1, C_2, C_3, C_4$, and on the regularity of $F$ and $\Prior$ and their derivatives, but not on $\theta$.
+%in the limit where $\sigma_1, \sigma_2, \tau \rightarrow 0$, provided: 
+%\begin{align*}
+%1 < C_1 < \frac{\sigma_2}{\sigma_1} < C_2 < \infty     \\
+%0 < C_3 < \frac{\tau}{\sigma_1} < C_4 < \infty
+%\end{align*}
+%for some $C_1, C_2, C_3, C_4$.
+Constants in the $\mathcal{O}(\cdot)$ expressions depend on $\frac{\sigma_2}{\sigma_1}$, $\frac{\tau}{\sigma_1}$, $\gamma$, and on the regularity of $F$ and $\Prior$ and their derivatives, but not on $\theta$.
 \end{thm}
 
 
@@ -591,12 +589,12 @@ We define a parameter $t$ by setting:
     \tau^2 &= \rho^2 t
 \end{align*}
 where, to make this value definite, we take $a=1$.
-By assumption, in the limit of interest, 
+Thus, for the terms entering the $\mathcal{O}(\cdot)$ expressions in Theorem~\ref{thm:restated-thms3-4}, we have:
 \begin{align*}
-t \rightarrow 0 \\
-    0 < C_1 < \frac{b}{a} < C_2 < 1 \\
-    0 < C_3 < \frac{\rho}{a} < C_4 < \infty
+\frac{\sigma_2}{\sigma_1} &= \sqrt{\frac{b}{a}} &
+\frac{\tau}{\sigma_1} &= \frac{\rho}{\sqrt{a}}
 \end{align*}
+With this in mind, we will prove $\mathcal{O}(t)$ bounds that translate to the $\mathcal{O}(\sigma_2^2)$ bounds in the theorem statement.
 Now given the biases $b_1(\theta)$, $b_2(\theta)$ and variances $v_1(\theta)$, $v_2(\theta)$, we compute $\widehat{F}$, $\widehat{\Prior}_{p'}$, $\tilde{\mathcal{D}}_{p'}$ for each $p' \in \mathcal{P}$ as in Lemma~\ref{lemma:tilde-estimates-motor-noise}, to form models 
 \begin{equation}
 M_{p'} := \langle \widehat{F}', \widehat{\Prior}, p'\rangle    
@@ -649,7 +647,7 @@ in the limit $t \rightarrow 0$, with constants depending on $a, b, \rho$, and th
 In the absence of motor noise, the existence of estimates $\widehat{F}$, $\widehat{\Prior}$ with the error estimates claimed already follows from the proof of Theorem 2. 
     The key challenge is to show that, with two levels of sensory noise, (i) these estimates continue to hold in the presence of motor noise, (ii) the estimate for $\tilde{\mathcal{D}}$ also holds.
     
-    If the observed human response has Gaussian motor noise, we have for the response $\tilde{\theta}$:
+    If the observed human response has Gaussian motor noise\footnote{In fact, the expressions for $var_1, var_2, bias_1, bias_2$ are identical if motor noise is general symmetric isotropic, we hence use that condition in the theorem statement. Below, we only use the facts that motor noise has mean zero and variance $\rho^2 t$.}, we have for the response $\tilde{\theta}$:
     \begin{align*}
         m &= F(\theta) + \delta, \delta \sim N(0, t)\\
         \widehat{\theta} &= f(m) + \epsilon, \epsilon \sim N(0, \rho^2 t)
