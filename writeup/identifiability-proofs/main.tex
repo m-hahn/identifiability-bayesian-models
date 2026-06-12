@@ -15,7 +15,7 @@ We will make the following assumptions, which are satisfied in most Bayesian obs
 \item $\mathcal{Y}$ has the same topology as $\mathcal{X}$; without loss of generality, we assume its size is 1.
     \item $F'$ and $\Prior$ are five times continuously differentiable.
     
-    \item $F'$ is nowhere zero or infinite
+    \item $F'$ is strictly positive and finite everywhere
     \item $\Prior$ is nowhere zero or infinite
 \end{enumerate}
 
@@ -23,7 +23,7 @@ We will make the following assumptions, which are satisfied in most Bayesian obs
 We note that we expect five-times continuous differentiability for Theorem 3; in fact, for the prior, three orders of differentiability would be sufficient, but we assume the same order for simplicity.
 We also note that fewer orders of differentiability are required for Theorem 2. Because the density of the prior distribution is almost always assumed to be arbitrarily smooth in Bayesian observer models developed in the literature, the assumption  of five-times continuous differentiability is rather mild.
 
-In our numerical experiments, we use some models (naturalistic periodic encoding/prior) whose components are not necessarily even once differentiable, without apparent detriment to identifiability. We note that such functions can be approximated very closely for all practical purposes with such smooth functions, i.e., up to very small approximation errors that are unlikely to matter practically, our guarantees extend to such functions.
+In our numerical experiments, we use some models (naturalistic periodic encoding/prior) whose components are not necessarily even once differentiable, without apparent detriment to identifiability. We note that such functions can be approximated very closely for all practical purposes with such smooth functions, for instance, by convolving the original function with a small Gaussian kernel. Thus, up to very small approximation errors that are unlikely to matter practically, our guarantees extend to such functions.
 
 Importantly, we believe that real-world models will be smooth for almost all stimulus points, with isolated points of reduced smoothness (such as the peaks in these periodic functions). Our identifiability guarantees apply locally: around any point, they allow identifying encoding and prior from the local changes in variability and bias, and they furthermore identify the loss function using the behavior locally around any point where prior or encoding vary, because they rely on checking the second-order component $D_M$ around any stimulus. Hence, our guarantees extend to encodings and priors that have isolated points of reduced smoothness.
 A formalization in terms of more general function spaces would be feasible, but we believe that our treatment in terms of smooth functions strikes a good balance between generality and complexity. 
@@ -108,25 +108,27 @@ We then define a measure on $f \in \mathcal{F}(\mathcal{X})$ by placing a standa
 
 \begin{assumption}\label{ass:measure-on-a}
 We consider a measure on $\mathcal{F}(\mathcal{X})$ under which $L(f)$ and its first through fifth derivatives 
-($L(f)$, $L(f)^{(1)}$, $\dots$, $L(f)^{(5)}$) are jointly Gaussian, with non-degenerate covariance. That is, for each finite collection $x_1, \dots, x_t \in \mathcal{X}$, the vector $(L(f)^{(r)}(x_s) : s=1,\dots,t; r=0,\dots,5)$ is Gaussian with a nondegenerate covariance matrix. %, with $f(0) = 0$.
+($L(f)$, $L(f)^{(1)}$, $\dots$, $L(f)^{(5)}$) are jointly Gaussian, with non-degenerate covariance.
+Formally, this means the following: For each finite collection $(x_1, r_1), \dots, (x_t, r_t) \in \mathcal{X} \times \{0, \dots, 5\}$, the vector \[(L(f)^{(r_s)}(x_s) : s=1,\dots,t) \in \mathbb{R}^t\] is a Gaussian random vector. Furthermore, whenever $(x_s,r_s) \neq (0,0)$ ($\forall s$), the covariance matrix is nondegenerate.\footnote{Note that $L(f)(0) = 0$ by definition above, to ensure $f \mapsto L(f)$ is a 1-to-1 correspondence.}
 \end{assumption}
+The precise definition of the Gaussian measure on $\mathcal{F}(\mathcal{X})$ is not important for our results.
+What is, however, important is the assumption of non-degeneracy. This informally means that $L(f)$ and its derivatives at some stimulus $\theta$ cannot uniquely determine the corresponding values at some other stimulus $\theta'$.
+
+We now discuss some concrete example constructions for such measures.
 
 
 In both $\mathbb{T}$ and $[0,1]$, there are standard constructions using orthonormal basis functions for the space of functions $L(f)$, with Gaussian coefficients grounded in the Karhunen-Lo{\`e}ve decomposition, a probabilistic analogue of the Fourier series \cite{karhunen1947lineare, loeve1948functions, papoulis1965random}. 
 For $\mathcal{X} = \mathbb{T}$, this corresponds to a Fourier series with random coefficients.\footnote{To define a Gaussian process over $m$-times continuously differentiable functions on $\mathbb{T}$, set
 \begin{equation}
-    f = \sum_{n=1}^\infty \left(\frac{X_n}{n^{m+1}} \cos(nx) + \frac{Y_n}{n^{m+1}} \sin(nx)\right)
+    f = \sum_{n=1}^\infty \left(\frac{X_n}{n^{m+1+\varepsilon}} \cos(nx) + \frac{Y_n}{n^{m+1+\varepsilon}} \sin(nx)\right)
 \end{equation}
-where $X_n, Y_n \sim \mathcal{N}(0,1)$.}
-On an interval stimulus space $\mathcal{X} = [0,1]$, a representation using Brownian motion is available.
-We sample initial values $y(0), y'(0), \dots, y^{(m)}(0)$ from a Gaussian, and place a Brownian motion prior on $f(\theta) := y^{(m)}(\theta) - y^{(m)}(0)$.
+where $\varepsilon>0$ and $X_n, Y_n \sim \mathcal{N}(0,1)$.}
+On an interval stimulus space $\mathcal{X} = [0,1]$, a representation using integrated Brownian motion is available.\footnote{We sample initial values $y(0), y'(0), \dots, y^{(m-1)}(0)$ from a Gaussian, and place a Brownian motion prior on $f(\theta) := y^{(m-1)}(\theta) - y^{(m-1)}(0)$, so that \(y^{(m)}\) is continuous almost surely and hence \(y\) is \(m\)-times continuously differentiable almost surely.}
 An explicit series representation with Gaussian coefficients can be obtained from the Karhunen-Loeve representation of Brownian motion.
 In both cases, any continuous function $f$\footnote{Formally, even every element of $L^2(\mathcal{X})$.} with $f(0) = 0$ can be represented for some choice of the random coefficients in the series representations; the coefficients are scaled to ensure that $f$ is five times differentiable almost surely.
 
 
 
-The precise definition of the Gaussian measures on $\mathcal{F}(\mathcal{X})$ is not important for our results.
-What is, however, important is the assumption of non-degeneracy. This informally means that $L(f)$ and its derivatives at some stimulus $\theta$ cannot uniquely determine the corresponding values at some other stimulus $\theta'$.
 
 \begin{assumption}\label{ass:measure-on-prod}
 We define a measure $\mu$ on $\mathfrak{M}$ as the product measure of the measure from Assumption~\ref{ass:measure-on-a} on the $\mathcal{F}(\mathcal{X})$ for the first two components, and the uniform measure on $\mathcal{P}$ for the third component.
@@ -145,7 +147,7 @@ Then, the bias is given as (Theorem 1 of \cite{hahn2024unifying}):
 bias(\theta) = \frac{1}{\FI(\theta)} \frac{d}{d\theta} \log \Prior(\theta) + \frac{\tilde{p}+2}{4} \frac{d}{d\theta} \frac{1}{\FI(\theta)}  + \mathcal{O}(\sigma^4)
 \end{equation}
 or equivalently
-\begin{equation}\label{eq:bias-first-order}
+\begin{equation}\label{eq:bias-first-order-alt}
 bias(\theta) = \frac{\sigma^2}{F'(\theta)^2} \frac{d}{d\theta} \log \Prior(\theta) + \frac{\tilde{p}+2}{4} \frac{d}{d\theta} \frac{\sigma^2}{F'(\theta)^2}  + \mathcal{O}(\sigma^4)
 \end{equation}
 Furthermore, the variance of the response is given as (see Lemma~\ref{lemma:calculation-for-b}):
@@ -153,7 +155,7 @@ Furthermore, the variance of the response is given as (see Lemma~\ref{lemma:calc
     var(\theta) = \tau^2 + \frac{1}{\FI(\theta)} + \mathcal{O}(\sigma^4)
 \end{equation}
 or equivalently
-\begin{equation}\label{eq:var-first-order}
+\begin{equation}\label{eq:var-first-order-alt}
     var(\theta) = \tau^2 + \frac{\sigma^2}{F'(\theta)^2} + \mathcal{O}(\sigma^4)
 \end{equation}
 where $\tau^2$ is the variance of motor noise.
@@ -175,7 +177,7 @@ Let
 \end{align*}
 be two models in $\mathfrak{M}$. In the absence of motor noise ($\tau=0$), the following are equivalent:
 \begin{enumerate}
-    \item $F_1 = F_2$, with identical Fisher Information $\FI = \frac{F_1^2}{\sigma^2} = \frac{F_2^2}{\sigma^2}$, and the priors are linked as follows:
+    \item $F_1 = F_2$, with identical Fisher Information $\FI(\theta) = \frac{F_1'(\theta)^2}{\sigma^2} = \frac{F_2'(\theta)^2}{\sigma^2}$, and the priors are linked as follows:
 \begin{equation}\label{eq:prior-transformation}
     \Prior^{(1)} \propto \Prior^{(2)}  \FI^{\frac{\tilde{p_1}-\tilde{p_2}}{4}},
 \end{equation}
@@ -191,7 +193,7 @@ We illustrate the theorem with a family of models satisfying this property in Fi
     \begin{align*}
 bias_1(\theta) = & \frac{\sigma^2}{F'^2} \frac{d}{d\theta} \log \Prior^{(1)} + \frac{\tilde{p_1}+2}{4} \frac{d}{d\theta} \frac{\sigma^2}{F'^2}  + \mathcal{O}(\sigma^4) \\
 = & \frac{\sigma^2}{F'^2} \frac{d}{d\theta} \log (\Prior^{(2)}  \FI^{\frac{\tilde{p_1}-\tilde{p_2}}{4}}) + \frac{\tilde{p_1}+2}{4} \frac{d}{d\theta} \frac{\sigma^2}{F'^2}  + \mathcal{O}(\sigma^4) \\
-= & \frac{\sigma^2}{F'^2} \frac{d}{d\theta} \log (\Prior^{(2)}) +   \frac{\tilde{p_1}-\tilde{p_2}}{2} \frac{\sigma^2}{F'(\theta)^2} \frac{d}{d\theta} \frac{F''(\theta)}{F'(\theta)} + \frac{\tilde{p_1}+2}{4} \frac{d}{d\theta} \frac{\sigma^2}{F'^2}  + \mathcal{O}(\sigma^4) \\
+= & \frac{\sigma^2}{F'^2} \frac{d}{d\theta} \log (\Prior^{(2)}) +   \frac{\tilde{p_1}-\tilde{p_2}}{2} \frac{\sigma^2 F''(\theta)}{F'(\theta)^3} + \frac{\tilde{p_1}+2}{4} \frac{d}{d\theta} \frac{\sigma^2}{F'^2}  + \mathcal{O}(\sigma^4) \\
 = & \frac{\sigma^2}{F'^2} \frac{d}{d\theta} \log \Prior^{(2)}  + \sigma^2 {\frac{\tilde{p_1}-\tilde{p_2}}{2}} \frac{F''(\theta)}{F'(\theta)^3} - \sigma^2 \frac{\tilde{p_1}+2}{2} \frac{F''(\theta)}{F'(\theta)^3}  + \mathcal{O}(\sigma^4) \\
 = & \frac{\sigma^2}{F'^2} \frac{d}{d\theta} \log \Prior^{(2)} + \frac{\tilde{p_2}+2}{4} \frac{d}{d\theta} \frac{\sigma^2}{F'^2}  + \mathcal{O}(\sigma^4) \\
 = & bias_2(\theta) + \mathcal{O}(\sigma^4)
@@ -209,7 +211,7 @@ Second, retracing the computation of the bias above shows that the only way for 
     In the absence of motor noise, the encoding $F$ and the sensory noise magnitude can be recovered from the response distribution at a single level of sensory noise, with estimation error exponentially small in $\frac{1}{\sigma}$. 
 
 \begin{align*}
- \sqrt{\mathcal{J}(\theta)} = \sqrt{4\pi} \cdot \frac{\operatorname{d}}{\operatorname{d}\theta} \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta)) + \mathcal{O}(\exp(-1/\sigma))
+ \sqrt{\mathcal{J}(\theta)} = \sqrt{4\pi} \cdot \left.\frac{\operatorname{d}}{\operatorname{d}h} \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta))\right|_{h=0} + \mathcal{O}(\exp(-1/\sigma))
 \end{align*}
     
 \end{thm}
@@ -239,9 +241,9 @@ Then, the above equals
 where $\epsilon_2-\epsilon_1 \sim N(0,2\sigma^2)$, and $\Phi$ is the cumulative density function of the normal distribution. 
 Now taking
 \begin{align*}
- \frac{\operatorname{d}}{\operatorname{d}\theta}  \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta)) 
-= & \frac{\operatorname{d}}{\operatorname{d}\theta}  \mathbb{P}(F(\theta+h) - F(\theta) \geq \epsilon_2-\epsilon_1) \\
-    =&  \frac{\operatorname{d}}{\operatorname{d}\theta}  \Phi\left(\frac{F(\theta+h) - F(\theta)}{\sqrt{2\sigma^2}}\right) \\
+ \left.\frac{\operatorname{d}}{\operatorname{d}h}  \mathbb{P}(\widehat{\theta}(\theta+h) \geq \widehat{\theta}(\theta))\right|_{h=0}
+= & \left.\frac{\operatorname{d}}{\operatorname{d}h}  \mathbb{P}(F(\theta+h) - F(\theta) \geq \epsilon_2-\epsilon_1)\right|_{h=0} \\
+    =&  \left.\frac{\operatorname{d}}{\operatorname{d}h}  \Phi\left(\frac{F(\theta+h) - F(\theta)}{\sqrt{2\sigma^2}}\right)\right|_{h=0} \\
     = & F'(\theta) \frac{1}{\sqrt{2\pi}} \frac{1}{\sqrt{2\sigma^2}}
 \end{align*}
 where the last step follows since $\Phi'(0) = \frac{1}{\sqrt{2\pi}}$.
@@ -303,7 +305,7 @@ We first examine
 \end{equation}
 The second multiplicand is independent of $x$. The first multiplicand is increasing in $x$:
 \begin{align*}
-   \log \frac{P_{lik}(F(\theta_2)|x)}{P_{lik}(F(\theta_1)|x)} = \frac{(F(\theta_1)-x)^2 - (F(\theta_2)-x)^2}{2t} = \frac{1}{2t} \left(F(\theta_1)^2 - F(\theta_2)^2 + 2x \cdot (F(\theta_2)-F(\theta_1))  \right)
+   \log \frac{P_{lik}(F(\theta_2)|x)}{P_{lik}(F(\theta_1)|x)} = \frac{(F(\theta_1)-F(x))^2 - (F(\theta_2)-F(x))^2}{2t} = \frac{1}{2t} \left(F(\theta_1)^2 - F(\theta_2)^2 + 2F(x) \cdot (F(\theta_2)-F(\theta_1))  \right)
 \end{align*}
 which is increasing in $x$ because $F(\theta_2) > F(\theta_1)$.
 Hence, the posterior exhibits monotone likelihood ratios, in the sense that, for each $\theta_2>\theta_1$,
@@ -323,7 +325,7 @@ Because $D$ is nondecreasing, ($\dagger$) follows using an equivalent characteri
 This concludes the proof when $p\geq 1$.
 Now at $p=0$, we instead apply Topkis' theorem to the log of the unnormalized posterior:
 \begin{equation}
-    \mathcal{L}(\widehat{\theta},\theta) = \log p_{prior}(\widehat{\theta}) p_{lik}(F(\theta)|\widehat{\theta})
+    \mathcal{L}(\widehat{\theta},\theta) = \log \left[p_{prior}(\widehat{\theta}) p_{lik}(F(\theta)|\widehat{\theta})\right]
 \end{equation}
 where $f(\theta) = \argmax_{\widehat{\theta}} \mathcal{L}(\widehat{\theta}, \theta)$.
 As above, we need to show that $\mathcal{L}$ is supermodular; this is now easy due to Topkis' characterization that $\mathcal{L}$ is supermodular if and only if $\partial_{\widehat{\theta}}\partial_\theta \mathcal{L} \geq 0$ everywhere \citep{topkis1978minimizing, topkis1998supermodularity}.
@@ -374,7 +376,7 @@ For each exponent $q \geq 0$, there is a function $\Phi_q$ mapping these distrib
 \end{align*}
 as $\sigma \rightarrow 0$, for some constant
 \begin{equation}
-    U = \frac{1}{\int (F'(\theta))^{\frac{q-p}{2}} \cdot \Prior(\theta) d\theta }
+    U = \frac{1}{\int (F'(\theta))^{\frac{\tilde{q}-\tilde{p}}{2}} \cdot \Prior(\theta) d\theta }
 \end{equation}
 The identified model has bias and variance equal to $b$ and $v$ up to error $\mathcal{O}(\sigma^2)$.
 Constants in $\mathcal{O}(\cdot)$ depend on $F$ and $\Prior$, but not  $\theta$. 
@@ -386,7 +388,7 @@ We note that Theorem 2 follows in the special case where $p=q$.
 We obtain the encoding $\widehat{F}$ using Lemma~\ref{lemma:f-exact}.\footnote{An alternative approach, based on only moments but with error $O(t)$, could proceed as in the proof of Theorem 3.}
 We define $\Phi_q$ by setting
 \begin{align*}
-    \mathcal{E}(\theta) := & \frac{(bias(\theta) - \frac{q+2}{4} v'(\theta))}{v(\theta)} \\
+    \mathcal{E}(\theta) := & \frac{(bias(\theta) - \frac{\tilde{q}+2}{4} v'(\theta))}{v(\theta)} \\
     \widehat{\Prior}(\theta) \propto & \exp\left( \int_0^\theta \mathcal{E}(\theta') d\theta' \right)
 \end{align*}
 Since the fist two moments $bias(\theta)$ (bias) and $var(\theta)$ (variance) of the response distribution $P(\widehat{\theta}|M,\theta, \sigma)$ are given at each $\theta$, and the sensory noise obeys Gaussian distribution $\mathcal{N}(0, \sigma^2)$, we have (Section~\ref{sec:background} and Lemma~\ref{lemma:expansion}):
@@ -394,7 +396,7 @@ Since the fist two moments $bias(\theta)$ (bias) and $var(\theta)$ (variance) of
     var(\theta) &= \mathcal{A}(\theta)\sigma^2 + \mathcal{B}(\theta)\sigma^4 + O(\sigma^6)\\
     bias(\theta) &= \mathcal{C}(\theta)\sigma^2 + \mathcal{D}(\theta)\sigma^4 + O(\sigma^6)
 \end{align*}
-where $\mathcal{A}(\theta) = \frac{1}{F'(\theta)^2}.$We will write $t$ for the sensory noise variance $\sigma^2$ to make the notation easier.
+where $\mathcal{A}(\theta) = \frac{1}{F'(\theta)^2}$. We will write $t$ for the sensory noise variance $\sigma^2$ to make the notation easier.
 
 
 Then we prove $\widehat{\Prior}(\theta) = U \cdot (F')^{\frac{q-p}{2}} \cdot \Prior(\theta) + O(t)$. According to the definition of $\mathcal{E}(\theta), var(\theta), bias(\theta)$, we have:
@@ -404,7 +406,7 @@ Then we prove $\widehat{\Prior}(\theta) = U \cdot (F')^{\frac{q-p}{2}} \cdot \Pr
 As discussed in Section~\ref{sec:background}, we have $\mathcal{C}(\theta) = \frac{(\log \Prior)'}{F'^2}-\frac{p+2}{2}\cdot\frac{F''}{F'^3}$. Thus, we can plug in the expression of $\mathcal{C}(\theta)$ into the definition of $\widehat{\Prior}(\theta)$ and let $\alpha$ be the constant coefficient. Then we have:
 \begin{align*}
     \widehat{\Prior}(\theta) &= \alpha \cdot \exp \left({\int_0^\theta \mathcal{E}(\theta') d\theta'}\right)\\
-    &= \alpha \cdot exp\left(\int_0^\theta \frac{C(\theta')-\frac{\tilde{q}+2}{4}\mathcal{A}'(\theta)}{\mathcal{A}(\theta')}d\theta' + O(t)\right)\\
+    &= \alpha \cdot \exp\left(\int_0^\theta \frac{\mathcal{C}(\theta')-\frac{\tilde{q}+2}{4}\mathcal{A}'(\theta')}{\mathcal{A}(\theta')}d\theta' + O(t)\right)\\
     &= \alpha \cdot \exp \left(\int_0^\theta [(\log \Prior)' + \frac{\tilde{q}-\tilde{p}}{2}\frac{F''}{F'}] d\theta' + O(t)\right)\\
     &= \alpha \cdot \exp \left(\int_0^\theta [\log \Prior + \frac{\tilde{q}-\tilde{p}}{2}\log F']' d\theta' + O(t)\right)\\
     &= \alpha \cdot \exp \left(\int_0^\theta \left( \log \left( \Prior \cdot F'^{\frac{\tilde{q}-\tilde{p}}{2}} \right) \right)' d\theta' + O(t)\right)\\
@@ -435,20 +437,20 @@ var(\theta) =&
 \end{align*}
 where $\tau^2$ is the motor noise variance, and $\sigma^2$ is the sensory noise variance. This refines the decomposition reviewed in Section~\ref{sec:background}, by setting
 \begin{align*}
-    \mathcal{A}_M(\theta) :=& \frac{1}{F'^2} \frac{d}{d\theta} \log \Prior(\theta) + \frac{\tilde{p}+2}{4} \frac{d}{d\theta} \frac{1}{F'(\theta)^2} \\
-    \mathcal{C}_M(\theta) :=& \frac{1}{F'(\theta)^2}
+    \mathcal{A}_M(\theta) :=& \frac{1}{F'(\theta)^2} \\
+    \mathcal{C}_M(\theta) :=& \frac{1}{F'^2} \frac{d}{d\theta} \log \Prior(\theta) + \frac{\tilde{p}+2}{4} \frac{d}{d\theta} \frac{1}{F'(\theta)^2}
 \end{align*}
 See Section~\ref{sec:thm-2-auxiliary} for explicit expressions for $\mathcal{B}_M, \mathcal{D}_M$.
 
-\subsubsection{Definition of Exceptional Set $\Omega$}
+\subsubsection{Definition and Properties of Exceptional Set $\Omega$}
 We define $\Omega$ in terms of models $M_1$ where there is some model $M_2$ distinct from it such that the coefficients $\mathcal{A}_M, \mathcal{B}_M, \mathcal{C}_M, \mathcal{D}_M$ are identical for $M_1$ and $M_2$ -- that is, where the response bias and variance are identical up to a higher-order residual of order $\mathcal{O}(\sigma^6)$.
 We also include models where the first-order bias component $\mathcal{C}_M$ vanishes entirely, i.e., where the bias is zero everywhere in the low-noise regime.\footnote{This is for technical reasons, as the proof of Lemma~\ref{lemma:tilde-estimates-motor-noise} presupposes that $\mathcal{C}$ is nonzero for some stimuli. In practice, as soon as prior or encoding are nonuniform, the only way for $C_M$ to vanish everywhere is for $F$ and $\Prior$ to be aligned in a very specific way to ensure perfect cancellation of attraction and repulsion.}
 Then:
 \begin{defin}
 We define $\Omega \subset \mathfrak{M}$ as:  
 \begin{align*}
-\Omega := & \{M : \mathcal{C}_M \equiv 0\} \\
-& \cup \bigcup_{F, \Prior} \bigcup_{p,p' \in \mathcal{P}} \{M_1 \in \mathfrak{M} : \exists M_2 \in \mathfrak{M} :  M_2 \neq M_1; \mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}; \mathcal{B}_{M_1} \equiv \mathcal{B}_{M_2}; \mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}; \mathcal{D}_{M_1} \equiv \mathcal{D}_{M_2}\}
+\Omega := & \{M : \mathcal{C}_M \equiv 0\} \cup \{M : \mathcal{A}_M' \equiv 0\} \\
+& \cup  \{M_1 \in \mathfrak{M} : \exists M_2 \in \mathfrak{M} :  M_2 \neq M_1; \mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}; \mathcal{B}_{M_1} \equiv \mathcal{B}_{M_2}; \mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}; \mathcal{D}_{M_1} \equiv \mathcal{D}_{M_2}\}
 \end{align*}
 \end{defin}
 It will be useful to define $\Omega$ more explicitly in terms of (i) identical encoding, (ii) prior transformed based on the loss function difference, (iii) $\mathcal{D}_M$ identical for both models.
@@ -457,13 +459,13 @@ Recall the definition of $\tilde{p}$ in Eq.~\ref{eq:tilde-p}.
 \label{lemma:model_existence}
 We have:
 \begin{align*}
-\Omega = & \{M : \mathcal{C}_M \equiv 0\} \\
+\Omega = & \{M : \mathcal{C}_M \equiv 0\} \cup \{M : \mathcal{A}_M' \equiv 0\} \\
 & \cup \bigcup_{F, \Prior} \bigcup_{p,p' \in \mathcal{P}} \{M_1 := \langle F',  \Prior, p\rangle : \exists p'\neq p, C \in \mathbb{R}, \mathcal{D}_{M_1} \equiv \mathcal{D}_{M_2} \text{ where } M_2 := \langle F', C \cdot (F')^{\frac{\tilde{p'}-\tilde{p}}{2}} \Prior, p'\rangle\}
 \end{align*}
 \end{lemma}
 \begin{proof}
   First, when $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ and $\mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$, then the form $M_1 = \langle F',\Prior, p\rangle $, $M_2 = \langle F',C \cdot (F')^{\frac{\tilde{p'}-\tilde{p}}{2}} \Prior, p'\rangle$ follows from the expressions for $\mathcal{A}$ and $\mathcal{C}$ (Lemma~\ref{lemma:calculation-for-b}).
-    It remains to prove the other direction, i.e., that when $M_2 := \langle F',C \cdot (F')^{\frac{\tilde{p}'-\tilde{p}}{2}} \Prior, p')$, then
+    It remains to prove the other direction, i.e., that when $M_2 := \langle F',C \cdot (F')^{\frac{\tilde{p}'-\tilde{p}}{2}} \Prior, p'\rangle$, then
     $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}, \mathcal{B}_{M_1} \equiv \mathcal{B}_{M_2}, \mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$ follow.
     Since the encoding functions $F$ of $M_1$ and $M_2$ are identical, $\mathcal{A}_{M_1} \equiv \mathcal{A}_{M_2}$ holds obviously ($\mathcal{A}$ only depends on $F$).
 Now, $\mathcal{C}_{M_1} \equiv \mathcal{C}_{M_2}$ follows from the expression (\ref{eq:c-coefficient}):
@@ -476,7 +478,7 @@ or equivalently
     \end{equation*}
     Next we prove that $\mathcal{B}_{M_1} \equiv \mathcal{B}_{M_2}$. According to Lemma \ref{lemma:calculation-for-b}, we have 
     \begin{align*}
-    \mathcal{B}_M(\theta) &= \frac{2g(\theta)}{F'^2(\theta)} + \frac{F''(\theta)}{2F'^6(\theta)}
+    \mathcal{B}_M(\theta) &= \frac{2g(\theta)}{F'^2(\theta)} + \frac{7F''(\theta)^2 - 2F'(\theta)F'''(\theta)}{2F'^6(\theta)}
     \end{align*}
     where $g_M = \frac{d}{d\theta} \mathcal{C}_{dec,M}$.
     Since $\mathcal{C}_{M_1} = \mathcal{C}_{M_2}$, we also have $\mathcal{C}_{dec,M_1} = \mathcal{C}_{dec,M_2}$.
@@ -493,7 +495,8 @@ We conclude:
 
 
 \begin{proof}[Proof of Lemma~\ref{lemma:measure-zero}]
-We condition on $F$ and $p \in \mathcal{P}$, and show that the set of $L(\Prior)$ such that $\langle F', \Prior, p\rangle \in \Omega$ has measure zero; the result then follows from the Fubini-Tonelli theorem. 
+First, there is only a single choice of $F' \in \mathcal{F}(\mathcal{X})$ leading to $\mathcal{A}_M' \equiv 0$ (namely, where $F'' \equiv 0$), leading to zero measure for this set of models.
+Now, for the other parts of $\Omega$, we condition on $F$ and $p \in \mathcal{P}$, and show that the set of $L(\Prior)$ such that $\langle F', \Prior, p\rangle \in \Omega$ has measure zero; the result then follows from the Fubini-Tonelli theorem. 
 We first note that, given $F$ and $p$, the condition $\mathcal{C}_M \equiv 0$ directly defines $L(\Prior)$, leading to zero measure.
 Now we consider the second component: For each $p' \neq p$, we investigate the condition
 \begin{equation}
@@ -501,7 +504,7 @@ Now we consider the second component: For each $p' \neq p$, we investigate the c
 \end{equation}
 where 
 \begin{equation}
-    M_2 := \langle F', U \cdot (F')^{\frac{p'-p}{2}} \Prior, p\rangle
+    M_2 := \langle F', U \cdot (F')^{\frac{\tilde{p}'-\tilde{p}}{2}} \Prior, p'\rangle
 \end{equation}
 Considering the form of $\mathcal{D}$ (Equation \ref{eq:d-even-p}), the highest derivatives contribute a single term at $p,p'\geq 2$, and -- after simplification -- the condition $\mathcal{D}_{M_1} = \mathcal{D}_{M_2}$ can be written as:
 \begin{equation}
@@ -580,7 +583,7 @@ Next, if $f$ is $k$-times differentiable, then we set
 \end{defin}
 We proceed to proving the theorem, using Lemma~\ref{lemma:tilde-estimates-motor-noise}:
 \begin{proof}[Proof of the theorem]
-We first note that, in the limit of small sensory noise, the guessing rate $\gamma$ can be identified by investigating the rates at which stimuli $\theta$ elicit far-away responses, with an error exponentially small in $1/\sigma$. 
+We first note that, in the limit of small sensory and motor noise, the guessing rate $\gamma$ can be identified by investigating the rates at which stimuli $\theta$ elicit far-away responses, with an error exponentially small in $1/\sigma$. 
 By deconvolving the response distributions, one can then obtain the raw response distributions before adding guesses; we can thus assume $\gamma=0$ for the remainder of the proof.
 We define a parameter $t$ by setting:
 \begin{align*}
@@ -602,7 +605,7 @@ M_{p'} := \langle \widehat{F}', \widehat{\Prior}, p'\rangle
 where $\widehat{\Prior}$ is fitted depending on $p'$.
 On the other hand, we define reference models
 \begin{equation}
-    \hat{M}_{p'} := \langle F', U F'^{\frac{p'-p}{2}} \Prior, p'\rangle
+    \hat{M}_{p'} := \langle F', U F'^{\frac{\tilde{p}'-\tilde{p}}{2}} \Prior, p'\rangle
 \end{equation}
 (with $U$ a normalization constant to make the prior integrate to 1)
 where specifically $\hat{M}_p = M$.
@@ -628,12 +631,11 @@ We are now ready to prove the main lemma used in the proof of Theorem 3:
 \begin{lemma}\label{lemma:tilde-estimates-motor-noise}
 Consider the model in the presence of motor noise $\epsilon \sim N(0,\rho^2t)$.
 Let $p' \in \mathcal{P}$.
-There is a function $\Phi_{p'}$ mapping biases and variances to a model $\langle \widehat{F}', \widehat{\Prior}, p'\rangle$, and a function $\tilde{\mathcal{D}} \in C(\mathcal{X})$ such that, given data from the model $\langle F', \Prior, p\rangle$ ($\mathcal{C}_M(\theta)$ not constant zero), we have: 
+There is a function $\Phi_{p'}$ mapping biases and variances to a model $\langle \widehat{F}', \widehat{\Prior}, p'\rangle$, and a function $\tilde{\mathcal{D}} \in C(\mathcal{X})$ such that, given data from the model $\langle F', \Prior, p\rangle$ ($\mathcal{C}_M(\theta)$, $\mathcal{A}_M'(\theta)$ not constant zero), we have: 
 \begin{enumerate}
-    \item $\|\widehat{F}(\theta) - F(\theta)\|_{\infty,4} = O(t)$
+    \item $\|\widehat{F} - F\|_{\infty,4} = O(t)$
 
-
-\item $\|\frac{d}{d\theta}\log\widehat{\Prior}-\frac{d}{d\theta}\log\Prior\|_{\infty,2}$ = O(t)
+\item $\left\|\frac{d}{d\theta}\log\widehat{\Prior}-\frac{d}{d\theta}\log\Prior\right\|_{\infty,2} = O(t)$
 
 
     \item $\|\tilde{\mathcal{D}}(\theta) - \mathcal{D}(\theta)\|_\infty = O(t)$ where $\mathcal{D}$ is the second-order component of the bias of the model $\langle F', \Prior, p\rangle$
@@ -675,7 +677,7 @@ We then set
     \end{align*}
     concluding the proof.
 The situation is more complex in the presence of motor noise, as we need to first separate out the effect of motor noise in estimating sensory noise. 
-The full proof approaches this challenge by first obtaining an estimate of $\frac{a}{b}$, $at$, $bt$ that control for the effect of motor noise except perhaps a higher-order residual.
+The full proof approaches this challenge by first obtaining estimates of $\frac{a}{b}$, $at$, $bt$ that control for the effect of motor noise except perhaps a higher-order residual.
     
     
 \paragraph*{Full Proof with Motor Noise}
@@ -713,7 +715,7 @@ We estimate $F$ from the variability while controlling for the addition of motor
         %& 
         = \frac{\int_{0}^{\theta}\frac{1}{\sqrt{\mathcal{A}(\theta') + \mathcal{O}(t)}} d \theta'}{\int_{0}^{\theta_{\max}}\frac{1}{\sqrt{\mathcal{A}(\theta') + \mathcal{O}(t)}}d \theta'}
         \end{align*}
-        As $A$ is bounded away from zero, we have
+        As $\mathcal{A}$ is bounded away from zero, we have
         \begin{align*}
              \widehat{F}(\theta) & =    \frac{\int_{0}^{\theta}\frac{1}{\sqrt{\mathcal{A}(\theta')}} d \theta'}{\int_{0}^{\theta_{\max}}\frac{1}{\sqrt{\mathcal{A}(\theta')}}d \theta'} + \mathcal{O}(t) 
            =    \frac{\int_{0}^{\theta} F'(\theta') d \theta'}{\int_{0}^{\theta_{\max}} F'(\theta') d \theta'} + \mathcal{O}(t) 
@@ -726,7 +728,8 @@ The same derivation, without the integral in the numerator, shows
 We will also require the second and third derivatives of $F$ up to error $O(t)$; as discussed in Section~\ref{sec:variance-two-derivatives}, this can be achieved by differentiating $\widehat{F}'(\theta)$:
 \begin{align*}
     \widehat{F}''(\theta)  =& F''(\theta)  + \mathcal{O}(t) \\
-    \widehat{F}'''(\theta)  =& F'''(\theta)  + \mathcal{O}(t) 
+    \widehat{F}'''(\theta)  =& F'''(\theta)  + \mathcal{O}(t) \\
+    \widehat{F}''''(\theta)  =& F''''(\theta)  + \mathcal{O}(t) 
 \end{align*}
 This establishes
 \begin{equation}
@@ -737,23 +740,23 @@ Based on this, set
         \tilde{\mathcal{A}}(\theta) &= \frac{1}{\left(\widehat{F}'(\theta)\right)^2} = \mathcal{A}(\theta) + O(t)
         \end{align*}
         with constants depending on $\min_\theta F'(\theta)$.
-        Further, set (where $\theta$ can be chosen arbitrarily; note that $\mathcal{A}$ is nowhere zero):
+        Further, set (where $\theta_*$ can be chosen arbitrarily; note that $\mathcal{A}$ is nowhere zero):
         \begin{align*}
-        \widehat{at} &:= \frac{var_1(\theta) - \rho^2t}{\tilde{\mathcal{A}}(\theta)}
-        = \frac{a\mathcal{A}(\theta)t+O(t^2)}{\mathcal{A}(\theta)+O(t)}
+        \widehat{at} &:= \frac{var_1(\theta_*) - \widehat{\rho^2t}}{\tilde{\mathcal{A}}(\theta_*)}
+        = \frac{a\mathcal{A}(\theta_*)t+O(t^2)}{\mathcal{A}(\theta_*)+O(t)}
     \end{align*}
     Similarly, we set:
     \begin{equation*}
-        \widehat{bt} := \frac{var_2(\theta) - \rho^2t}{\tilde{\mathcal{A}}(\theta)} +O(t^2) = bt + O(t^2)
+        \widehat{bt} := \frac{var_2(\theta_*) - \widehat{\rho^2t}}{\tilde{\mathcal{A}}(\theta_*)} +O(t^2) = bt + O(t^2)
     \end{equation*}
-    where $\theta$ can be chosen arbitrarily.
+    where $\theta_*$ can be chosen arbitrarily.
     Next, we use $\frac{bias_1(\theta)}{\widehat{at}}$ to estimate $\tilde{\mathcal{C}}(\theta)= \mathcal{C}(\theta) +O(t)$:
     \begin{align*}
-        \tilde{\mathcal{C}}(\theta) := \frac{bias_1(\theta)}{\widehat{at}} &= \frac{bias_1(\theta)}{\frac{var_1(\theta) - \rho^2t}{\tilde{\mathcal{A}}(\theta)}}
+        \tilde{\mathcal{C}}(\theta) := \frac{bias_1(\theta)}{\widehat{at}} &= \frac{bias_1(\theta)}{\frac{var_1(\theta) - \widehat{\rho^2t}}{\tilde{\mathcal{A}}(\theta)}}
         = \frac{a\mathcal{C}(\theta)t + O(t^2)}{at + O(t^2)}
         = \mathcal{C}(\theta) + O(t)
 \end{align*}
-Lemma~\ref{lemma:calculation-for-b} shows that $\mathcal{C}(\theta) = \frac{\frac{d \log P_{prior}(\theta)}{d \theta}}{F'^2(\theta)} - \frac{p+2}{2} \cdot \frac{F''(\theta)}{F'^3(\theta)}$.
+Lemma~\ref{lemma:calculation-for-b} shows that $\mathcal{C}(\theta) = \frac{\frac{d \log P_{prior}(\theta)}{d \theta}}{F'^2(\theta)} - \frac{\tilde{p}+2}{2} \cdot \frac{F''(\theta)}{F'^3(\theta)}$.
     Thus, we can use the formula of $\mathcal{C}$ and the estimation $\tilde{\mathcal{C}}$ to derive an estimate of $\widehat{\frac{d \log P_{prior}(\theta)}{d \theta}} = \frac{d \log P_{prior}(\theta)}{d \theta} + \mathcal{O}(t)$. 
     First, (recall the definition of $\tilde{p}$ in Eq.~\ref{eq:tilde-p}):
     \begin{align*}
@@ -769,7 +772,7 @@ Based on this, we estimate the derivative of the prior as follows (taking $\tild
     &= (\mathcal{C}+\mathcal{O}(t)) \cdot (F' + \mathcal{O}(t)))^2 + \frac{\tilde{p}'+2}{2} \cdot \frac{F'' + \mathcal{O}(t)}{F' + \mathcal{O}(t)} \\
     &= \mathcal{C} \cdot F'^2 + \mathcal{O}(t) + \frac{\tilde{p}'+2}{2} \cdot [\frac{F''}{F'} + \mathcal{O}(t)]\\
     &= \mathcal{C} \cdot F'^2 + \frac{\tilde{p}'+2}{2} \cdot \frac{F''}{F'} + \mathcal{O}(t) \\
-    &= \frac{d \log P_{prior}}{d \theta} + \frac{\Delta P}{2} \cdot \frac{F''}{F'} + \mathcal{O}(t)
+    &= \frac{d \log P_{prior}}{d \theta} + \frac{\Delta p}{2} \cdot \frac{F''}{F'} + \mathcal{O}(t)
 \end{align*}
 %}
 %
@@ -779,11 +782,11 @@ By differentiating, we establish
 \end{equation}
 for the scalar
 \begin{equation}
-    U = \frac{1}{\int (F'(\theta))^{\frac{p'-p}{2}} \cdot \Prior(\theta) d\theta }
+    U = \frac{1}{\int (F'(\theta))^{\frac{\tilde{p}'-\tilde{p}}{2}} \cdot \Prior(\theta) d\theta }
 \end{equation}
     Then, based on the connection between the expressions for $\mathcal{B}$ and $\mathcal{C}$, we can derive an estimation for $\mathcal{B}$. By Lemma~\ref{lemma:calculation-for-b},
     \begin{align*}
-        \mathcal{B} &= \frac{2g}{F'^2} + \frac{F''}{2F'^6}
+        \mathcal{B} &= \frac{2g}{F'^2} + \frac{7F''^2-2F'F'''}{2F'^6}
         \end{align*}
         where
         \begin{align*}
@@ -797,10 +800,10 @@ We can estimate
 \end{align*}
     This permits us to derive an estimate of $\mathcal{B}$:
     \begin{align*}
-    \tilde{\mathcal{B}} &= \frac{2\tilde{g}}{\widehat{F}'^2} + \frac{\widehat{F}''}{2\widehat{F}'^6} %\\
-     = \frac{2g + \mathcal{O}(t)}{F'^2 + \mathcal{O}(t)} + \frac{F'' + \mathcal{O}(t)}{2F'^6 + \mathcal{O}(t)} %\\
-     = \frac{2g}{F'^2} + \frac{F''}{2F'^6} + \mathcal{O}(t)  %\\
-     = \mathcal{B} + \mathcal{O}(t) %&
+    \tilde{\mathcal{B}} &= \frac{2\tilde{g}}{\widehat{F}'^2} + \frac{7\widehat{F}''^2 - 2\widehat{F}'\widehat{F}'''}{2\widehat{F}'^6} %\\
+     &= \frac{2g + \mathcal{O}(t)}{F'^2 + \mathcal{O}(t)} + \frac{7F''^2 - 2F'F''' + \mathcal{O}(t)}{2F'^6 + \mathcal{O}(t)} %\\
+     &= \frac{2g}{F'^2} + \frac{7F''^2-2F'F'''}{2F'^6} + \mathcal{O}(t)  %\\
+     &= \mathcal{B} + \mathcal{O}(t) %&
 \end{align*}
 Our aim is now to solve the simultaneous linear equations of $bias_1, bias_2$:
     \begin{align*}
@@ -825,18 +828,22 @@ Rearranging,
     \tilde{\frac{d \mathcal{B}}{d \theta}} &= \frac{d \mathcal{B}}{d \theta} + \mathcal{O}(t) &
     \tilde{\frac{d \mathcal{A}}{d \theta}} &= \frac{d \mathcal{A}}{d \theta} + \mathcal{O}(t)
     \end{align*}
+    We now refine the estimate of \(\frac{a}{b}\). For models outside $\Omega$, \(\frac{d \mathcal A(\theta)}{d\theta}\) is not identically zero; choose an open interval \(I_A\subseteq\mathcal X\) on which \(\frac{d \mathcal A(\theta)}{d\theta}\) has constant sign and hence \(\int_{I_A}\frac{d \mathcal A(\theta)}{d\theta}\,d\theta\neq 0\).
     Further, define
     \begin{align*}
     \widehat{a^2t^2} &:= \left(\widehat{at}\right)^2 = \left[at + O(t^2)\right]^2 = a^2t^2 + O(t^3) \\
     \widehat{b^2t^2} &:= \left(\widehat{bt}\right)^2 = \left[bt + O(t^2)\right]^2 = b^2t^2 + O(t^3) \\
-    \mathfrak{A} &:= \frac{d var_1(\theta^*)}{d \theta} - \widehat{a^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}} = a\frac{d \mathcal{A}(\theta^*)}{d \theta}t + O(t^3) \\
-    \mathfrak{B} &:= \frac{d var_2(\theta^*)}{d \theta} - \widehat{b^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}} = b\frac{d \mathcal{A}(\theta^*)}{d \theta}t + O(t^3)\\
+    \mathfrak{A} &:= \int_{I_A}\left(\frac{d var_1(\theta)}{d \theta} - \widehat{a^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}}(\theta)\right)\,d\theta
+    = a\int_{I_A}\frac{d \mathcal{A}(\theta)}{d \theta}\,d\theta \cdot t + O(t^3) \\
+    \mathfrak{B} &:= \int_{I_A}\left(\frac{d var_2(\theta)}{d \theta} - \widehat{b^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}}(\theta)\right)\,d\theta
+    = b\int_{I_A}\frac{d \mathcal{A}(\theta)}{d \theta}\,d\theta \cdot t + O(t^3)\\
     \end{align*}    
     This now enables us to derive a precise estimate of $\frac{a}{b}$:
     \begin{align*}
-    \overline{(\frac{a}{b})} &= \frac{\mathfrak{A}}{\mathfrak{B}} = \frac{\frac{d var_1(\theta^*)}{d \theta} - \widehat{a^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}}}{\frac{d var_2(\theta^*)}{d \theta} - \widehat{b^2t^2} \tilde{\frac{d \mathcal{B}}{d \theta}}} = \frac{a\frac{d \mathcal{A}(\theta^*)}{d \theta}t + O(t^3)}{b\frac{d \mathcal{A}(\theta^*)}{d \theta}t + O(t^3)} = \frac{a}{b}+O(t^2)
+    \overline{(\frac{a}{b})} &= \frac{\mathfrak{A}}{\mathfrak{B}}
+    = \frac{a\int_{I_A}\frac{d \mathcal{A}(\theta)}{d \theta}\,d\theta \cdot t + O(t^3)}{b\int_{I_A}\frac{d \mathcal{A}(\theta)}{d \theta}\,d\theta \cdot t + O(t^3)}
+    = \frac{a}{b}+O(t^2)
 \end{align*}
-where  $\theta^*$ can be chosen arbitrarily. 
 The important achievement here is a gap in the order of the error: in this error estimate, there is no term of order $O(t)$.
 Since we have $\overline{\frac{a}{b}} = \frac{a}{b} + O(t^2)$, we can use these conditions to estimate $\mathcal{D}$:
 \begin{align*}
@@ -897,11 +904,11 @@ var(\theta) = \tau^2 + \mathcal{A}_M(\theta) \sigma^2 + \mathcal{B}_M(\theta) \s
 we have
 \begin{align*}
     \mathcal{A}_M(\theta) &= \frac{1}{F'(\theta)^2} \\
-        \mathcal{B}_M(\theta) &= \frac{2g(\theta)}{F'^2(\theta)} + \frac{F''^2(\theta)}{2F'^6(\theta)}
-        \end{align*}
+    \mathcal{B}_M(\theta) &= \frac{2g(\theta)}{F'^2(\theta)} + \frac{7F''^2(\theta) - 2F'(\theta)F'''(\theta)}{2F'^6(\theta)}
+\end{align*}
         where
         \begin{align*}
-        g &= \frac{d}{d\theta} \mathcal{C}_{dec,M} = \frac{[(F')^2 \cdot \frac{d^2 logP_{prior}}{d \theta^2} - 2F'F'' \cdot \frac{d logP_{prior}}{d \theta}]}{F'^4} - \frac{(p+1)(F'F''' - 3F''^2)}{2F'^4}
+        g &= \frac{d}{d\theta} \mathcal{C}_{dec,M} = \frac{[(F')^2 \cdot \frac{d^2}{d \theta^2}\log \Prior - 2F'F'' \cdot \frac{d}{d \theta}\log \Prior]}{F'^4} - \frac{(\tilde{p}+1)(F'F''' - 3F''^2)}{2F'^4}
 \end{align*}
 
 \end{lemma}
@@ -971,7 +978,7 @@ We have
 \end{equation}
 where
 \begin{equation}\label{eq:derivation-of-g}
-    g(\theta) = \frac{d}{d\theta} \mathcal{C}_{dec}(\theta) = \frac{[(F')^2 \cdot \frac{d^2 \log P_{prior}}{d \theta^2} - 2F'F'' \cdot \frac{d \log P_{prior}}{d \theta}]}{F'^4} - \frac{(p+1)(F'F''' - 3F''^2)}{2F'^4}
+    g(\theta) = \frac{d}{d\theta} \mathcal{C}_{dec}(\theta) = \frac{[(F')^2 \cdot \frac{d^2 \log P_{prior}}{d \theta^2} - 2F'F'' \cdot \frac{d \log P_{prior}}{d \theta}]}{F'^4} - \frac{(\tilde{p}+1)(F'F''' - 3F''^2)}{2F'^4}
 \end{equation}
 
     
@@ -1031,10 +1038,10 @@ Evaluating an explicit formula is straightforward, but it will be sufficient to 
 Putting all of these results together, we find:
 \begin{align*}
 var(\widehat{\theta}) 
-    =& \left(\underbrace{\frac{\partial f}{\partial \theta}}_{1 + \sigma^2\mathcal{C}' + O(\sigma^4)}\right)^2 \cdot \underbrace{var(F^{-1}(m))}_{\frac{\sigma^2}{F'^2}+\frac{F''^2}{2F'^6}\cdot\sigma^4 + O(\sigma^6)} + \underbrace{\left(\frac{1}{2} \cdot \frac{\partial^2 f}{\partial \theta^2}\right)^2 \cdot var\left([F^{-1}(m)]^2\right)}_{O(\sigma^6)}\\
+    =& \left(\underbrace{\frac{\partial f}{\partial \theta}}_{1 + \sigma^2\mathcal{C}' + O(\sigma^4)}\right)^2 \cdot \underbrace{var(F^{-1}(m))}_{\frac{\sigma^2}{F'^2}+\frac{7F''^2-2F'F'''}{2F'^6}\cdot\sigma^4 + O(\sigma^6)} + \underbrace{\left(\frac{1}{2} \cdot \frac{\partial^2 f}{\partial \theta^2}\right)^2 \cdot var\left([F^{-1}(m)]^2\right)}_{O(\sigma^6)}\\
     & + \underbrace{2\left(\frac{\partial f}{\partial \theta}\right) \cdot \left(\frac{1}{2} \cdot \frac{\partial^2 f}{\partial \theta^2}\right) \cdot cov\left(F^{-1}(m), [F^{-1}(m)]^2\right)}_{O(\sigma^6)} + O(\sigma^6) \\
-    =& \left(1 + \sigma^2\mathcal{C}'\right)^2 \cdot \left(\frac{\sigma^2}{F'^2}+\frac{F''^2}{2F'^6}\cdot\sigma^4\right) + O(\sigma^6) \\
-    =& \sigma^2 \underbrace{\frac{1}{F'^2}}_{ \mathcal{A}(\theta)} + \underbrace{\left(\frac{2g(\theta)}{F'^2} + \frac{F''^2}{2F'^6}\right)}_{\mathcal{B}(\theta)} \cdot \sigma^4 + O(\sigma^6)
+    =& \left(1 + \sigma^2\mathcal{C}'\right)^2 \cdot \left(\frac{\sigma^2}{F'^2}+\frac{7F''^2-2F'F'''}{2F'^6}\cdot\sigma^4\right) + O(\sigma^6) \\
+    =& \sigma^2 \underbrace{\frac{1}{F'^2}}_{ \mathcal{A}(\theta)} + \underbrace{\left(\frac{2g(\theta)}{F'^2} + \frac{7F''^2-2F'F'''}{2F'^6}\right)}_{\mathcal{B}(\theta)} \cdot \sigma^4 + O(\sigma^6)
 \end{align*}
 where $g$ is given by (\ref{eq:derivation-of-g}).
 
@@ -1049,7 +1056,7 @@ Assume that $M = \langle F', \Prior, p\rangle \in \mathfrak{M}$.
 Let $f$ be the function mapping $F^{-1}(m)$ to the estimate $\widehat{\theta}$.
 Then, for the expansion
 \begin{align*}
-f(\theta) =& \mathcal{C}_{dec,M}(\theta) \sigma^2 + \mathcal{D}_{dec,M}(\theta) \sigma^4 + \mathcal{O}(\sigma^6)     \\
+f(\theta) =& \theta + \mathcal{C}_{dec,M}(\theta) \sigma^2 + \mathcal{D}_{dec,M}(\theta) \sigma^4 + \mathcal{O}(\sigma^6)     \\
     bias(\theta) =& \mathcal{C}_{M}(\theta)t + \mathcal{D}_{M}(\theta)t^2 + \mathcal{O}(t^3),
 \end{align*}
 we have
@@ -1065,12 +1072,12 @@ and the coefficient $\mathcal{D}_{dec,M}$ has the following properties:
         
         \item At $p=0$, the expression $\mathcal{D}_{\langle F', \Prior, p\rangle}(\theta)$ is a polynomial in
         \[
-            (\log \Prior)'(\theta), \quad (\log \Prior)''(\theta), \quad F'(\theta), \quad F''(\theta), \quad F'''(\theta), \quad F''''(\theta), \quad \frac{1}{F'(\theta)}
+            (\log \Prior)'(\theta), \quad (\log \Prior)''(\theta), \quad (\log \Prior)'''(\theta), \quad F'(\theta), \quad F''(\theta), \quad F'''(\theta), \quad F''''(\theta), \quad \frac{1}{F'(\theta)}
         \]
         
         \item At $p=1$, the expression $\mathcal{D}_{\langle F', \Prior, p\rangle}(\theta)$ is a polynomial in
         \[
-            (\log \Prior)'(\theta), \quad F'(\theta), \quad F''(\theta), \quad F'''(\theta), \quad F''''(\theta), \quad \frac{1}{F'(\theta)}
+            (\log \Prior)'(\theta), \quad (\log \Prior)''(\theta), \quad (\log \Prior)'''(\theta), \quad F'(\theta), \quad F''(\theta), \quad F'''(\theta), \quad F''''(\theta), \quad \frac{1}{F'(\theta)}
         \]
     \end{enumerate}
 \end{lemma}
@@ -1090,8 +1097,8 @@ First, we treat the encoding bias, which is independent of the loss function. We
     Taking expectations over $\delta$,
     \begin{align*}
 \mathbb{E}[F^{-1}(m)] 
-    &= \theta + \frac{E[\delta]}{F'} - \frac{F''}{2F'^3}E[\delta^2] + \frac{F^{-1^{(3)}}}{3!}E[\delta^3] + \frac{F^{-1^{(4)}}}{4!}E[\delta^4] + \frac{F^{-1^{(5)}}}{5!}E[\delta^5] + \mathbb{E}[O(\delta^6)]\\
-    &= \theta  - \frac{F''}{2F'^3} t + \frac{F^{-1^{(4)}}}{4!} 3t^2 + O(\delta^6)\\
+    &= \theta + \frac{\mathbb{E}[\delta]}{F'} - \frac{F''}{2F'^3}\mathbb{E}[\delta^2] + \frac{F^{-1^{(3)}}}{3!} \mathbb{E}[\delta^3] + \frac{F^{-1^{(4)}}}{4!} \mathbb{E}[\delta^4] + \frac{F^{-1^{(5)}}}{5!} \mathbb{E}[\delta^5] + \mathbb{E}[O(\delta^6)]\\
+    &= \theta  - \frac{F''}{2F'^3} t + \frac{F^{-1^{(4)}}}{4!} 3t^2 + O(t^3)\\
     \end{align*}
     where we have used
     \begin{align*}
@@ -1115,7 +1122,7 @@ Then the bias is
 \end{align*}
 Using the expansion (and suppressing the $M$ subscript where unambiguous),
 \begin{align*}
-    f(\theta) = &\theta + t \mathcal{C}_{dec}(\theta) + t^2 \mathcal{D}_{dec}(\theta) + O(t^3) \\
+    f(\vartheta) = &\vartheta + t \mathcal{C}_{dec}(\vartheta) + t^2 \mathcal{D}_{dec}(\vartheta) + O(t^3) \\
     \mathbb{E}_{m|\theta}[F^{-1}(m)] =& \theta + t \mathcal{C}_{enc}(\theta) + t^2 \mathcal{D}_{enc}(\theta) + O(t^3) 
 \end{align*}
 we find that the bias equals -- taking, without loss of generality, $\theta=0$ for simplicity:
@@ -1134,6 +1141,7 @@ We need to distinguish the decoding bias by the loss function exponent $p$.
 \begin{itemize}
     \item $p=2,4,6,...$
 
+    Write \(p=2q\), so that \(q\in\mathbb{N}\) and the powers \(2q-1\) appearing below are exactly those associated with the even loss exponent \(p\).
     We follow the same approach as in \citet{hahn2024unifying}, but carry out the calculations to the next order in $t$.
     As done there, we first define
     \begin{align*}
@@ -1149,8 +1157,9 @@ q_{prior}(x) =& q_{prior}(m) + Tx + Ux^2 + Vx^3 + O(x^4)
 and then set
 \begin{align*}
     0 &= \int (r - F^{-1}(x))^{2q-1} q_{prior}(x) \frac{1}{\sqrt{2\pi t}}\exp (-\frac{x^2}{2t})dx\\ 
-    &= \int (Rt+St^2+Mx +Nx^2+Px^3+Qx^4)^{2q-1} \left( q_{prior}(m) + Tx + Ux^2+Vx^3 \right) \frac{1}{\sqrt{2\pi t}}\exp (-\frac{x^2}{2t})dx\\
-    &= \sum \binom{2q-1}{n_1n_2n_3n_4n_5n_6} R^{n_1}S^{n_2}M^{n_3}N^{n_4}P^{n_5}Q^{n_6}t^{n_1+2n_2} \int x^{n_3+2n_4+3n_5+4n_6}\frac{1}{\sqrt{t}}
+    &= \int (Rt+St^2-Mx -Nx^2-Px^3-Qx^4)^{2q-1} \left( q_{prior}(m) + Tx + Ux^2+Vx^3 \right) \frac{1}{\sqrt{2\pi t}}\exp (-\frac{x^2}{2t})dx\\
+    &= \sum \binom{2q-1}{n_1n_2n_3n_4n_5n_6} (-1)^{n_3+n_4+n_5+n_6} R^{n_1}S^{n_2}M^{n_3}N^{n_4}P^{n_5}Q^{n_6}t^{n_1+2n_2} \\
+&\ \ \ \ \ \ \  \ \ \ \ \int x^{n_3+2n_4+3n_5+4n_6}\frac{1}{\sqrt{t}}
     \left( q_{prior}(m) + Tx + Ux^2+Vx^3 \right)\exp (-\frac{x^2}{2t})dx
 \end{align*}
 where the sum runs over all $n_1+n_2+n_3+n_4+n_5+n_6=2q-1$.
@@ -1159,66 +1168,79 @@ where the sum runs over all $n_1+n_2+n_3+n_4+n_5+n_6=2q-1$.
 We know that each increase in $n_1$ will contribute to one increase of $t$'s order. Similarly, $n_2 \sim 2, n_3 \sim \frac{1}{2}, n_4 \sim 1, n_5 \sim \frac{3}{2}, n_6 \sim 2$. Therefore, we can find all the $t^{q+1}$ terms in the equation. The sum of all these terms should be 0, i.e.
 \begin{align*}
     0 &= \\
-    &[\frac{(2q-1)!}{(2q-2)!1!}SM^{2q-2}q_{prior}(m)(2q-3)!! + \frac{(2q-1)!}{(2q-2)!1!}QM^{2q-2}q_{prior}(m)(2q-3)!!+ \frac{(2q-1)!}{(2q-4)!2!}RM^{2q-4}N^2q_{prior}(m)(2q-1)!!\\
-    &+\frac{(2q-1)!}{(2q-4)!3!}R^3M^{2q-4}q_{prior}(m)(2q-5)!! + \frac{(2q-1)!}{(2q-4)!2!}R^2M^{2q-4}Nq_{prior}(m)(2q-3)!! + \frac{(2q-1)!}{(2q-4)!3!}M^{2q-4}N^3q_{prior}(m)(2q+1)!!\\
-    &+ \frac{(2q-1)!}{(2q-3)!2!}R^2M^{2q-3}T(2q-3)!! + \frac{(2q-1)!}{(2q-3)!2!}M^{2q-3}N^2T(2q+1)!!+ \frac{(2q-1)!}{(2q-3)!}RM^{2q-3}NT(2q-1)!! \\ 
-    &+ \frac{(2q-1)!}{(2q-2)!}M^{2q-2}PT(2q+1)!! +\frac{(2q-1)!}{(2q-2)!}RM^{2q-2}U(2q-1)!! + \frac{(2q-1)!}{(2q-2)!}M^{2q-2}NU(2q+1)!! + \\
+    &[\frac{(2q-1)!}{(2q-2)!1!}SM^{2q-2}q_{prior}(m)(2q-3)!! - \frac{(2q-1)!}{(2q-2)!1!}QM^{2q-2}q_{prior}(m)(2q-3)!! \\
+& + \frac{(2q-1)!}{(2q-4)!2!}RM^{2q-4}N^2q_{prior}(m)(2q-1)!!\\
+    &+\frac{(2q-1)!}{(2q-4)!3!}R^3M^{2q-4}q_{prior}(m)(2q-5)!! - \frac{(2q-1)!}{(2q-4)!2!}R^2M^{2q-4}Nq_{prior}(m)(2q-3)!! \\
+& - \frac{(2q-1)!}{(2q-4)!3!}M^{2q-4}N^3q_{prior}(m)(2q+1)!!\\
+    &- \frac{(2q-1)!}{(2q-3)!2!}R^2M^{2q-3}T(2q-3)!! - \frac{(2q-1)!}{(2q-3)!2!}M^{2q-3}N^2T(2q+1)!!+ \frac{(2q-1)!}{(2q-3)!}RM^{2q-3}NT(2q-1)!! \\
+    &- \frac{(2q-1)!}{(2q-2)!}M^{2q-2}PT(2q+1)!! +\frac{(2q-1)!}{(2q-2)!}RM^{2q-2}U(2q-1)!! - \frac{(2q-1)!}{(2q-2)!}M^{2q-2}NU(2q+1)!! - \\
     & \frac{(2q-1)!}{(2q-1)!}M^{2q-1}V(2q+1)!!] \cdot t^{q+1} +O(t^{q+2})
 \end{align*}
 We divide these terms by $(2q-1)M^{2q-2}q_{prior}(m)t^{q+1}(2q-3)!!$ to get
 \begin{align*}
-    0 &= S + Q + \frac{(2q-3)(2q-2)(2q-1)}{2} RM^{-2}N^2 + \frac{(2q-2)}{2}R^2M^{-1}Tq^{-1}_{prior}(m)\\
-    &+ \frac{(2q-2)(2q-1)(2q+1)}{2}A^{-1}N^2Tq^{-1}_{prior}(m) + (2q-1)RUq^{-1}_{prior}(m) + (2q+1)MVq^{-1}_{prior}(m)\\
-    &+ \frac{2q-2}{6}R^3M^{-2} + \frac{(2q-3)(2q-2)}{2}R^2M^{-2}N + \frac{(2q-3)(2q-2)(2q-1)(2q+1)}{6}M^{-2}N^3\\
-    &+ (2q-2)(2q-1)RM^{-1}NTq^{-1}_{prior}(m) + (2q-1)(2q+1)PTq^{-1}_{prior}(m) + (2q-1)(2q+1)NUq^{-1}_{prior}(m) + O(t)
+	    0 &= S - Q + \frac{(2q-3)(2q-2)(2q-1)}{2} RM^{-2}N^2 - \frac{(2q-2)}{2}R^2M^{-1}Tq^{-1}_{prior}(m)\\
+	    &- \frac{(2q-2)(2q-1)(2q+1)}{2}M^{-1}N^2Tq^{-1}_{prior}(m) + (2q-1)RUq^{-1}_{prior}(m) - (2q+1)MVq^{-1}_{prior}(m)\\
+    &+ \frac{2q-2}{6}R^3M^{-2} - \frac{(2q-3)(2q-2)}{2}R^2M^{-2}N - \frac{(2q-3)(2q-2)(2q-1)(2q+1)}{6}M^{-2}N^3\\
+    &+ (2q-2)(2q-1)RM^{-1}NTq^{-1}_{prior}(m) - (2q-1)(2q+1)PTq^{-1}_{prior}(m) - (2q-1)(2q+1)NUq^{-1}_{prior}(m) + O(t)
     \end{align*}
     Hence, the desired second-order component of the decoding bias is:
     \begin{equation}\label{eq:d-even-p}
     \begin{aligned}
-    S &= -[Q + \frac{(2q-3)(2q-2)(2q-1)}{2} RM^{-2}N^2 + \frac{(2q-2)}{2}R^2M^{-1}Tq^{-1}_{prior}(m)\\
-    &+ \frac{(2q-2)(2q-1)(2q+1)}{2}M^{-1}N^2Tq^{-1}_{prior}(m) + (2q-1)RUq^{-1}_{prior}(m) + (2q+1)MVq^{-1}_{prior}(m)\\
-    &+ \frac{2q-2}{6}R^3M^{-2} + \frac{(2q-3)(2q-2)}{2}R^2M^{-2}N + \frac{(2q-3)(2q-2)(2q-1)(2q+1)}{6}M^{-2}N^3\\
-    &+ (2q-2)(2q-1)RM^{-1}NTq^{-1}_{prior}(m) + (2q-1)(2q+1)PTq^{-1}_{prior}(m) + (2q-1)(2q+1)NUq^{-1}_{prior}(m)] + O(t)
+    S &= Q - \frac{(2q-3)(2q-2)(2q-1)}{2} RM^{-2}N^2 + \frac{(2q-2)}{2}R^2M^{-1}Tq^{-1}_{prior}(m)\\
+    &+ \frac{(2q-2)(2q-1)(2q+1)}{2}M^{-1}N^2Tq^{-1}_{prior}(m) - (2q-1)RUq^{-1}_{prior}(m) + (2q+1)MVq^{-1}_{prior}(m)\\
+    &- \frac{2q-2}{6}R^3M^{-2} + \frac{(2q-3)(2q-2)}{2}R^2M^{-2}N + \frac{(2q-3)(2q-2)(2q-1)(2q+1)}{6}M^{-2}N^3\\
+    &- (2q-2)(2q-1)RM^{-1}NTq^{-1}_{prior}(m) + (2q-1)(2q+1)PTq^{-1}_{prior}(m) \\
+& + (2q-1)(2q+1)NUq^{-1}_{prior}(m) + O(t)
 \end{aligned}
 \end{equation}
 This $S$ is equal to the desired $\mathcal{D}_{dec}$.
     
     \item $p = 0$
 
-As in \cite{Stocker2006NoiseCA,hahn2024unifying}, we obtain the MAP estimator by considering a stationary point of the log-posterior, but expand to the second order:
+As in \cite{Stocker2006NoiseCA,hahn2024unifying}, we obtain the MAP estimator by considering a stationary point of the log-posterior, but expand to the second order.
+We work at a general stimulus \(\theta\), set \(m=F(\theta)\), define
+\[
+Q(\theta):=\log P_{prior}(\theta), \qquad \mathcal{S}(\theta):=F'(\theta)^2,
+\]
+and write the MAP estimate as \(\widehat{\theta}=\theta+r\). Then
     \begin{align*}
-    \frac{d}{d \theta} \log P(\widehat{\theta}|m) &= 0\\
-    0 &= t \frac{d}{d \theta} \log P(\widehat{\theta}|m)\\
-    &= t \frac{d}{d \theta} \log P(m|\widehat{\theta}) + t \frac{d}{d \theta} \log P_{prior}(\widehat{\theta})\\
-    &= -(\frac{d}{d \theta} F(\widehat{\theta})) \cdot (F(\widehat{\theta}) - m) + t \frac{d}{d \theta} \log P_{prior}(\widehat{\theta})\\
-    &= -\mathcal{S} \cdot \widehat{\theta} - \frac{1}{2}F'F'' \cdot \widehat{\theta}^2 + t \frac{d}{d \theta} \log P_{prior}(\widehat{\theta}) + O(\widehat{\theta}^3)\\
-    &= -\mathcal{S} \cdot \widehat{\theta} - \frac{1}{2}F'F'' \cdot \widehat{\theta}^2 + t \frac{d}{d \theta} \log P_{prior}(0) + t\widehat{\theta} \frac{d^2}{d \theta^2} \log P_{prior}(0) + O(\widehat{\theta}^3)\\
-    \mathcal{S} \cdot \widehat{\theta} &= - \frac{1}{2}F'F'' \cdot \widehat{\theta}^2 + t \frac{d}{d \theta} \log P_{prior}(0) + t\widehat{\theta} \frac{d^2}{d \theta^2} \log P_{prior}(0) + O(\widehat{\theta}^3)\\
+    \frac{d}{d r} \log P(\theta+r|m) &= 0\\
+    0 &= t \frac{d}{d r} \log P(\theta+r|m)\\
+    &= t \frac{d}{d r} \log P(m|\theta+r) + t \frac{d}{d r} Q(\theta+r)\\
+    &= -F'(\theta+r) \cdot (F(\theta+r) - m) + t Q'(\theta+r)\\
+    &= -\mathcal{S}(\theta) \cdot r - \frac{3}{2}F'(\theta)F''(\theta) \cdot r^2 + t Q'(\theta) + trQ''(\theta) + O(r^3)\\
+    \mathcal{S}(\theta) \cdot r &= - \frac{3}{2}F'(\theta)F''(\theta) \cdot r^2 + t Q'(\theta) + trQ''(\theta) + O(r^3)\\
     \end{align*}
     We thus obtain
     \begin{align*}
-    \widehat{\theta} &= - \frac{F''}{2F'} \cdot \widehat{\theta}^2 + t \frac{1}{\mathcal{S}} \frac{d}{d \theta} \log P_{prior}(0) + t \frac{1}{\mathcal{S}} \widehat{\theta} \frac{d^2}{d \theta^2} \log P_{prior}(0) + O(\widehat{\theta}^3)\\
+    r &= - \frac{3F''(\theta)}{2F'(\theta)} \cdot r^2 + t \frac{Q'(\theta)}{\mathcal{S}(\theta)} + t \frac{Q''(\theta)}{\mathcal{S}(\theta)} r + O(r^3)\\
 \end{align*}
-Since $\widehat{\theta}$ is of order $O(t)$, we let $\widehat{\theta} = Pt + Qt^2 + O(t^3)$ and plug back in the equation. By comparing the coefficients of the same order of $t$, we can get the refined bias:
+Since \(r\) is of order \(O(t)\), we let \(r = Pt + Qt^2 + O(t^3)\) and plug back in the equation. 
+By comparing the coefficients of the same order of \(t\), we can get the refined bias:
 \begin{align*}
-    \widehat{\theta} &= Pt + Qt^2 + O(t^3)\\
-    &= - \frac{F''}{2F'} \cdot (Pt + Qt^2 + O(t^3))^2 + t \frac{1}{\mathcal{S}} \frac{d}{d \theta} \log P_{prior}(0) + t \frac{1}{\mathcal{S}} (Pt + Qt^2 + O(t^3)) \frac{d^2}{d \theta^2} \log P_{prior}(0) + O(t^3)\\
-    &= - \frac{F''}{2F'} \cdot P^2t^2 + t \frac{1}{\mathcal{S}} \frac{d}{d \theta} \log P_{prior}(0) + Pt^2 \frac{1}{\mathcal{S}}  \frac{d^2}{d \theta^2} \log P_{prior}(0) + O(t^3)
+    r &= Pt + Qt^2 + O(t^3)\\
+    &= - \frac{3F''(\theta)}{2F'(\theta)} \cdot (Pt + Qt^2 + O(t^3))^2 + t \frac{Q'(\theta)}{\mathcal{S}(\theta)} + t \frac{Q''(\theta)}{\mathcal{S}(\theta)} (Pt + Qt^2 + O(t^3)) + O(t^3)\\
+    &= - \frac{3F''(\theta)}{2F'(\theta)} \cdot P^2t^2 + t \frac{Q'(\theta)}{\mathcal{S}(\theta)} + Pt^2 \frac{Q''(\theta)}{\mathcal{S}(\theta)} + O(t^3).
     \end{align*}
     We obtain the terms of the expansion:
     \begin{align*}
-    P &= \frac{1}{\mathcal{S}} \frac{d}{d \theta} \log P_{prior}(0)\\
-    Q &= - \frac{F''}{2F'} \cdot P^2 + P \frac{1}{\mathcal{S}}  \frac{d^2}{d \theta^2} \log P_{prior}(0)\\
-    &= -\frac{F''}{2F'} \cdot \frac{1}{\mathcal{S}^2} \cdot \left[\frac{d}{d \theta} \log P_{prior}(0)\right]^2 + \frac{1}{\mathcal{S}^2} \frac{d}{d \theta} \log P_{prior}(0)\frac{d^2}{d \theta^2} \log P_{prior}(0)
+    P &= \frac{Q'(\theta)}{\mathcal{S}(\theta)}\\
+    Q &= - \frac{3F''(\theta)}{2F'(\theta)} \cdot P^2 + P \frac{Q''(\theta)}{\mathcal{S}(\theta)}\\
+    &= -\frac{3F''(\theta)}{2F'(\theta)} \cdot \frac{Q'(\theta)^2}{\mathcal{S}(\theta)^2} + \frac{Q'(\theta)Q''(\theta)}{\mathcal{S}(\theta)^2}.
 \end{align*}
-The second-order term $Q$ here is $\mathcal{D}_{dec}$.
+Thus
+\begin{align*}
+\mathcal C_{dec}^{MAP}(\theta) &= \frac{Q'(\theta)}{F'(\theta)^2},\\
+\mathcal D_{dec}^{MAP}(\theta) &= \frac{Q'(\theta)\left(2F'(\theta)Q''(\theta)-3F''(\theta)Q'(\theta)\right)}{2F'(\theta)^5}.
+\end{align*}
 
     \item $p = 1$
     
     Recall that
     \begin{align*}
         r &= \widehat{\theta} - F^{-1}(m)\\
-        F^{-1}(x) &= m + Mx + Nx^2 + O(x^3)
+        F^{-1}(x) &= m + Mx + Nx^2 + O(x^3)\\
+        q_{prior}(x) &= q_{prior}(m) + Tx + Ux^2 + Vx^3 + O(x^4)
     \end{align*}
     According to the previous proof in \cite{hahn2024unifying}, we have:
 \begin{align*}
@@ -1295,7 +1317,7 @@ We set
 \[
 f(t,z,y) := \frac{1}{\sqrt{2\pi t}} \int_{-\infty}^{\infty} Q(x,y) \exp\Bigl(-\frac{(x-z)^2}{2t}\Bigr) \, dx,
 \]
-with \(t,z \in [0,1]\) and
+for \(t \geq 0\), \(z \in \mathcal{Y}\), \(y \in \mathcal{X}\), and
 \begin{equation}
     Q(x,y) := (y-F^{-1}(x))^{p-1} q_{prior}(x)
 \end{equation}
@@ -1332,11 +1354,11 @@ Q(z+\sqrt{t}\, u,y) = Q(z,y) + \sqrt{t}\, u\, Q_x(z,y) + \frac{t}{2}\, u^2\, Q_{
 to as many orders as allowed by the regularity of $F^{-1}$ and $\Prior$.
 Because \(\phi(u)\) is symmetric (i.e., \(\int u\,\phi(u) \,du=0\) and all odd moments vanish), the terms with odd powers of \(u\) drop out when integrated. Thus, integrating term-by-term yields:
 \begin{align*}
-f(t,z,y)=& Q(z,y) + \frac{t}{2} Q_{xx}(z,y) + \frac{t^2}{24} Q_{xxxx}(z,y)+\cdots \\
+f(t,z,y)=& Q(z,y) + \frac{t}{2} Q_{xx}(z,y) + \frac{t^2}{8} Q_{xxxx}(z,y)+\cdots \\
 \end{align*}
 We further substitute $y = F^{-1}(z) + t R$:
 \begin{align*}
-f(t,z,F^{-1}(z) + t R)=& Q(z,F^{-1}(z) + t R) + \frac{t}{2} Q_{xx}(z,F^{-1}(z) + t R) + \frac{t^2}{24} Q_{xxxx}(z,F^{-1}(z) + t R)+\cdots 
+f(t,z,F^{-1}(z) + t R)=& Q(z,F^{-1}(z) + t R) + \frac{t}{2} Q_{xx}(z,F^{-1}(z) + t R) + \frac{t^2}{8} Q_{xxxx}(z,F^{-1}(z) + t R)+\cdots 
 \end{align*}
 Now performing a Taylor expansion in the $y$ direction, we obtain a polynomial in $R$, with coefficients that include different powers of $t$, with remainder bounded in terms of powers of both $t$ and $y$.
 If $p>2$, many lower-order terms will be zero; we divide by as many powers of $t$ as needed to make the lowest-order term be of order $O(1)$.
@@ -1346,7 +1368,7 @@ Now given the expansion
 \begin{equation}
     \widehat{\theta} = \theta + t R(\theta) + t^2 u(t,\theta)
 \end{equation}
-where $u$ is bounded as $t \rightarrow \infty$, we want to show
+where $u$ is bounded as $t \rightarrow 0$, we want to show
 \begin{equation}\label{eq:derivative-uniform}
     \frac{d^k}{d\theta^k} \widehat{\theta} = \frac{d^k}{d\theta^k} \theta + t \frac{d^k}{d\theta^k}R(\theta) + O(t^2)
 \end{equation}
@@ -1373,51 +1395,21 @@ Our theoretical results (Theorems 1--4) reveal that full identification of prior
 How can one restore identifiability  in such a situation?
 One avenue for recovering identifiability can be by inducing a short-term prior.
 While both prior and encoding may adapt to stimulus statistics, there is substantial evidence that they adapt at different timescales \citep{Fritsche2020ABA, hahn2024unifying}, and can even be dissociated on a trial-by-trial basis \citep{Fritsche2020ABA}.
+For instance, \cite{hahn2024unifying} found that, in a direction perception experiment conducted by \citet{gekas2013complexityas}, subjects rapidly adapted their prior to a between-subjects manipulation of the experimental distribution, whereas the encoding reflected the pattern expected from efficient coding for environmental distribution.
 It is thus quite likely that exposure to a nonuniform short-term prior that leads to different adaptation in $F$ and $\Prior$ will bring the encoding-decoding-process outside of the unidentifiable set $\Omega$, allowing unique identification of the loss function.
 Assuming that the loss function used by the subject remains the same before and after adaptation, one can then use this loss function to infer a prior even from data collected without adaptation.
-
-Even if prior and encoding jointly adapted according to some fixed efficient coding rule (e.g., information maximization \citep{Wei2015ABO} or power-law encoding \citep{Morais2018PowerlawEN}), this would usually result in leaving $\Omega$, since the set of priors $\Prior$ where the encodings $F$ with are linked as $F' \propto \Prior^q$ itself has measure zero.
-Hence, one strategy to recover identifiability can be to induce different priors (and possibly encodings) across multiple experimental conditions. Under the assumption that the subjects still use the same loss function, one can expect the loss function to generally become identifiable.
-
-
-We show this for two special cases (Theorems \ref{theorem:full-adaptation} and \ref{theorem:only-prior-adapts}): when the encoding shows little or now adaptation (as suggested e.g. by the fit to the data of \cite{gekas2013complexityas} in \cite{hahn2024unifying}), or when the encoding fully adapts (as assumed in work on efficient coding, \citep[e.g.][]{Wei2015ABO, Morais2018PowerlawEN}).
-This argument is quite general and also applies to more complex situations where prior and encoding adapt differently, even possibly at different timescales \citep{Fritsche2020ABA}.
-Importantly, this strategy \emph{does not} rely on knowing the law of adaptation, it only relies on the presence of \emph{some} systematic link adapting prior and encoding, which has an overwhelming chance of moving encoding and prior used by the participant out of the set $\Omega$.
-
-Recall $L(\cdot)$, $\mathcal{F}(\mathcal{X})$, and $\mu$ from Sections~\ref{sec:space-of-models}--\ref{sec:measure-mu}.
-
-Our first result here concerns the situation where prior and encoding are exactly matched up to a power-law transformation, as suggested by theories of efficient coding \citep[e.g.][]{Wei2015ABO, Morais2018PowerlawEN}. Our result says that the measure of priors for which the resulting model will be in $\Omega$ is zero. That is, efficiently adapting prior and encoding to some environmental statistics is almost certain to result in identifiability:
-\begin{thm}[Full Adaptation of Prior and Encoding]\label{theorem:full-adaptation}
-Let $q > 0$.
-    The set of priors $\Prior \in \mathcal{F}(X)$ such that
-    \begin{equation}
-        \exists p \in \mathcal{P}: \langle F', \Prior, p\rangle \in \Omega, F' \propto \Prior^{q}
-    \end{equation}
-    has measure zero.
-\end{thm}
-\begin{proof}
-Given a model
-\begin{equation}
-        M := \langle F', \Prior, p\rangle
-    \end{equation}
-    in $\Omega$ with $F' \propto \Prior^{q}$, there must be a model $M'$ with the same encoding, a different exponent $p'$, and an appropriately transformed prior,
-    such that
-\begin{align*}
-    \mathcal{D}_M = \mathcal{D}_{M'}
-\end{align*}
-This is an ordinary differential equation in the function $L(\Prior)$.
-By the same arguments as in the proof of Lemma~\ref{lemma:measure-zero}, the solution set has measure zero.
-\end{proof}
-Our second result here investigates the case where the encoding stays constant, and the prior adapts to reflect some environmental statistics. Again, this will almost surely result in identifiability:
+We rigorously underpin this strategy in the case where the encoding stays constant, and the prior adapts to reflect some environmental statistics. This will almost surely result in identifiability, at least when the encoding resources are not fully uniform:
 \begin{thm}[Prior adapts, encoding stays constant]\label{theorem:only-prior-adapts}
-    For any given encoding $F$, the set of priors $\Prior$ such that
+    For any given encoding $F$ such that encoding resources are not fully uniform (i.e., $F''$ is not identically zero), the set of priors $\Prior$ such that
         \begin{equation}
         \exists p \in \mathcal{P}: \langle F', \Prior, p\rangle \in \Omega
     \end{equation}
     has measure zero.
 \end{thm}
 \begin{proof}
-    Similar to the previous theorem, for any fixed $F$, we obtain an ordinary differential equation for $\Prior$. The solution set has measure zero again.
+This follows from the same proof as of Lemma~\ref{lemma:measure-zero}: 
+That proof conditioned on $F$ and $p$ to show that the set of priors resulting in $\langle F', \Prior, p\rangle \in \Omega$ has measure zero.
+The claim here then results from summing over the finitely many $p \in \mathcal{P}$.
 \end{proof}
 
 
