@@ -1,7 +1,6 @@
 \documentclass[si.tex]{subfiles}
 \begin{document}
 
-%\textcolor{red}{TODO probably throughout we want to say 'Bias' instead of 'Total'}
 
 
 We provide extensive simulations for a variety of models on circular and interval spaces, expanding on Figures 4 and 5 in the main text.
@@ -26,12 +25,12 @@ This decomposition of the bias clarifies how prior, encoding, and loss function 
 Our theoretical and simulation results indicate that the decomposition can be reliably recovered from behavioral data.
 To illustrate this, thoughout the SI Appendix, we visualize not only the fitted overall bias, but also the attraction and repulsion components.
 As the decomposition is exact only in the low-noise limit (indicated by the $\mathcal{O}(\sigma^4)$ residual term), we require an operationalization of the decomposition that is adapted to larger noise levels.
-To achieve this, we follow \cite{hahn2024unifying} in operationalizing the attraction component as the decoding bias ($\mathbb{E}[\mathbb{\widehat{\theta}}|m] - F^{-1}(m)$) for the MAP estimator ($p=0$), which has the analytical form
+To achieve this, we follow \cite{hahn2024unifying} in operationalizing the attraction component as the decoding bias ($\mathbb{E}[{\widehat{\theta}}|m] - F^{-1}(m)$) for the MAP estimator ($p=0$), which has the analytical form
 \begin{equation}
     \frac{1}{\FI(\theta)} (\log \Prior(\theta))' + \mathcal{O}(\sigma^4)
 \end{equation}
 matching the Prior Attraction up to a higher-order residual.
-Also following \cite{hahn2024unifying}, we operationalize the repulsion component as the difference between the overall prior and this component.
+Also following \cite{hahn2024unifying}, we operationalize the repulsion component as the difference between the overall bias and this component.
 By definition, and in accordance with the analytical decomposition (\ref{eq:ana-bias-att-rep}--\ref{eq:ana-bias-att-rep-0}), the attractive component is independent of the loss function, whereas the repulsive component depends on it.
 In the special case where encoding is exactly uniform, we instead plot the full bias as attraction, with a zero repulsive component (following \cite{hahn2024unifying}; Figure~\ref{fig:recover-model-circ-periodic-uniform}).
 As in \cite{hahn2024unifying}, separate visualization of these components via such an operationalization serves an illustrative purpose, but we caution that there may be other possible operationalizations of the components in the finite-noise regime.
@@ -44,10 +43,9 @@ In interval stimulus spaces, close to the boundary, the bias receives an additio
 The operationalization of attraction and repulsion described above naturally partitions this regression effect into components grouped with attraction and repulsion, respectively. Thus, rather than separately plotting the regression effect as a third component, we plot attraction and repulsion components that both include portions of the boundary effect, as determined by the operationalization.
 
 
-%\textcolor{red}{TODO make sure it's done like this in all plots}
 
 
-\subsection{Models on Circular Spaces (Supplement to Figure 5)}
+\subsection{Models on Circular Spaces (Supplement to Figure 5)}\label{sec:further-circular}
 For circular spaces, we investigate the following combinations:
 \begin{enumerate}
 \item Periodic encoding and uniform prior (Figures~\ref{fig:recover-model-circ-uniform-periodic} and \ref{fig:recover-loss-circ-uniform-periodic})
@@ -137,7 +135,7 @@ For each of the random models, we initialized Python's \texttt{random} generator
 
 We then sampled the encoding and prior each by setting
 \begin{equation}
-\sum_{i=0}^4 \left( X_i \sin(i \theta_i) + Y_i \cos(i \theta_i) \right)
+\sum_{i=0}^4 \left( X_i \sin(i \theta) + Y_i \cos(i \theta) \right)
 \end{equation}
 where $X_i, Y_i \sim Uniform([-0.5, 0.5])$ drawn using the \texttt{random()} function, and applying the softmax function to the resulting vector to obtain an element of $\mathcal{F}(\mathcal{X})$.
 
