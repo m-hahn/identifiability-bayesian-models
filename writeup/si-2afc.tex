@@ -12,7 +12,7 @@ We assume the following generative model of a single trial in the 2AFC task:
 \begin{enumerate}
     \item Encode $\theta_1, \theta_2$ independently, according to the sensory noise levels $\sigma_1, \sigma_2$ at which each of them is presented: $m_1 = F(\theta_1) + \sigma_1 \epsilon_1$, $m_2 = F(\theta_2) + \sigma_2 \epsilon_2$ where $\epsilon_1, \epsilon_2 \sim N(0,1)$ independent.
     \item Decode $\widehat{\theta_1}$ from $m_1$, $\widehat{\theta_2}$ from $m_2$.
-    \item Respond based on which of these is larger. There may be a nonzero lapse rate, determining 
+    \item Respond based on which of these is larger. There may be a nonzero lapse rate.
 \end{enumerate}
 This is essentially the model assumed by \citet{Girshick2011CardinalRV, Stocker2005}.
 
@@ -34,7 +34,7 @@ Formally, we obtain a guarantee analogous to Theorem 2, though three levels of s
 %
 There is a function $\Phi$ mapping 2AFC response distributions to $\tilde{M} \in \mathfrak{M}$ such that the following holds.
 Assume $0 < \sigma_1^2 < \sigma_2^2 < \sigma_3^2$ are three sensory noise variances.
-Assume the response distribution is derived at noise levels $\sigma_1^2, \sigma_2^2, \sigma_3^2$ and lapse rate $\lambda > 0$ from the ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
+Assume the response distribution is derived at noise levels \(\sigma_1^2, \sigma_2^2, \sigma_3^2\) and lapse rate \(0 \leq \lambda < 1\) from the ground-truth model \(M = \langle F', \Prior,p \rangle \in \mathfrak{M}\).
 Then for the model
 \begin{equation}
 \tilde{M} = \langle \tilde{F}', \tilde{\Prior},\tilde{q}\rangle \in \mathfrak{M}
@@ -49,14 +49,14 @@ in the limit where $\sigma_1, \sigma_2, \sigma_3 \rightarrow 0$, provided:
 \begin{align*}
 0 < C_1 < \frac{\sigma_1}{\sigma_2}, \frac{\sigma_2}{\sigma_3} < C_2 < 1 < \infty     
 \end{align*}
-for some $C_1, C_2, C_3, C_4$, and $\sigma_2-\sigma_1 \neq \sigma_3-\sigma_2$.
-Constants in the $\mathcal{O}(\cdot)$ expressions depend on $C_1, C_2, C_3, C_4$, and on the regularity of $F$ and $\Prior$ and their derivatives, but not on $\theta$.
+for some $C_1, C_2$, and $\sigma_2-\sigma_1 \neq \sigma_3-\sigma_2$.
+Constants in the $\mathcal{O}(\cdot)$ expressions depend on the ratios  $\frac{\sigma_1^2}{\sigma_2^2}, \frac{\sigma_2^2}{\sigma_3^2}$, and on the regularity of $F$ and $\Prior$ and their derivatives, but not on $\theta$.
 %Membership in $\Omega$ can be explicitly verified. For any model in $\Omega$, there are at most five models indistinguishable from it, and they can be explicitly enumerated.
 
 \end{thm}
 
 \begin{proof}
-As in the proof of Theorem 2, we introduce a parameter $t$ such that $\sigma_1, \sigma_2, \sigma_3$ are constant multiplies of $t$ as $t\rightarrow 0$.
+As in the proof of Theorem 2, we introduce a parameter \(t\) such that the \emph{sensory noise variances} satisfy \(\sigma_1^2=at\), \(\sigma_2^2=bt\), and \(\sigma_3^2=ct\) for fixed constants \(a,b,c>0\) as \(t\rightarrow 0\).
 First, we note that the lapse rate can be identified, when $t$ is small, from the response distribution when $\theta_1$ and $\theta_2$ are very far away. 
 Second, $F$ and $\sigma_1, \sigma_2, \sigma_3$ can already be inferred from response distributions under equal sensory noise by Theorem~\ref{lemma:f-exact}.
 We now specifically consider a pair of sensory noise magnitudes, say, $\sigma_1, \sigma_2$.
@@ -199,8 +199,8 @@ For simplicity, our simulations assume a zero lapse rate.
 
 We generate uniformly distributed $\theta_1$, and then choose $\theta_2$ uniformly at a distance of $\leq 40^\circ$ when viewing the full sensory space as a full 360$^\circ$ circle ($\cos(\theta_1-\theta_2) \gtrapprox 0.76$).
 We note that, in principle, staircase procedures could be used to optimize the selection of stimuli in an experiment. However, such an adaptive procedure is substantially more complex to implement than the simple estimation paradigm.
-We compared two setups: one where the reference is provided at the same noise as the lowest-noise test condition, and one where the the reference is encoded without any noise. Results show that, while the encoding is fitted in both cases, only the latter setup permits identifying prior and loss function (Figure~\ref{fig:2afc}). Overall, this result suggests 2AFC can be used in principle to identify models, as it theoretically provides the same information as the estimation paradigm. However, at a finite number of trials, at least without adaptive choice of stimuli, the simple estimation procedure is likely to be more efficient.
-
+We compared two setups: one where the reference is provided at the same noise as the lowest-noise test condition, and one where the the reference is encoded without any noise. Results show that, while the encoding is fitted in both cases, only the latter setup permits identifying prior and loss function (Figure~\ref{fig:2afc}). Overall, this result suggests 2AFC can be used in principle to identify models, as it theoretically provides the same information as the estimation paradigm. However, at a finite number of trials, at least without adaptive choice of stimuli, the simple estimation procedure may be more efficient.
+We note that adaptive strategies such as staircase procedures, or non-parametric procedures~\cite{Hong2026Comprehensive}, might be able to increase the efficiency of 2AFC.
 
 
 \begin{figure}
