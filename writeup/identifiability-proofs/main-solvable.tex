@@ -8,7 +8,7 @@ Here, we show the optimality of our results by considering analytically tractabl
 
 \subsection{Logarithmic Encoding, Log-Normal Prior (Loss Function and Prior Confounded)}
 We consider a model with logarithmic encoding and log-normal prior, a simple model for scalar stimulus variables satisfying Weber's Law, where the log-normal prior represents a stimulus distribution concentrated in an interval  \cite{Petzschner2011IterativeBE, hahn2024unifying}.
-Remarkably, we will show that this model family\footnote{Strictly speaking, restrictions of this model to a finite stimulus space interval.} is entirely contained in the exceptional set $\Omega$ studied in Theorem 2, and, indeed, \emph{no number of sensory noise levels} will be sufficient for disentangling prior and loss function in this model family. An important implication is thus that $\Omega$, even though it is very small in a mathematically precise sense, may still contain such very natural models.
+Remarkably, we will show that this model family\footnote{Strictly speaking, restrictions of this model to a finite stimulus space interval. For any finite interval, one obtains an element of $\mathfrak{M}$ by restricting prior and $F$ to this interval, and rescaling $F$ to ensure $\int F' = 1$.} is entirely contained in the exceptional set $\Omega$ studied in Theorem 2, and, indeed, \emph{no number of sensory noise levels} will be sufficient for disentangling prior and loss function in this model family. An important implication is thus that $\Omega$, even though it is very small in a mathematically precise sense, may still contain such very natural models.
 We discuss strategies for recovering identifiability in Section~\ref{sec:recover-adaptation}.
 Define the log-normal density as
 \begin{equation}
@@ -24,10 +24,10 @@ Note that this space is infinite, unlike the other setups we consider; we commen
 We now show that, for such models, the location parameter $\mu$ is confounded with the loss function:
 \begin{thm}
 Given $p \in \mathbb{N}$, define $\tilde{p}$ as in Equation~\ref{eq:tilde-p}.
-Let $\mu, \sigma^2 > 0$.
+Let $\mu, \sigma^2 > 0$ be the parameters of a log-normal prior. Let $t$ denote the variance of sensory noise.
     The family of models
     \begin{equation}\label{eq:lognormal-family}
-      \{  \langle F'(\theta) = \frac{1}{\theta}, \Prior = LogNormal\left(\log \mu - \frac{\tilde{p}}{2}\sigma^2, \sigma^2\right), p\rangle : p =0, 1, 2, 4, \dots\}
+      \{  \left\langle F'(\theta) = \frac{1}{\theta}, \Prior = LogNormal\left(\log \mu - \frac{\tilde{p}}{2}\sigma^2, \sigma^2\right), p\right\rangle : p =0, 1, 2, 4, \dots\}
     \end{equation}
     defines the same response distribution for any $p$ and any sensory noise magnitude $t$.
     Hence, no amount of trials and sensory noise levels can distinguish between these models.
@@ -40,8 +40,8 @@ Let $\mu, \sigma^2 > 0$.
     \end{equation}
     the encoding likelihood transformed into stimulus space is
     \begin{equation}
-        p(m|\theta) \propto LogNormal(\log \theta, t) := \frac{1}{m} \exp(-\frac{(m - \log \theta)^2}{2t}).
-    \end{equation}
+        p(m|\theta) \propto LogNormal(\log \theta, t) := \frac{1}{m} \exp\left(-\frac{(\log m - \log \theta)^2}{2t}\right).
+\end{equation}
     Hence, the posterior is
 \begin{equation}
     p(\theta|m) = LogNormal(M, V)(\theta)
@@ -66,20 +66,20 @@ The $L_{{p}}$ estimator is
 We note that the transformation of the prior in the family~(\ref{eq:lognormal-family}) is consistent with Eq. 3 in the main paper: multiplying a log-normal density with a power of $\theta$ amounts to a shift of the density's location parameter:
 \begin{lemma}
 \begin{align*}
-  G(\theta) :=  \Prior(\theta) F'(\theta)^{\frac{p-p'}{2}} \propto LogNormal\left(\log\mu - \frac{p-p'}{2}\sigma^2, \sigma^2\right)
+  G(\theta) :=  \Prior(\theta) F'(\theta)^{\frac{\tilde{p}-\tilde{p}'}{2}} \propto LogNormal\left(\log\mu - \frac{\tilde{p}-\tilde{p}'}{2}\sigma^2, \sigma^2\right)
 \end{align*}
 \end{lemma}
 \begin{proof}
 Define
 \[
-\delta = \frac{p-p'}{2}.
+\delta = \frac{\tilde{p}-\tilde{p}'}{2}.
 \]
 Then, we can rewrite \(G(\theta)\) as
 \[
 G(\theta) = \frac{1}{\theta^{1+\delta}}\exp\left(-\frac{(\log \theta - \log \mu)^2}{2\sigma^2}\right)
 = \frac{1}{\theta}\exp\left[-\frac{(\log \theta - \log \mu)^2}{2\sigma^2} - \delta \log \theta\right].
 \]
-Notice that \(\delta \log \theta = \frac{p-p'}{2}\log \theta\). %\textcolor{blue}{Here should be \( \frac{p-p'}{2}\log \theta \)} 
+Notice that \(\delta \log \theta = \frac{\tilde{p}-\tilde{p}'}{2}\log \theta\). %\textcolor{blue}{Here should be \( \frac{p-p'}{2}\log \theta \)} 
 Thus, the exponent becomes
 \[
 -\frac{(\log \theta - \log \mu)^2}{2\sigma^2} - \delta \log \theta 
@@ -94,7 +94,7 @@ Expanding the square, combining the linear terms in \(\log \theta\), and complet
 \end{align*}
 Thus, up to a multiplicative constant (which absorbs the \(\theta\)-independent terms), we obtain
 \[
-G(\theta) \propto \frac{1}{\theta}\exp\left[-\frac{\left(\log \theta - \left(\log \mu - \delta\sigma^2\right)\right)^2}{2\sigma^2}\right] = LogNormal\left(\log\mu - \frac{p-p'}{2}\sigma^2, \sigma^2\right).
+G(\theta) \propto \frac{1}{\theta}\exp\left[-\frac{\left(\log \theta - \left(\log \mu - \delta\sigma^2\right)\right)^2}{2\sigma^2}\right] = LogNormal\left(\log\mu - \frac{\tilde{p}-\tilde{p}'}{2}\sigma^2, \sigma^2\right).
 \]
 \end{proof}
 
