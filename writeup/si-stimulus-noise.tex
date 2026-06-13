@@ -7,30 +7,30 @@ The model with both sensory and stimulus noise takes the form
 \begin{equation}\label{eq:both-noise-types}
     m = F(\theta+\epsilon)+\delta
 \end{equation}
-where $\epsilon \sim \mathcal{N}(0,\tau^2)$, where $\tau^2$ here denotes the magnitude of stimulus noise.
-Whereas sensory noise reflects unavoidable noise of the imperfect neural encoding, stimulus noise is applied to the stimulus. For example, multiple Gabor patches or color patches ma be presented in an array, each with some noise applied to the stimulus value (e.g., \cite{Tomassini2010OrientationUR, Girshick2011CardinalRV, Olkkonen2014TheCT}).
+where $\epsilon \sim \mathcal{N}(0,\tau^2)$, where $\tau^2$ here denotes the magnitude of stimulus noise; $\delta \sim \mathcal{N}(0, \sigma^2)$ denotes sensory noise as usual.
+Whereas sensory noise reflects unavoidable noise of the imperfect neural encoding, stimulus noise is applied to the stimulus. For example, multiple Gabor patches or color patches may be presented in an array, each with some noise applied to the stimulus value (e.g., \cite{Tomassini2010OrientationUR, Girshick2011CardinalRV, Olkkonen2014TheCT}).
 \citet{hahn2024unifying} (Theorem 2) proved that the bias (for positive even $p$) is given as
 \begin{equation}\label{eq:stim-noise-bias}
         \underbrace{\left(\frac{1}{\FI(\theta)} + \tau^2\right)    \left( \log p_{prior}(\theta) \right)'}_{Prior\ Attraction}   + \underbrace{\left[ 1               + \frac{p-2}{4}     \frac{1}{1+\tau^2\FI(\theta)}    \right]   \left(\frac{1}{\FI(\theta)}\right)' }_{Likelihood\ Repulsion} + O\left((\sigma^4+\tau^4+\sigma^2\tau^2)\right)
         \end{equation}
         where $\FI$ is the Fisher Information of the sensory encoding, extending the decomposition reviewed in Section~\ref{sec:background}.
         That is, stimulus noise increases attraction, and induces (for $p>2$) a loss-function-dependent reduction of the repulsion.
-        While this result is proven for positive even exponents ($p=2,4,6,\dots$), simulations \citet[][SI Appendix, Figure S5]{hahn2024unifying} show that similar behavior holds at other exponents.
+        While this result is proven for positive even exponents ($p=2,4,6,\dots$), simulations in \citet[][SI Appendix, Figure S5]{hahn2024unifying} show that similar behavior holds at other exponents.
         Furthermore,  the variability has the form
         \begin{equation}
             \tau^2 + \frac{1}{\FI(\theta)}  + O\left((\sigma^4+\tau^4+\sigma^2\tau^2)\right)
         \end{equation}
 Based on this, in principle, one can identify models by:
 \begin{enumerate}
-    \item Comparing the variability at two levels of stimulus noise to recover $\frac{1}{\FI(\theta)}$ up to higher-order error.
-    \item Then, in the expression for the bias, all except for the green terms are known up to higher-order error:
+    \item Applying Theorem~1 in the setup where stimulus noise is zero to obtain $\FI(\theta)$ from response distributions where stimulus noise is zero. Comparing this to the response variability at nonzero stimulus noise then allows recovering $\tau^2$ for each nonzero level of stimulus noise.
+    \item Then, in the expression for the bias, all except for the \textcolor{olive}{highlighted} terms are known up to higher-order error:
     \begin{equation}
-        \underbrace{\left(\frac{1}{\FI(\theta)} + \tau^2\right)    \textcolor{green}{\left( \log p_{prior}(\theta) \right)'}}_{Prior\ Attraction}   + \underbrace{\left[ 1               + \frac{\textcolor{green}{p}-2}{4}     \frac{1}{1+\tau^2\FI(\theta)}    \right]   \left(\frac{1}{\FI(\theta)}\right)' }_{Likelihood\ Repulsion} + O\left((\sigma^4+\tau^4+\sigma^2\tau^2)\right)
+        \underbrace{\left(\frac{1}{\FI(\theta)} + \tau^2\right)    \textcolor{olive}{\left( \log p_{prior}(\theta) \right)'}}_{Prior\ Attraction}   + \underbrace{\left[ 1               + \frac{\textcolor{olive}{p}-2}{4}     \frac{1}{1+\tau^2\FI(\theta)}    \right]   \left(\frac{1}{\FI(\theta)}\right)' }_{Likelihood\ Repulsion} + O\left((\sigma^4+\tau^4+\sigma^2\tau^2)\right)
         \end{equation}
-        Comparing the bias at two levels of stimulus noise permits identifying these unknowns.
+        Comparing the bias at two levels of stimulus noise permits identifying these unknowns, provided $\left(\frac{1}{\FI(\theta)}\right)'$ is not zero everywhere, i.e., provided the encoding is not globally uniform.
 \end{enumerate}
-This applies to \emph{all} models, even those in the exceptional set $\Omega$ of our Theorem 2.
-Thus, with unbounded amounts of behavioral data, all models are identifiable in principle.
+This applies to \emph{all} models with any nonuniformity in the encoding, even those in the exceptional set $\Omega$ of our Theorem 2.
+Thus, with unbounded amounts of behavioral data, all models with nonuniformity in the encoding are identifiable in principle.
 
 An interesting question is whether varying stimulus noise or sensory noise might be more effective in ensuring identifiability.
 Stimulus noise increases the variance:
@@ -112,8 +112,8 @@ Example 2: $p=8$
 
 
 \caption{Varying stimulus noise, while keeping sensory noise fixed (40K trials).
-This can also lead to recoverability, as theoretically demonstrated in Section~\ref{sec:stimulus-noise}.
-Comparison to results varying sensory noise (Figures~\ref{fig:recover-model-circ-periodic-periodic} and  \ref{fig:recover-loss-circ-periodic-periodic}) suggests that varying stimulus noise results in a weaker signal then when varying sensory noise; also, the prior at $p=8$ is recovered less successfully then when sensory noise is varied.
+Varying stimulus noise can in principle help recoverability, as theoretically demonstrated in Section~\ref{sec:stimulus-noise}.
+Comparison to results varying sensory noise (Figures~\ref{fig:recover-model-circ-periodic-periodic} and  \ref{fig:recover-loss-circ-periodic-periodic}) suggests that varying stimulus noise provides a weaker signal than varying sensory noise; also, the prior at $p=8$ is recovered less successfully than when sensory noise is varied.
 Overall, varying stimulus noise can support identifiability, but varying sensory noise is more advisable when feasible.
 }\label{fig:stim-noise}
 
