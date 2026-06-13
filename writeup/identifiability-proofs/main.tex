@@ -43,7 +43,7 @@ A stimulus $\theta \in \mathcal{X}$ is encoded as
 \begin{equation}
     m = F(\theta) + \epsilon
 \end{equation}
-where $\epsilon \sim \mathcal{N}(0,\sigma^2)$ denotes sensory noise. If $\mathcal{X}$ (and thus $\mathcal{Y}$) is a bounded interval, sensory noise is truncated to $\mathcal{Y}$. If $\mathcal{X}$, $\epsilon$ is instead von Mises with concentration parameter $1/\sigma^2$.
+where $\epsilon \sim \mathcal{N}(0,\sigma^2)$ denotes sensory noise. If $\mathcal{X}$ (and thus $\mathcal{Y}$) is a bounded interval, sensory noise is truncated to $\mathcal{Y}$. If $\mathcal{X}$ is a circle, addition is understood modulo the circle, and $\epsilon$ is instead von Mises with concentration parameter $1/\sigma^2$.
 The encoding $m$ is then decoded into the Bayesian estimate
 \begin{equation}
     \widehat{\theta} = \arg_{\widehat{\theta}\in\mathcal{X}}\min\int\ell(\hat{\theta},\theta) P(\theta|m)d\theta
@@ -94,7 +94,7 @@ We examine the situation where they are dependent (e.g., due to efficient coding
 
 \paragraph*{Formal Definition}
 We now make Assumption~\ref{ass:informal} formal, in Assumptions~\ref{ass:measure-on-a} and \ref{ass:measure-on-prod}.
-As the elements of $\mathcal{F}(X)$ are constrained to be positive and integrate to 1, it is most convenient to parameterize them in terms of their logarithms.\footnote{In fact, this corresponds to the parameterization used in the implemented fitting procedure.}
+As the elements of $\mathcal{F}(X)$ are constrained to be positive and integrate to 1, it is most convenient to parameterize them in terms of their logarithms.\footnote{In fact, this corresponds to the parameterization used in the implemented fitting procedure (Section~\ref{sec:tutorial}).}
 We parameterize the elements of $\mathcal{F}(\mathcal{X})$ in terms of their logarithms, with a normalization term subtracted for uniqueness:
 \begin{align*}
 f \mapsto L(f) := \text{ where } L(f)(\theta) = \log f(\theta) - \log f(0)
@@ -115,8 +115,6 @@ The precise definition of the Gaussian measure on $\mathcal{F}(\mathcal{X})$ is 
 What is, however, important is the assumption of non-degeneracy. This informally means that $L(f)$ and its derivatives at some stimulus $\theta$ cannot uniquely determine the corresponding values at some other stimulus $\theta'$.
 
 We now discuss some concrete example constructions for such measures.
-
-
 In both $\mathbb{T}$ and $[0,1]$, there are standard constructions using orthonormal basis functions for the space of functions $L(f)$, with Gaussian coefficients grounded in the Karhunen-Lo{\`e}ve decomposition, a probabilistic analogue of the Fourier series \cite{karhunen1947lineare, loeve1948functions, papoulis1965random}. 
 For $\mathcal{X} = \mathbb{T}$, this corresponds to a Fourier series with random coefficients.\footnote{To define a Gaussian process over $m$-times continuously differentiable functions on $\mathbb{T}$, set
 \begin{equation}
@@ -399,11 +397,15 @@ Since the fist two moments $bias(\theta)$ (bias) and $var(\theta)$ (variance) of
 where $\mathcal{A}(\theta) = \frac{1}{F'(\theta)^2}$. We will write $t$ for the sensory noise variance $\sigma^2$ to make the notation easier.
 
 
-Then we prove $\widehat{\Prior}(\theta) = U \cdot (F')^{\frac{q-p}{2}} \cdot \Prior(\theta) + O(t)$. According to the definition of $\mathcal{E}(\theta), var(\theta), bias(\theta)$, we have:
-\begin{equation*}
-    \mathcal{E}(\theta) = \frac{(bias(\theta) - \frac{\tilde{q}+2}{4} v'(\theta))}{var(\theta)} = \frac{[\mathcal{C}(\theta)t+O(t^2)] - \frac{\tilde{q}+2}{4}[\mathcal{A}'(\theta) + O(t^2)]}{\mathcal{A}(\theta)t + O(t^2)} = \frac{\mathcal{C}(\theta)t - \frac{\tilde{q}+2}{4}\mathcal{A}'(\theta)t + O(t^2)}{\mathcal{A}(\theta)t + O(t^2)} = \frac{\mathcal{C}(\theta)-\frac{\tilde{q}+2}{4}\mathcal{A}'(\theta)}{\mathcal{A}(\theta)} + O(t) 
-\end{equation*}
-As discussed in Section~\ref{sec:background}, we have $\mathcal{C}(\theta) = \frac{(\log \Prior)'}{F'^2}-\frac{p+2}{2}\cdot\frac{F''}{F'^3}$. Thus, we can plug in the expression of $\mathcal{C}(\theta)$ into the definition of $\widehat{\Prior}(\theta)$ and let $\alpha$ be the constant coefficient. Then we have:
+Then we prove $\widehat{\Prior}(\theta) = U \cdot (F')^{\frac{\tilde{q}-\tilde{p}}{2}} \cdot \Prior(\theta) + O(t)$.
+According to the definition of $\mathcal{E}(\theta), var(\theta), bias(\theta)$, we have:
+\begin{align*}
+\mathcal{E}(\theta) =& \frac{(bias(\theta) - \frac{\tilde{q}+2}{4} v'(\theta))}{var(\theta)} \\
+= & \frac{[\mathcal{C}(\theta)t+O(t^2)] - \frac{\tilde{q}+2}{4}[\mathcal{A}'(\theta)t + O(t^2)]}{\mathcal{A}(\theta)t + O(t^2)} \\
+= & \frac{\mathcal{C}(\theta)t - \frac{\tilde{q}+2}{4}\mathcal{A}'(\theta)t + O(t^2)}{\mathcal{A}(\theta)t + O(t^2)} \\
+= & \frac{\mathcal{C}(\theta)-\frac{\tilde{q}+2}{4}\mathcal{A}'(\theta)}{\mathcal{A}(\theta)} + O(t)
+\end{align*}
+As discussed in Section~\ref{sec:background}, we have $\mathcal{C}(\theta) = \frac{(\log \Prior)'}{F'^2}-\frac{\tilde{p}+2}{2}\cdot\frac{F''}{F'^3}$. Thus, we can plug in the expression of $\mathcal{C}(\theta)$ into the definition of $\widehat{\Prior}(\theta)$ and let $\alpha$ be the constant coefficient. Then we have:
 \begin{align*}
     \widehat{\Prior}(\theta) &= \alpha \cdot \exp \left({\int_0^\theta \mathcal{E}(\theta') d\theta'}\right)\\
     &= \alpha \cdot \exp\left(\int_0^\theta \frac{\mathcal{C}(\theta')-\frac{\tilde{q}+2}{4}\mathcal{A}'(\theta')}{\mathcal{A}(\theta')}d\theta' + O(t)\right)\\
@@ -444,7 +446,8 @@ See Section~\ref{sec:thm-2-auxiliary} for explicit expressions for $\mathcal{B}_
 
 \subsubsection{Definition and Properties of Exceptional Set $\Omega$}
 We define $\Omega$ in terms of models $M_1$ where there is some model $M_2$ distinct from it such that the coefficients $\mathcal{A}_M, \mathcal{B}_M, \mathcal{C}_M, \mathcal{D}_M$ are identical for $M_1$ and $M_2$ -- that is, where the response bias and variance are identical up to a higher-order residual of order $\mathcal{O}(\sigma^6)$.
-We also include models where the first-order bias component $\mathcal{C}_M$ vanishes entirely, i.e., where the bias is zero everywhere in the low-noise regime.\footnote{This is for technical reasons, as the proof of Lemma~\ref{lemma:tilde-estimates-motor-noise} presupposes that $\mathcal{C}$ is nonzero for some stimuli. In practice, as soon as prior or encoding are nonuniform, the only way for $C_M$ to vanish everywhere is for $F$ and $\Prior$ to be aligned in a very specific way to ensure perfect cancellation of attraction and repulsion.}
+We also include models where the first-order bias component $\mathcal{C}_M$ vanishes entirely, i.e., where the bias is zero everywhere in the low-noise regime,
+ or where the first-order variance component $\mathcal{A}_M$ is constant everywhere.\footnote{This is for technical reasons, as the proof of Lemma~\ref{lemma:tilde-estimates-motor-noise} presupposes that $\mathcal{C}_M$ and the derivatiev $\mathcal{A}_M'$ are nonzero for some stimuli. In practice, as soon as prior or encoding are nonuniform, the only way for $\mathcal{C}_M$ to vanish everywhere is for $F$ and $\Prior$ to be aligned in a very specific way to ensure perfect cancellation of attraction and repulsion.}
 Then:
 \begin{defin}
 We define $\Omega \subset \mathfrak{M}$ as:  
@@ -698,10 +701,16 @@ The full proof approaches this challenge by first obtaining estimates of $\frac{
         \begin{align*}
         \widehat{(\frac{a}{b})} &:= \frac{bias_1(\theta^*)}{bias_2(\theta^*)} = \frac{a\cdot \mathcal{C}(\theta^*)t + \mathcal{O}(t^2)}{b\cdot \mathcal{C}(\theta^*)t + \mathcal{O}(t^2)} = \frac{a}{b} + \mathcal{O}(t)
         \end{align*}
-        Based on this, we define: 
+        Based on this, we define the estimator
         \begin{align*}
-        \widehat{b\mathcal{A}t} &:= \frac{var_2 - var_1}{1 - \hat{\frac{a}{b}}} = \frac{bias_2 \cdot var_2 - bias_2 \cdot var_1}{bias_2 - bias_1}=\frac{var_2 - var_1}{1 - \frac{a}{b} + O(t)} = b\mathcal{A}t + O(t^2)\\
-                \widehat{\rho^2t} &:= var_2 - \widehat{b\mathcal{A}t} = \frac{bias_2 \cdot var_1 - bias_1 \cdot var_2}{bias_2 - bias_1}= \rho^2t + \mathcal{O}(t^2) 
+        \widehat{b\mathcal{A}t}(\theta) &:= \frac{var_2(\theta) - var_1(\theta)}{1 - \widehat{\frac{a}{b}}}
+        = \frac{var_2(\theta) - var_1(\theta)}{1 - \frac{a}{b} + O(t)}
+        = b\mathcal{A}(\theta)t + O(t^2)
+        \end{align*}
+        and from it the scalar estimator
+        \begin{align*}
+        \widehat{\rho^2t} &:= \frac{1}{|\mathcal{X}|}\int \left[var_2 - \widehat{b\mathcal{A}t} = \frac{bias_2 \cdot var_1 - bias_1 \cdot var_2}{bias_2 - bias_1}\right]d\theta
+        = \rho^2t + \mathcal{O}(t^2).
     \end{align*}
 A first approach to concluding the proof might be to substitute $t' := bt$, insert $\widehat{(\frac{a}{b})}$ instead of $a$ and $\widehat{\rho^2t}$ instead of $\rho^2t$ into (\ref{eq:four-expansions}), so that this system of equations is now linear in the four remaining unknowns $\mathcal{A}t', \mathcal{B}t', \mathcal{C}t'^2, \mathcal{D}t'^2$. A linear system of four equations in four unknowns should now admit a unique solution, allowing us to extract $\mathcal{A}, \mathcal{B}, \mathcal{C}, \mathcal{D}$ up to the scalar parameter $t'$. While on the right track, this idea requires refinement. The reason is that the estimates $\widehat{\rho^2t}$ and $\widehat{(\frac{a}{b})}$ have an estimation error that, upon inserting these quantities instead of $\rho^2t$ and $a$ would uncontrollably contaminate the terms at order $t^2$, preventing extraction of $\mathcal{C}$ and $\mathcal{D}$. We solve this puzzle by first refining $\widehat{(\frac{a}{b})}$ to a more precise estimator whose estimation error is $O(t^2)$, based on fine-grained understanding of the second-order behavior of the variability; once this has been achieved, we can realize the approach outlined above.
 
