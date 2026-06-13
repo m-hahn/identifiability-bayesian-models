@@ -1,0 +1,151 @@
+\documentclass[si.tex]{subfiles}
+\usepackage{array}
+
+\begin{document}
+
+
+
+\clearpage
+
+\section{Robustness Studies}\label{sec:alt-noise-loss-experiments}
+
+
+\subsection{Robustness to Large Motor Noise}
+
+In our main simulations, we set the motor noise magnitude based on fits to the behavioral datasets collected by \citet{deGardelle2010AnOI} and \citet{Remington2018LateBI}.
+Here, we study the effect of larger motor noise on identifiability, by simulating two additional groups of datasets with larger motor noise levels than those used in the main simulations, with all other parameters matching the simulations from Section~\ref{sec:further-circular}. The noise magnitudes are shown in Figure~\ref{fig:motor-noise-magnitudes}, and example fits are shown in Figures~\ref{fig:si-alt-medium-large-motor-noise} and~\ref{fig:si-alt-large-motor-noise}.
+Results show that higher motor noise may lead to more jagged fits to prior or encoding and flatter NLL, but models remain identifiable even at the largest motor noise level (Figure \ref{fig:si-alt-large-motor-noise}).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{motor_noise_magnitudes.pdf}
+\caption{Motor noise distributions, as von Mises densities on the orientation space $[0^\circ, 180^\circ]$ used in our circular simulations.
+The "Orientation (de Gardelle et al)" version is the same as in the main circular simulations, and taken from our fit to the behavioral data collected by \citet{deGardelle2010AnOI}. 
+The Medium Large and Large settings are used for the simulations in Figures~\ref{fig:si-alt-medium-large-motor-noise} and~\ref{fig:si-alt-large-motor-noise}.
+}\label{fig:motor-noise-magnitudes}
+\end{figure}
+
+\input{si-alt-simulations-large-motor-noise-preview.tex}
+
+\input{si-alt-simulations-medium-large-motor-noise-preview.tex}
+
+\clearpage
+\newpage
+
+
+\subsection{Beyond Gaussian/von Mises Noise}\label{sec:other-noise}
+Our theoretical results and simulations model sensory noise as Gaussian or von Mises in sensory space.
+Here, we discuss the possibility of identifiability under other noise distributions.
+The theoretical derivations leading to Theorems 2--4 rest on calculating moments of the noise distributions, which are key to obtaining expansions of bias and variability in the noise magnitude (Lemma~\ref{lemma:expansion}), which in turn are key to recovering model components from response distributions.
+These results specifically rest on simple properties of Gaussians: odd moments are zero, and even moments are proportional to powers of the variance.
+These are general properties that hold much more broadly, to any fixed-shape scale family with finite moments; this includes, e.g., Laplace distributions, which have heavier tails than Gaussians but still have finite moments.
+Thus, whereas the specific algebraic form of the coefficients $\mathcal{A}, \mathcal{B}, \mathcal{C}, \mathcal{D}$ in Lemma~\ref{lemma:expansion} will depend on the specific noise distribution, our proof approach might offer a general roadmap for showing analogous identifiability results for many other noise distributions.
+
+
+To illustrate this, we considered a Laplace-like sensory noise distribution in a circular sensory space, defined as
+\begin{equation}\label{eq:laplace-noise}
+p(m\mid \theta) \propto \exp\left(-\frac{d_{circ}(F(\theta),m)}{\sigma}\right),
+\end{equation}
+where $d_{circ}$ is the wrapped unsigned circular distance.
+
+We simulated sixteen datasets (the same four prior-encoding combinations as in Section~\ref{sec:further-circular}, at $p=2$ and $p=8$, 4 noise levels, 10K or 40K trials) with this sensory noise distribution.
+We show the resulting noise distributions, in comparison to those used in our main simulations, in Figure~\ref{fig:si-alt-von-mises-on-laplace-densities}.
+
+We then applied our fitting procedure to these datasets.
+In one case, we used our standard fitting procedure assuming von Mises noise; in the other case, we adapted our fitting procedure to asume Laplace-like noise (\ref{eq:laplace-noise}).
+Results are shown in Figures~\ref{fig:si-alt-von-mises-on-laplace} and \ref{fig:si-alt-von-mises-on-laplace}.
+In both cases, the shape of the encoding and prior are recovered appropriately in most cases; the true $L_p$ exponent has minimal or close-to-minimal NLL.
+In the misspecified case (fitting assuming von Mises noise), there are a few cases of incompletely identified loss function (e.g., at prioridic encoding and shifted prior at $L_2$ loss, NLL is low for $p=2,4,6,8$) or mismatch in the shape of the prior (periodic encoding and uniform prior at $L_8$ loss; the recovered prior appears to have bumps).
+In the correctly specified case (fitting asuming Laplace-like noise), prior and encoding are recovered closely throughout, at least at 40K trials.
+Taken together, these results suggest that our model fitting approach can be successful beyond Gaussian/von Mises noise on data from other symmetric noise distributions, and that even fitting under misspecification of the noise distribution may have rather limited effect on model identifiability.
+
+Beyond symmetric noise, there may be situations where noise could be skewed or otherwise asymmetric in sensory space.
+Such noise distributions might lead to further challenges, because the skewness may enter the bias, which could make the skewness potentially entangled with the prior.
+Formally, for such distributions, the odd moments may be nonzero; while the overall approach based on Lemma~\ref{lemma:expansion} might still be viable, the increased complexity might lead to additional challenges in analysis. We leave understanding of skewed noise distributions to future work.
+
+\begin{figure}[ht]
+\centering
+\safegraphic{0.49\textwidth}{figures/von_mises_on_laplace_density_von_mises.pdf}{4.0cm}{von mises densities}
+\hfill
+\safegraphic{0.49\textwidth}{figures/von_mises_on_laplace_density_laplace.pdf}{4.0cm}{laplace densities}
+\caption{Sensory-noise densities under the von Mises family (panel A) and the Laplace-like family in Equation~\ref{eq:laplace-noise} (panel B), shown for the four noise levels used in our circular simulations. The code now follows the same orientation convention as the simulation figures: the internal noise variable lives on the full circle, but plotted orientation errors are the corresponding circular differences divided by \(2\).}
+\label{fig:si-alt-von-mises-on-laplace-densities}
+\end{figure}
+
+
+\input{si-alt-simulations-von-mises-on-laplace-preview.tex}
+\input{si-alt-simulations-laplace-on-laplace-preview.tex}
+
+\clearpage
+\newpage
+
+
+\subsection{Beyond $L_p$ Losses}
+
+Our theoretical results and simulations cover the $L_p$ family of loss functions.
+Here, we discuss the possibility of expanding our theory to other loss functions.
+
+\paragraph*{Symmetric Losses}
+A natural constraint on loss functions is that they should be symmetric, i.e., $\ell(x,y) = \ell(y,x)$, and that they should be isotropic, i.e., $\ell(x,y)$ only depends on $x-y$.
+Here, we consider a general isotropic and symmetric smooth loss $\ell(x,y)$. We assume that $\ell(x,y)$ takes a unique minimum at $x=y$; we may assume $\ell(x,y) = 0$ in this case.
+Then, using a Taylor expansion around $x-y=0$:
+\begin{equation}
+\ell(x,y) = \alpha_1 (x-y)^p + \alpha_2 (x-y)^{p+2} + \mathcal{O}(|x-y|^{p+3})
+\end{equation}
+for some even $p>0$ and some $\alpha_1 > 0$.
+When noise is small, this is dominated by the lowest-order term, i.e., $\ell(x,y)$ behaves like $L_p$ loss, up to the scaling factor $\alpha_1$, which does not impact the minimizer:
+\begin{equation}\label{eq:smooth-loss-lowest-order}
+\ell(x,y) = \alpha_1 (x-y)^p + \mathcal{O}(|x-y|^{p+2})
+\end{equation}
+One may thus conjecture that, in this regime, recovering the order $p$ is possible under similar circumstances as recovery of the exponent of $L_p$ loss.
+If one desires to recover the full shape of $\ell$, further arguments are likely needed. 
+One plausible approach here may be to attempt to recover the higher-order Taylor expansion coefficients of $\ell$ (around $x-y=0$) by observing the bias under a sufficiently large number of distinct sensory noise levels; we leave exploration of this idea to future work.
+
+
+As an illustration of these considerations, we consider the Inverted Gaussian loss function \citep{Krding2004TheLF, Acerbi2014AFF}:
+\begin{equation}\label{eq:acerbi-loss}
+\ell(x,y) = 1 - \exp(-\frac{(x-y)^2}{2\sigma^2})
+\end{equation}
+This loss function was proposed by \citet{Krding2004TheLF} as a parametric form for a loss function that increases less than $L_2$ loss for large errors.
+In their identifiability simulations, \citet{Acerbi2014AFF} used such functions with various choices of $\sigma$.\footnote{In their theoretical calculations, \citet{Acerbi2014AFF} considered a more general family consisting of linear combinations of pairs of such functions. In their simulation studies (their Sections 4.1 and 4.2), they considered the Inverted Gaussian loss with different $\sigma$ parameters.}
+We show the loss function at three values of $\sigma^2$ in Figure~\ref{fig:acerbi-loss-family-preview-remington}; it behaves similarly to scaled versions of $L_2$ loss when errors are close to 0, though the behavior at larger errors is different.
+
+Eq.~\ref{eq:acerbi-loss} defines a symmetric and smooth loss function, with a unique minimum at $x-y=0$.
+A Taylor expansion around $x=y$ shows (compare the general form in (\ref{eq:smooth-loss-lowest-order})):
+\begin{equation}
+\ell(x,y) = \frac{(x-y)^2}{2\sigma^2} + \mathcal{O}((x-y)^4)
+\end{equation}
+Thus, the loss function, in the small-noise regime, behaves similarly to $L_2$ loss.
+
+We simulated data from this loss function in a way analogous to our interval space simulations~\ref{sec:further-interval}, but with this loss function, at varying values of $\sigma^2$.
+We then applied our fitting procedure (assuming $L_p$ losses) to these datasets. We show results in Figure~\ref{fig:si-alt-acerbi-remington-preview}.
+Result show that fit is best at $p=2$, and that encoding and prior are often accurately recovered when fitting using $L_2$ loss, despite the mismatch between the true loss and the fitted $L_p$ family.
+
+
+
+\input{si-alt-simulations-acerbi-loss-remington-preview.tex}
+
+\paragraph*{Asymmetric Losses}
+Even more general loss functions might abandon the assumption symmetry; for instance, by differentially penalizing over- vs under-estimation \citep[e.g.][]{Mamassian2008OverconfidenceIA,Hudson2008OptimalCF}.
+Such loss functions may lead to qualitatively different patterns of bias (such as a systematic bias towards over- or under-estimation); thus, the asymmetry would need to be distinguished from a skew in the prior. 
+A potential approach to expanding identifiability theory to such loss functions may be to again consider a Taylor expansion, which in the case of asymmetric losses would include odd powers of $x-y$ (for even $p$)\footnote{$p$ must be even to ensure that the loss takes a minimum at $x=y$, but higher odd orders can have nonzero coefficients.}, e.g.:
+\begin{equation}
+\ell(x,y) = \alpha_1 \cdot (x-y)^p + \alpha_2 \cdot (x-y)^{p+1} + \mathcal{O}(|x-y|^{p+2})
+\end{equation}
+and investigate how the coefficients $\alpha_1, \alpha_2, \dots$ might be recovered from the expansion of the bias and variability (Lemma~\ref{lemma:expansion}), possibly requiring a higher order ($t^3$, $t^4$ etc), and possibly under a sufficiently large number of distinct noise levels.
+We leave this investigation to future work.
+
+\clearpage
+\newpage
+
+
+
+\section{Details for Fitting Procedure}
+\label{sec:tutorial}
+
+\input{si-tutorial-fitting.tex}
+
+
+
+
+\end{document}

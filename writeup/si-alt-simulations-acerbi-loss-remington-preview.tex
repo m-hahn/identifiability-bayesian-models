@@ -1,0 +1,75 @@
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/acerbi_loss_shapes_interval.pdf}
+\caption{Inverted Gaussian loss functions based on \citet{Krding2004TheLF,Acerbi2014AFF}, for different values of $\sigma$ (Equation~\ref{eq:acerbi-loss}).}
+\label{fig:acerbi-loss-family-preview-remington}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\newcommand{\groundtruthacerbiremington}[1]{%
+  \adjustbox{valign=m,max totalsize={0.1575\textwidth}{2.2cm},keepaspectratio}{\includegraphics{#1}}%
+}
+\begin{tabular}{>{\centering\arraybackslash}m{0.1575\textwidth}@{\hspace{0.010\textwidth}}>{\centering\arraybackslash}m{0.1575\textwidth}>{\centering\arraybackslash}m{0.07875\textwidth}@{\hspace{0.045\textwidth}}>{\centering\arraybackslash}m{0.1575\textwidth}>{\centering\arraybackslash}m{0.07875\textwidth}@{\hspace{0.045\textwidth}}>{\centering\arraybackslash}m{0.1575\textwidth}>{\centering\arraybackslash}m{0.07875\textwidth}}
+\textbf{Model} &
+\multicolumn{2}{c}{\textbf{{$\sigma = 0.1$}}} &
+\multicolumn{2}{c}{\textbf{{$\sigma = 0.5$}}} &
+\multicolumn{2}{c}{\textbf{{$\sigma = 1.0$}}} \\
+& \textbf{Fit} & \textbf{NLL} & \textbf{Fit} & \textbf{NLL} & \textbf{Fit} & \textbf{NLL} \\
+\groundtruthacerbiremington{figures/CounterfactualModel_Remington_VIZ_Components.py_4567_UNIFORM_UNIMODAL2_2_0_10.0_400.pdf} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} \\
+\groundtruthacerbiremington{figures/CounterfactualModel_Remington_VIZ_Components.py_4567_UNIMODAL2_UNIMODAL2_2_0_10.0_400.pdf} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} \\
+\groundtruthacerbiremington{figures/CounterfactualModel_Remington_VIZ_Components.py_4567_UNIFORM_BIMODAL2_2_0_10.0_400.pdf} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} \\
+\groundtruthacerbiremington{figures/CounterfactualModel_Remington_VIZ_Components.py_4567_UNIMODAL2_UNIFORM_2_0_10.0_400.pdf} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_0.1_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_0.5_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} &
+\safegraphic{0.1575\textwidth}{../code/Remington/figures/RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_2_0_10.0_400.pdf}{2.2cm}{fit} &
+\safegraphic{0.07875\textwidth}{../code/Remington/figures/evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py_SimAcer.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_1.0_sigma22_0.1.txt_RelativeLF.pdf}{2.2cm}{NLL} \\
+\end{tabular}
+\caption{Here, we simulated data from four different prior-encoding pairs (as in Section~\ref{sec:further-interval}; four noise levels at 10K trials each) using three different versions of the inverted Gaussian loss function (Figure~\ref{fig:acerbi-loss-family-preview-remington} and Equation~\ref{eq:acerbi-loss}), and then applied our standard fitting procedure.
+Throughout, best fit is achieved at $p=2$ or close to it, in line with theoretical expectations.
+For each dataset, we show the fit at $L_2$ loss.
+The shape of the encoding is adequately recovered despite the mismatch between fitted ($L_2$) and ground truth (inverted Gaussian loss).
+The prior is accurately recovered at higher $\sigma$.
+This suggests that the encoding can be accurately recovered even if the loss function is misspecified, but that the prior may have some sensitivity to loss misspecification.
+}
+\label{fig:si-alt-acerbi-remington-preview}
+\end{figure}
+
+\begin{comment}
+for sigma in 0.1 0.2 0.4 0.5 1.0; do
+  for fit in \
+    "SimulateSynthetic2_DenseRemington_OtherNoiseLevels_VarySize_AcerbiLoss.py_400_2_4567_N10000_UNIFORM_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_${sigma}_sigma22_0.1.txt" \
+    "SimulateSynthetic2_DenseRemington_OtherNoiseLevels_VarySize_AcerbiLoss.py_400_2_4567_N10000_UNIMODAL2_UNIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_${sigma}_sigma22_0.1.txt" \
+    "SimulateSynthetic2_DenseRemington_OtherNoiseLevels_VarySize_AcerbiLoss.py_400_2_4567_N10000_UNIFORM_BIMODAL2_pi_1_mean1_0.0_mean2_0.0_sigma21_${sigma}_sigma22_0.1.txt" \
+    "SimulateSynthetic2_DenseRemington_OtherNoiseLevels_VarySize_AcerbiLoss.py_400_2_4567_N10000_UNIMODAL2_UNIFORM_pi_1_mean1_0.0_mean2_0.0_sigma21_${sigma}_sigma22_0.1.txt"
+  do
+    python3 evaluateCrossValidationResults_Synthetic_DenseRemington_AcerbiLoss.py "$fit"
+    python3 RunSynthetic_DenseRemington_FreeEncoding_Zero_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_Round2_VIZ_OnlyModel.py 0 0 10.0 400 "$fit"
+    python3 RunSynthetic_DenseRemington_FreeEncoding_L1_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_Round2_VIZ_OnlyModel.py 1 0 10.0 400 "$fit"
+    python3 RunSynthetic_DenseRemington_FreeEncoding_OnSim_OtherNoiseLevels_VarySize_AcerbiLoss_VIZ_OnlyModel.py 2 0 10.0 400 "$fit"
+  done
+done
+\end{comment}

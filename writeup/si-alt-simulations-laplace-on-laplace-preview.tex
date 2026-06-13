@@ -1,0 +1,107 @@
+
+\begin{figure}[ht]
+\centering
+
+{\textbf{10,000 Trials}}
+
+\begin{tabular}{>{\raggedright\arraybackslash}m{0.17\textwidth}cccc}
+& \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+& Fit at \(p=2\) & \(\Delta\)NLL & Fit at \(p=8\) & \(\Delta\)NLL \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_STEEPPERIODIC_STEEPPERIODIC_2_0_10.0_180.pdf}{2.2cm}{gt periodic periodic} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=2} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=8} \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}{2.2cm}{gt periodic uniform} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_UNIFORM.txt_RelativeLF.pdf}{3.0cm}{NLL p=2} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_UNIFORM.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_UNIFORM.txt_RelativeLF.pdf}{3.0cm}{NLL p=8} \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}{2.2cm}{gt uniform periodic} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_UNIFORM_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=2} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_UNIFORM_STEEPPERIODIC.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_UNIFORM_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=8} \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_STEEPSHIFTED_STEEPPERIODIC_2_0_10.0_180.pdf}{2.2cm}{gt shifted periodic} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=2} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=8}
+\end{tabular}
+
+\ 
+
+\ 
+
+\ 
+
+{\textbf{40,000 Trials}}
+
+\begin{tabular}{>{\raggedright\arraybackslash}m{0.17\textwidth}cccc}
+& \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+& Fit at \(p=2\) & \(\Delta\)NLL & Fit at \(p=8\) & \(\Delta\)NLL \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_STEEPPERIODIC_STEEPPERIODIC_2_0_10.0_180.pdf}{2.2cm}{gt periodic periodic} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 40k} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=8 40k} \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_STEEPPERIODIC_UNIFORM_2_0_10.0_180.pdf}{2.2cm}{gt periodic uniform} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_UNIFORM.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_UNIFORM.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 40k} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_UNIFORM.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_UNIFORM.txt_RelativeLF.pdf}{3.0cm}{NLL p=8 40k} \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_UNIFORM_STEEPPERIODIC_2_0_10.0_180.pdf}{2.2cm}{gt uniform periodic} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_UNIFORM_STEEPPERIODIC.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_UNIFORM_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 40k} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_UNIFORM_STEEPPERIODIC.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_UNIFORM_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=8 40k} \\
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_STEEPSHIFTED_STEEPPERIODIC_2_0_10.0_180.pdf}{2.2cm}{gt shifted periodic} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_2_0_10.0_180.pdf}{3.0cm}{laplace fit p=2 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 40k} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_8_0_10.0_180.pdf}{3.0cm}{laplace fit p=8 40k} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_LaplaceNoise.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt_RelativeLF.pdf}{3.0cm}{NLL p=8 40k}
+\end{tabular}
+\caption{Applying our fitting procedure (but assuming Laplace-like sensory noise) to data generated under Laplace-like sensory noise.
+Note that, for the model fits, the resources $\sqrt{\mathcal{J}(\theta)}$ are computed as $F'(\theta)/\sigma$ in keeping with our other (von Mises/Gaussian) fits; results may slightly differ if computed using the Fisher Information for the Laplace distribution.
+}
+\label{fig:si-alt-laplace-on-laplace}
+\end{figure}
+
+
+\begin{comment}
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_UNIFORM.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_UNIFORM_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_UNIFORM.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_UNIFORM_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt"
+
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPPERIODIC_UNIFORM.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_UNIFORM_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPPERIODIC_UNIFORM.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_UNIFORM_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N10000_STEEPSHIFTED_STEEPPERIODIC.txt"
+
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_UNIFORM.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_UNIFORM_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 2 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_UNIFORM.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_UNIFORM_STEEPPERIODIC.txt"
+python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel_OtherNoiseLevels.py 8 0 10.0 180 "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt"
+
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPPERIODIC_UNIFORM.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_UNIFORM_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_2_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPPERIODIC_UNIFORM.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_UNIFORM_STEEPPERIODIC.txt"
+python3 evaluateCrossValidationResults_Synthetic_LaplaceNoise.py "SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize_LaplaceNoise.py_180_8_2345_N40000_STEEPSHIFTED_STEEPPERIODIC.txt"
+\end{comment}
