@@ -35,7 +35,7 @@ Given a neural encoding $m \in \mathcal{Y}$ and the corresponding posterior $P(x
 \begin{equation}\label{eq:l1-loss}
     \int |x-\theta| P(x|m) dx
 \end{equation}
-In the implementation of \citet{hahn2024unifying}, we are given the discretized posterior $P(x_1|m), \dots, P(x_N|m)$ based on the discretization $x_1, ..., x_N$ of the stimulus space $\mathcal{X}$ ($x_{i+1}-x_i = \Delta$).
+In the implementation of \citet{hahn2024unifying}, we are given the discretized posterior $P(x_1|m), \dots, P(x_N|m)$ based on the discretization $x_1, ..., x_N$ of the stimulus space $\mathcal{X}$ ($x_{i+1}-x_i = \Gamma$).
 %The reason for defining the median on an interpolation is that, otherwise, it would not be uniquely defined, or would not smoothly depend on $P$.
 
 
@@ -55,7 +55,7 @@ Let $(\phi_i)_{i=1, \dots, N}$ be a sequence of functions $\mathcal{X} \rightarr
 It is sufficient to take
 \begin{equation}
     \phi_i(x) = \begin{cases}
-        1 & \text{if } |x-x_i| < |\frac{\Delta}{2}| \\
+        1 & \text{if } |x-x_i| < |\frac{\Gamma}{2}| \\
         0 & \text{else}
     \end{cases}
 \end{equation}
@@ -64,7 +64,7 @@ We use it to define the implemented $L_1$ estimator:
 \begin{defin}
 We define the $L_1$ estimator (median) as
 \begin{align}\label{eq:interval-l1-estimator}
-     \min_{\theta \in [0,1]} \int_{\mathcal{X}} |\theta-x| \widehat{P}(x) dx 
+     \arg\min_{\theta \in \mathcal{X}} \int_{\mathcal{X}} |\theta-x| \widehat{P}(x) dx 
 \end{align}
 \end{defin}
 To determine it, we solve for $\widehat{\theta}$ satisfying:
@@ -83,19 +83,19 @@ Set
     C =& \sum_{j : x_j < x_a} P(x_j)&
     D =& \sum_{j : x_j>x_a} P(x_j)
 \end{align*}
-We now want to choose $\alpha \in [-\frac{1}{2},\frac{1}{2}]$ such that $\widehat{\theta} = x_a + \alpha\Delta$.
-Then, $\widehat{\theta}$ partitions the patch $[x_a-\frac{\Delta}{2}, x_a+\frac{\Delta}{2}]$ with length $\Delta$ into sub-patches of length $(\frac{1}{2}+\alpha) \Delta$ (on the left) and $(\frac{1}{2}-\alpha) \Delta$ (on the right).
+We now want to choose $\alpha \in [-\frac{1}{2},\frac{1}{2}]$ such that $\widehat{\theta} = x_a + \alpha\Gamma$.
+Then, $\widehat{\theta}$ partitions the patch $[x_a-\frac{\Gamma}{2}, x_a+\frac{\Gamma}{2}]$ with length $\Gamma$ into sub-patches of length $(\frac{1}{2}+\alpha) \Gamma$ (on the left) and $(\frac{1}{2}-\alpha) \Gamma$ (on the right).
 The overall mass on the left of $\widehat{\theta}$ is
 \begin{equation}
-  \int_{x<\theta} sign(\widehat{\theta}-x) \widehat{P}(x) dx  =  \Delta D + \left(\frac{1}{2}+\alpha\right) \Delta A %+ (\frac{1}{2}-\alpha) \Delta B
+  \int_{x<\widehat{\theta}} \widehat{P}(x) dx  =  \Gamma C + \left(\frac{1}{2}+\alpha\right) \Gamma A %+ (\frac{1}{2}-\alpha) \Gamma B
 \end{equation}
 The overall mass on the right of $\widehat{\theta}$ is
 \begin{equation}
-  \int_{x>\theta} sign(\widehat{\theta}-x) \widehat{P}(x) dx =   \Delta C + \left(\frac{1}{2}-\alpha\right) \Delta A %+ (\frac{1}{2}+\alpha) \Delta B
+  \int_{x>\widehat{\theta}} \widehat{P}(x) dx =   \Gamma D + \left(\frac{1}{2}-\alpha\right) \Gamma A %+ (\frac{1}{2}+\alpha) \Gamma B
 \end{equation}
 Setting these two equal results in
 \begin{equation}\label{eq:interval-median-alpha}
-    \frac{C-D}{2A} =   \alpha
+    \frac{D-C}{2A} =   \alpha
 \end{equation}
 We try all $x_a$'s, and choose the one that ensures $\alpha \in [-\frac{1}{2}, \frac{1}{2}]$ while minimizing (\ref{eq:interval-l1-estimator}). 
 An important feature of the fitting procedure of \citet{hahn2024unifying} is that allows backpropagation of gradients through $\widehat{\theta}$ to the posterior $P(x|m)$, allowing full gradient-based fitting.
@@ -105,13 +105,12 @@ We can simply differentiate Eq.~\ref{eq:interval-median-alpha}.
     \frac{\partial \alpha}{\partial P(x_i)} = \begin{cases}
         \frac{1}{2A} & x_i-x_a > 0 \\
         -\frac{1}{2A} & x_i-x_a < 0 \\
-      \frac{D-C}{2A^2}  & i=a \\
-        -\frac{D-C}{2A^2} & i=b \\
+      -\frac{D-C}{2A^2}  & i=a \\
     \end{cases}
 \end{align*}
 Then
 \begin{equation}
-    \frac{\partial \widehat{\theta}}{\partial P(x_i)} = \frac{\partial \alpha}{\partial P(x_i)} \cdot \Delta
+    \frac{\partial \widehat{\theta}}{\partial P(x_i)} = \frac{\partial \alpha}{\partial P(x_i)} \cdot \Gamma
 \end{equation}
 
 
@@ -134,7 +133,7 @@ Let $(\phi_i)_{i=1, \dots, N}$ be a sequence of functions $\mathcal{X} \rightarr
 We take
 \begin{equation}
     \phi_i(x) = \begin{cases}
-        1 & \text{if } \cos(x-x_i) > \cos(\frac{\Delta}{2}) \\
+        1 & \text{if } \cos(x-x_i) > \cos(\frac{\Gamma}{2}) \\
         0 & \text{else}
     \end{cases}
 \end{equation}
@@ -218,10 +217,9 @@ This is equivalent to stating that the mass of $\widehat{P}$ is equal on both se
         \else \ifnum\i>15
             \node[yellow, circle, fill=yellow, opacity=0.3, minimum size=2mm] at (P\i) {};
             \node[above right, yellow] at (P\i) {$x_{\i}$};
-        \else \ifnum\i>5 \and \i<15
+        \else
             \node[blue, circle, fill=blue, opacity=0.3, minimum size=2mm] at (P\i) {};
             \node[above right, blue] at (P\i) {$x_{\i}$};
-        \fi
 \fi
 \fi 
 \fi
@@ -265,15 +263,15 @@ Set
     C =& \sum_{j : \sin(x_j-x_a) > 0} P(x_j)&
     D =& \sum_{j : \sin(x_j-x_a) < 0} P(x_j)
 \end{align*}
-We now want to choose $\alpha \in [-\frac{1}{2},\frac{1}{2}]$ such that $\widehat{\theta} = x_a + \alpha\Delta$.
-Then, among the patch $[x_a-\frac{\Delta}{2}, x_a+\frac{\Delta}{2}]$ with length $\Delta$, it is partitioned into sub-patches of length $(\frac{1}{2}+\alpha) \Delta$ (on the left) and $(\frac{1}{2}-\alpha) \Delta$ (on the right).
+We now want to choose $\alpha \in [-\frac{1}{2},\frac{1}{2}]$ such that $\widehat{\theta} = x_a + \alpha\Gamma$.
+Then, among the patch $[x_a-\frac{\Gamma}{2}, x_a+\frac{\Gamma}{2}]$ with length $\Gamma$, it is partitioned into sub-patches of length $(\frac{1}{2}+\alpha) \Gamma$ (on the left) and $(\frac{1}{2}-\alpha) \Gamma$ (on the right).
 The overall mass on the left of $\widehat{\theta}$ is
 \begin{equation}
-  \int_{x : sin(x-\widehat{\theta}) < 0} \widehat{P}(x) dx =  \Delta D + \left(\frac{1}{2}+\alpha\right) \Delta A + \left(\frac{1}{2}-\alpha\right) \Delta B
+  \int_{x : sin(x-\widehat{\theta}) < 0} \widehat{P}(x) dx =  \Gamma D + \left(\frac{1}{2}+\alpha\right) \Gamma A + \left(\frac{1}{2}-\alpha\right) \Gamma B
 \end{equation}
 The overall mass on the right of $\widehat{\theta}$ is
 \begin{equation}
-  \int_{x : sin(x-\widehat{\theta}) > 0} \widehat{P}(x) dx =  \Delta C + \left(\frac{1}{2}-\alpha\right) \Delta A + \left(\frac{1}{2}+\alpha\right) \Delta B
+  \int_{x : sin(x-\widehat{\theta}) > 0} \widehat{P}(x) dx =  \Gamma C + \left(\frac{1}{2}-\alpha\right) \Gamma A + \left(\frac{1}{2}+\alpha\right) \Gamma B
 \end{equation}
 Setting these two equal results in
 \begin{equation}\label{eq:median-alpha}
@@ -312,7 +310,7 @@ As before, we obtain the gradient by differentiating Eq.~\ref{eq:median-alpha}.
 \end{align*}
 Then
 \begin{equation}
-    \frac{\partial \widehat{\theta}}{\partial P(x_i)} = \frac{\partial \alpha}{\partial P(x_i)} \cdot \Delta
+    \frac{\partial \widehat{\theta}}{\partial P(x_i)} = \frac{\partial \alpha}{\partial P(x_i)} \cdot \Gamma
 \end{equation}
 Again, implicit differentiation would lead to the same result. 
 
@@ -343,7 +341,7 @@ We note that, at large noise, the standard definition of the Fisher information 
 
 We note that in our simulations for circular stimulus spaces, we assume an orientation perception setup. While the stimulus space is represented as [0,360] in the implementation, we convert it to [0,180] for plotting purposes. In this transformation, bias and variability are divided by 2, whereas the resources $\sqrt{\FI(\theta)}$ are multiplied by 2.
 
-We compare three numerical methods of computing or approximating the Fisher information in Figure~\ref{fig:four-methods-fi}:
+We compare four numerical methods of computing or approximating the Fisher information in Figure~\ref{fig:four-methods-fi}:
 \begin{enumerate}
 \item As described above: for a circular stimulus space
 \begin{equation}
@@ -359,7 +357,7 @@ and, for an interval stimulus space:
 \end{equation}
 where $m(\theta)$ is an encoding sampled for stimulus $\theta$, operationalized on a circular stimulus space as
 \begin{equation}
-    \sqrt{\FI(\theta)} = \sqrt{4\pi} \frac{\mathbb{P}(\sin(m(\theta_{i+1})- m(\theta_i) > 0) + \frac{1}{2}\mathbb{P}(m(\theta_{i+1}) = m(\theta_i)) - 0.5}{\theta_{i+1}-\theta_i}
+    \sqrt{\FI(\theta)} = \sqrt{4\pi} \frac{\mathbb{P}\left(\sin(m(\theta_{i+1})- m(\theta_i)) > 0\right) + \frac{1}{2}\mathbb{P}\left(m(\theta_{i+1}) = m(\theta_i)\right) - 0.5}{\theta_{i+1}-\theta_i}
 \end{equation}
 and on an interval stimulus space as
 \begin{equation}
