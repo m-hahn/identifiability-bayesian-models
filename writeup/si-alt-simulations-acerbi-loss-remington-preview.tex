@@ -51,9 +51,9 @@
 \caption{Here, we simulated data from four different prior-encoding pairs (as in Section~\ref{sec:further-interval}; four noise levels at 10K trials each) using three different versions of the inverted Gaussian loss function (Figure~\ref{fig:acerbi-loss-family-preview-remington} and Equation~\ref{eq:acerbi-loss}), and then applied our standard fitting procedure.
 Throughout, best fit is achieved at $p=2$ or close to it, in line with theoretical expectations.
 For each dataset, we show the fit at $L_2$ loss.
-The shape of the encoding is adequately recovered despite the mismatch between fitted ($L_2$) and ground truth (inverted Gaussian loss).
-The prior is accurately recovered at higher $\sigma$.
-This suggests that the encoding can be accurately recovered even if the loss function is misspecified, but that the prior may have some sensitivity to loss misspecification.
+The shape of the encoding is adequately recovered despite the mismatch between fitted ($L_2$) and ground truth (inverted Gaussian loss), across levels of $\sigma$.
+The prior is accurately recovered at higher $\sigma$; at low $\sigma$ the shape is accurate except in the third row.
+This suggests that the encoding can be accurately recovered even if the loss function is misspecified; the prior may have some sensitivity to loss misspecification, but is still often accurately recovered.
 }
 \label{fig:si-alt-acerbi-remington-preview}
 \end{figure}
