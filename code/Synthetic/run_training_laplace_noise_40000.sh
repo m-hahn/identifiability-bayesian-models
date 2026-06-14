@@ -21,10 +21,10 @@ while IFS= read -r TASK; do
   echo "Training laplace-on-laplace P=$P FIT=$FIT"
   case "$P" in
     0)
-      python3 RunSynthetic_FreePrior_ZeroTrig_OnSim.py 0 0 10.0 180 "$FIT"
+      python3 RunSynthetic_FreePrior_ZeroTrig_OnSim_LaplaceNoise.py 0 0 10.0 180 "$FIT"
       ;;
     1)
-      python3 RunSynthetic_FreePrior_L1Loss_OnSim.py 1 0 10.0 180 "$FIT"
+      python3 RunSynthetic_FreePrior_L1Loss_OnSim_LaplaceNoise.py 1 0 10.0 180 "$FIT"
       ;;
     *)
       python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise.py "$P" 0 10.0 180 "$FIT"

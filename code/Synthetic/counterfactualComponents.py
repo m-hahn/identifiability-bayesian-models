@@ -72,6 +72,21 @@ def setEncoding(ENCODING, parameters, grid, MAX_GRID):
      pass
   elif ENCODING == "STEEPPERIODIC":
      parameters["volume"] = (1.5-torch.sin(grid/MAX_GRID*2*math.pi).abs()).log()
+  elif ENCODING.startswith("STEEPPERIODICa"):
+     exponent_integer, exponent_fractional = ENCODING.split("a", 1)[1].split("b", 1)
+     parameters["volume"] = float(f"{exponent_integer}.{exponent_fractional}") * (1.5-torch.sin(grid/MAX_GRID*2*math.pi).abs()).log()
+  elif ENCODING.startswith("FOURIERa"):
+     exponent_string, seed = ENCODING.split("_", 1)
+     exponent_integer, exponent_fractional = exponent_string.split("a", 1)[1].split("b", 1)
+     exponent = float(f"{exponent_integer}.{exponent_fractional}")
+     import random
+     rstate = random.Random(int(seed))
+     frequencies = util.MakeLongTensor(range(5))
+     sines = torch.sin(grid.view(1,-1)*frequencies.view(-1,1) * 2*math.pi/MAX_GRID)
+     cosines = torch.cos(grid.view(1,-1)*frequencies.view(-1,1) * 2*math.pi/MAX_GRID)
+     basis = torch.cat([sines, cosines], dim=0)
+     coefficients = util.MakeFloatTensor([rstate.random()-0.5 for _ in range(10)])
+     parameters["volume"] = exponent * (basis*coefficients.unsqueeze(1)).sum(dim=0)
   elif ENCODING == "PIECEWISECONSTANT":
      parameters["volume"] = torch.cos(grid/MAX_GRID*2*math.pi+math.pi).sign()
   elif ENCODING.startswith("FOURIER1_"):

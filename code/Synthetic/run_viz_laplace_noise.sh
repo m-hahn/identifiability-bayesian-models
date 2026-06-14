@@ -15,10 +15,10 @@ for FIT in "${FITS[@]}"; do
     echo "VIZ P=$P FIT=$FIT"
     case "$P" in
       0)
-        python3 RunSynthetic_FreePrior_ZeroTrig_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 0 0 10.0 180 "$FIT"
+        python3 RunSynthetic_FreePrior_ZeroTrig_OnSim_LaplaceNoise_VIZ_OnlyModel.py 0 0 10.0 180 "$FIT"
         ;;
       1)
-        python3 RunSynthetic_FreePrior_L1Loss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py 1 0 10.0 180 "$FIT"
+        python3 RunSynthetic_FreePrior_L1Loss_OnSim_LaplaceNoise_VIZ_OnlyModel.py 1 0 10.0 180 "$FIT"
         ;;
       *)
         python3 RunSynthetic_FreePrior_CosineLoss_OnSim_LaplaceNoise_VIZ_OnlyModel.py "$P" 0 10.0 180 "$FIT"
