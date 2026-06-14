@@ -133,6 +133,7 @@ python3 RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_W
 \end{tikzpicture}
 
 \caption{Fits at one or four levels of sensory noise, for four combinations of prior (left) and encoding (middle), with ground truth exponent $p=2$. We show both the prior and encoding recovered when fitting at the ground truth exponent ($p=2$), and NLL over exponents (right). Results at 40K trials. At 1 level of sensory noise, NLL does not reliably single out the correct loss function. High noise can lead to a large $\Delta NLL$, but does not reliably distinguish high from low exponents. The shape of the prior is also recovered incorrectly in some cases even when presupposing the correct $p$. Low noise leads to more reliable recovery, but the statistical signal in $\Delta NLL$ can be weak. 
+For instance, for one model (uniform prior and periodic encoding) identifiability is more successful at a single level of \emph{low} noise (top of that figure), whereas for another model (periodic prior and uniform encoding) a single level of \emph{high} noise is more successful (mid of that figure); however, in both cases, data from four noise levels is much more successful at narrowing down the exponent closely (bottom of that figure).
 At four levels of sensory noise, both the prior and the loss function are recovered reliably.}\label{fig:known-loss-unknown-prior}
 \begin{comment}
 . ./plotSingleNoiseFits.sh
@@ -146,7 +147,8 @@ At four levels of sensory noise, both the prior and the loss function are recove
 
 \caption{
 Subset of the datapoints of Main Paper Figure 5c at N=40,000 trials and one or two noise levels, broken down by the two noise levels (1=smallest noise, 4=largest noise).
-Panels on the diagonal correspond to settings with only one noise level.
+Rows indicate the minimum noise level in the dataset; columns indicate the maximum noise level in the dataset.
+Correspondingly, panels on the diagonal correspond to settings with only one noise level.
 As we also found in Figure~\ref{fig:known-loss-unknown-prior}, higher noise levels tend to lead to higher $\Delta$ NLL, though, on their own, they often are not sufficient for singling out the ground-truth loss (Figure~\ref{fig:known-loss-unknown-prior}).
 Here, we find that across noise magnitudes, combining with a different noise level boosts $\Delta$ NLL (and thus identifiability), and mainly so when combining with a substantially different level (e.g., combining level 1 with level 4).
 Intuitively, more distinct noise levels may be more likely to provide complementary evidence about the model; Theorem 3 formalizes this by requiring that the ratio of noise magnitudes be bounded away from 1.

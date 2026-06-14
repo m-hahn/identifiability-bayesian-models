@@ -9,6 +9,10 @@
 
 \section{Robustness Studies}\label{sec:alt-noise-loss-experiments}
 
+\subsection{Efficient-Coding Family}\label{sec:simulations-efficient-coding}
+\input{si-alt-efficient-coding.tex}
+
+\clearpage
 
 \subsection{Robustness to Large Motor Noise}
 
@@ -31,6 +35,19 @@ The Medium Large and Large settings are used for the simulations in Figures~\ref
 
 \clearpage
 \newpage
+
+\subsection{Robustness to Regularization}\label{sec:robustness-reg}
+As described in Materials and Methods, the fitting procedure from \citet{hahn2024unifying} uses regularization to encourage smooth fits for prior and encoding.
+While the regularization strength can in principle be determined for each dataset individually via cross-validation, we (for computational efficiency) use a single regularization strength across all simulations, using the strength identified for the fit to the data of \citet{deGardelle2010AnOI} in \citet{hahn2024unifying}, as described in Materials and Methods.
+Here, we test the robustness of identifiability to the choice of the regularization strength parameter, by fitting to the same simulated datasets as in the main simulations (four combinations of prior and encoding as in Section~\ref{sec:further-circular}, 10K trials, four noise levels), but using (i) no regularization, (ii) much weaker regularization, (iii) much stronger regularization in model fitting.
+Results are shown in Figures~\ref{fig:si-alt-regularization-steepperiodic-uniform}--\ref{fig:si-alt-regularization-steepshifted-steepperiodic}.
+Across datasets, prior and encoding are biased towards uniform when regularization is very strong, and become jagged when regularization is weak or absent.
+Importantly, the NLL profile is very similar across regularization strengths, and the true model is identifiable even with no regularization, albeit with a more jagged fit.
+This shows that regularization is useful for mitigating overfitting to a finite sample, which can lead to excessively jagged fits, but is not necessary for identifiability in principle, and that the choice of regularization strength does not qualitatively affect identifiability results.
+
+\input{si-alt-regularization.tex}
+
+\clearpage
 
 
 \subsection{Beyond Gaussian/von Mises Noise}\label{sec:other-noise}
