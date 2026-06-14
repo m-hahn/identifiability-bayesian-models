@@ -4,6 +4,21 @@
 \begin{document}
 
 
+\newcommand{\safegraphic}[4]{%
+  \IfFileExists{#2}{%
+    \adjustbox{valign=t}{\includegraphics[width=#1]{#2}}%
+  }{%
+    \adjustbox{valign=t}{%
+      \fcolorbox{gray}{white}{%
+        \begin{minipage}[c][#3][c]{#1}%
+        \centering
+        \scriptsize Missing PDF\\
+        \scriptsize #4
+        \end{minipage}%
+      }%
+    }%
+  }%
+}
 
 \clearpage
 

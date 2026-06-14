@@ -2,14 +2,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{array}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 
 \newif\ifshowcode
-\newif\iffalse
+\newif\ifshowfalseblock
 
 \showcodefalse % or \showcodefalse
-\falsefalse % or \showcodefalse
+\showfalseblockfalse % or \showcodefalse
 
 \usepackage{subfiles}
 
@@ -91,6 +92,7 @@
 \newtheorem{defin}[theorem]{Definition}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{theorem}[theorem]{Theorem}
 \newtheorem{thm}[theorem]{Theorem}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newtheorem{hypothesis}[theorem]{Hypothesis}
@@ -191,6 +193,7 @@ Example 2: Interval Stimulus Space $\mathcal{X} = [0,3]$
 
 \subsection{Identifiability when Encoding Varies with Noise Level}\label{sec:vary-with-noise}
 \subfile{si-separate-encoding}
+
 
 
 
