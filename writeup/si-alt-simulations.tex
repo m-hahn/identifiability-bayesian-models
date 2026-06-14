@@ -25,6 +25,36 @@
 \section{Robustness Studies}\label{sec:alt-noise-loss-experiments}
 
 \subsection{Efficient-Coding Family}\label{sec:simulations-efficient-coding}
+
+We have formalized the notion of ``almost all models'' and ``measure zero'' in terms of a measure on the space of models, which treats prior and encoding as independently distributed over the space of possible prior/encoding functions, without any a-priori links between prior and encoding.
+However, there are plausible scenarios where the prior and encoding might be linked:
+In particular, theories of efficient coding suggest that the encoding is adapted to the environmental statistics, and Bayesian models with efficient coding as a consequence suggest that both prior and encoding precision are higher at frequent stimuli.
+In particular, such models may predict that the encoding  should be proportional to a power of the prior \citep[e.g.][]{Wei2015ABO, Morais2018PowerlawEN}:
+\begin{equation}
+\sqrt{\FI(\theta)} \propto \Prior(\theta)^\alpha,
+\end{equation}
+or equivalently
+\begin{equation}
+\FI(\theta) \propto \Prior(\theta)^{2\alpha}
+\end{equation}
+Information maximization \citep{Wei2015ABO} corresponds to \(\alpha=1\); broader power-law encoding families \citep[e.g.][]{Morais2018PowerlawEN} correspond to other values of \(\alpha\).
+
+An interesting question is whether this kind of coupling would impact identifiability.
+We have shown that the exceptional set $\Omega$ of potentially unidentifiable models is composed of the solution sets of specific differential equations derived from rewriting the condition
+ $\mathcal{D}_{M_1} = \mathcal{D}_{M_2}$ as a differential equation for the prior $\Prior$ (Lemma~\ref{lemma:measure-zero}), with coefficients depending on $F'$ and its derivatives.
+Now inserting the power law form $F' \propto \Prior^\alpha$ leads to an implicit differential equation for $\Prior$, whose solution set describes the set of priors where the resulting power-law efficient coding model is unidentifiable.
+Unless this implicit differential equation collapses to a trivial identity, it imposes a nontrivial constraint and is expected to lead to a measure-zero solution set.
+In this case, the set of priors where the corresponding efficient-coding model becomes unidentifiable is expected to have measure zero.
+However, a fully formal treatment of this is nontrivial due to the complexity of the algebraic form of $\mathcal{D}$ (Equation \ref{eq:d-even-p}).
+
+Here, we simulate data from models with such a link between prior and encoding, to test whether such models are identifiable.
+We simulated datasets where the encoding is adapted to the prior according to $\alpha = \frac{1}{2}, 1, 2$.
+Fitted results are shown in Figures~\ref{fig:si-alt-efficient-coding-periodic} and \ref{fig:si-alt-efficient-coding-fourier}.
+The models are well identifiable across the three exponents $\alpha$, suggesting that power-law alignment between prior and encoding -- even though it induces a systematic link between prior and encoding -- does not by itself lead to unidentifiability.
+
+
+
+
 \input{si-alt-efficient-coding.tex}
 
 \clearpage
