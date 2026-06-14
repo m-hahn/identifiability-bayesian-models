@@ -1,0 +1,101 @@
+
+\newcommand{\regsweeprow}[2]{%
+\texttt{#2} &
+\safegraphic{0.17\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N10000_#1.txt_2_0_#2_180.pdf}{3.0cm}{fit 2 reg #2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/regularization_sweep_nll/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N10000_#1.txt_reg_#2_RelativeLF.pdf}{3.0cm}{nll 2 reg #2} &
+\safegraphic{0.17\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N10000_#1.txt_8_0_#2_180.pdf}{3.0cm}{fit 8 reg #2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/regularization_sweep_nll/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N10000_#1.txt_reg_#2_RelativeLF.pdf}{3.0cm}{nll 8 reg #2} \\
+}
+
+\newcommand{\regsweeprowlabel}[3]{%
+\raisebox{0pt}[0pt][0pt]{\makebox[0.08\textwidth][c]{\textit{#3}}} &
+\safegraphic{0.17\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N10000_#1.txt_2_0_#2_180.pdf}{3.0cm}{fit 2 reg #2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/regularization_sweep_nll/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N10000_#1.txt_reg_#2_RelativeLF.pdf}{3.0cm}{nll 2 reg #2} &
+\safegraphic{0.17\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N10000_#1.txt_8_0_#2_180.pdf}{3.0cm}{fit 8 reg #2} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/regularization_sweep_nll/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N10000_#1.txt_reg_#2_RelativeLF.pdf}{3.0cm}{nll 8 reg #2} \\
+}
+
+\newcommand{\regsweeptable}[1]{%
+\begin{tabular}{>{\centering\arraybackslash}m{0.08\textwidth}cc@{\hspace{0.05\textwidth}}cc}
+& \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+\textbf{Strength} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} \\
+\regsweeprowlabel{#1}{0.0}{none}
+\regsweeprowlabel{#1}{1.0}{small}
+\regsweeprowlabel{#1}{10.0}{standard}
+\regsweeprowlabel{#1}{100.0}{large}
+\end{tabular}
+}
+
+\begin{figure}[p]
+\centering
+
+\textbf{Periodic Encoding, Periodic Prior}
+
+\ 
+
+\regsweeptable{STEEPPERIODIC_STEEPPERIODIC}
+
+
+\ 
+
+\ 
+
+\ 
+
+\textbf{Uniform Encoding, Perioric Prior}
+
+\ 
+
+\begin{tabular}{>{\centering\arraybackslash}m{0.08\textwidth}cc@{\hspace{0.05\textwidth}}cc}
+& \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+\textbf{Strength} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} \\
+\regsweeprowlabel{STEEPPERIODIC_UNIFORM}{0.0}{none}
+\regsweeprowlabel{STEEPPERIODIC_UNIFORM}{1.0}{small}
+\regsweeprowlabel{STEEPPERIODIC_UNIFORM}{10.0}{standard}
+\regsweeprowlabel{STEEPPERIODIC_UNIFORM}{100.0}{large}
+\end{tabular}
+\caption{Robustness of model identification to the regularization strength used for fitting. Here, \textit{standard} is the regularization strength used across the circular simulations (determined by \citet{hahn2024unifying} for the behavioral data from \citet{deGardelle2010AnOI}), \textit{small} is \(10\%\) of that strength, \textit{large} is \(10\times\) that strength, and \textit{none} means zero regularization.
+While the strength of regularization impacts the degree of overfitting or underfitting in the recovered prior and encoding functions, the overall shapes and the NLL profile are recovered independently of the regularization strength.
+}
+\label{fig:si-alt-regularization-steepperiodic-uniform}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+
+\textbf{Periodic Encoding, Uniform Prior}
+
+\ 
+
+%\small
+\begin{tabular}{>{\centering\arraybackslash}m{0.08\textwidth}cc@{\hspace{0.05\textwidth}}cc}
+& \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+\textbf{Strength} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} \\
+\regsweeprowlabel{UNIFORM_STEEPPERIODIC}{0.0}{none}
+\regsweeprowlabel{UNIFORM_STEEPPERIODIC}{1.0}{small}
+\regsweeprowlabel{UNIFORM_STEEPPERIODIC}{10.0}{standard}
+\regsweeprowlabel{UNIFORM_STEEPPERIODIC}{100.0}{large}
+\end{tabular}
+
+\ 
+
+\ 
+
+\ 
+
+\textbf{Periodic Encoding, Shifted Prior}
+
+\ 
+
+%\small
+\begin{tabular}{>{\centering\arraybackslash}m{0.08\textwidth}cc@{\hspace{0.05\textwidth}}cc}
+& \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+\textbf{Strength} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} & \textbf{Model fit} & \textbf{\(\Delta\)NLL} \\
+\regsweeprowlabel{STEEPSHIFTED_STEEPPERIODIC}{0.0}{none}
+\regsweeprowlabel{STEEPSHIFTED_STEEPPERIODIC}{1.0}{small}
+\regsweeprowlabel{STEEPSHIFTED_STEEPPERIODIC}{10.0}{standard}
+\regsweeprowlabel{STEEPSHIFTED_STEEPPERIODIC}{100.0}{large}
+\end{tabular}
+\caption{Continuation of Figure~\ref{fig:si-alt-regularization-steepperiodic-uniform}.}
+\label{fig:si-alt-regularization-steepshifted-steepperiodic}
+\end{figure}

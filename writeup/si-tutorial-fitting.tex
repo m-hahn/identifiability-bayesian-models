@@ -1,0 +1,61 @@
+Here, we provide a self-contained tutorial for the model and fitting procedure, with the goal of making it easier for readers to understand the model and reproduce the results.
+The fitting procedure is from \citet{hahn2024unifying}, and we refer to the formal description there.
+Here, we intend to give a user-friendly tutorial to readers interested in applying the fitting procedure to psychophysical data.
+
+The codebase provides instructions for running on a simulated dataset\footnote{\url{https://github.com/m-hahn/identifiability-bayesian-models/tree/main/code}}, on the original dataset by \citet{deGardelle2010AnOI}\footnote{\url{https://github.com/m-hahn/identifiability-bayesian-models/tree/main/code/Gardelle}} and on the dataset by \citet{Remington2018LateBI}\footnote{\url{https://gitlab.com/m-hahn/unifying-theory-biases/-/tree/main/code/Remington} in the codebase from \citet{hahn2024unifying}.}, including for visualizing the resulting fits.
+
+We first discuss which aspects are specified by the user, and which parts are recovered by the fitting procedure.
+The user specifies the following parts:
+\begin{enumerate}
+\item The stimulus space $\mathcal{X}$; it may be a finite interval or a circle.
+The  sensory space $\mathcal{Y}$ has the same topology; in practice, it can be chosen to be $[0,1]$ (interval) or $[0,2\pi)$ (circular).
+\item The exponent $p \geq 0$ of the $L_p$ loss function. The fitting procedure admits $p=0,1,2,4,6,8,\dots$.
+\item The number $k$ of sensory noise levels.
+\end{enumerate}
+The behavioral data is expected to consist of trials that each consist of
+\begin{enumerate}
+\item the true stimulus $\theta \in \mathcal{X}$,
+\item the observed response $x \in \mathcal{X}$,
+\item an index for the sensory noise level, $l \in \{1, \dots, k\}$ (e.g., an index for a condition under a manipulation of exposure duration, contrast, or another manipulation affecting the magnitude of sensory noise).
+\end{enumerate}
+Given these, the fitting procedure determines
+\begin{enumerate}
+	\item A prior $\Prior(\theta)$, which is a probability density on $\mathcal{X}$.
+	\item An encoding function $F(\theta) : \mathcal{X} \rightarrow \mathcal{Y}$; equivalently, a function $F'(\theta) : \mathcal{X} \mapsto (0,\infty)$ describing the slope of $F(\theta)$.
+	\item Sensory noise magnitudes  $\sigma_1, \dots, \sigma_k > 0$, which specify the magnitude of sensory noise in the $k$ different noise level conditions
+        \item The variance  $\rho^2$ of motor noise. 
+	\item $\xi \in [0,1)$, the guessing rate.
+\end{enumerate}
+There are several possible extensions, such as to stimulus (external) noise (Section~\ref{sec:stimulus-noise}), to subject-specific adjustments (SI Appendix S2.1.4 in \citet{hahn2024unifying}), and to encoding functions varying with noise conditions (Section~\ref{sec:vary-with-noise}).
+
+For any dataset, we use 90\% of trials for model fitting (training set) and 10\% of trials for evaluating the quality of fit (held-out or test set).
+The quality-of-fit statistic is negative log-likelihood (NLL) on held-out data, which is the sum of the negative log-likelihoods of all held-out trials.
+
+Note that the model is fitted separately for each potential loss function exponent $p$ (giving a different heldout NLL for each $p$), whereas the other parameters (prior, encoding, noise and guessing parameters) are jointly fitted.
+
+
+
+\paragraph*{Parameterization of Prior and Encoding}
+The model is implemented computationally on a regularly spaced discretized grid $\theta_1, \dots, \theta_N$.
+We paramaterize the encoding and prior by assigning one value of $F'$, $\Prior$ to each grid point $\theta_i$.
+The encoding and prior are parameterized in terms of logarithms of these values, and obtained by normalizing the exponentiated parameters (softmax transform), as follows:
+\begin{align}\label{eq:fprime-param}
+	F'(\theta_i) =& \operatorname{Vol}(\mathcal{Y}) \frac{\exp(\alpha(\theta_i))}{\sum_{j=1}^N\exp(\alpha(\theta_j))} \\
+\label{eq:prior-param}
+	\Prior(\theta_i) =& \frac{\exp(\beta(\theta_i))}{\sum_{j=1}^N\exp(\beta(\theta_j))}
+\end{align}
+for $\theta$ on the grid; here, $\alpha(\theta_i)$ and $\beta(\theta_i)$ ($i=1,\dots, N$) are real-valued parameters of the model. 
+We note that this is a discretized version of the theoretical construction of a measure over models (Section~\ref{sec:measure-mu}).
+
+\paragraph*{Implementation of Model}
+We map the  input stimulus $\theta$  to the closest grid point $\theta_i$ and then compute likelihoods and posteriors exactly 
+on the discretized grid, and obtain the $L_p$ estimator via Newton's method.
+We fit all model parameters end-to-end via gradient descent to maximize the likelihood of the behavioral data.
+We refer to \citet{hahn2024unifying} for technical details.
+
+\citet{hahn2024unifying} mitigate overfitting in the shapes or prior and encoding by adding a regularization term penalizing the squared distances between $\alpha(\theta_i), \alpha(\theta_{i+1})$ and similarly for $\beta$, modulated with a regularization strength $\lambda$ that is set by the user.
+In principle, one can determine the regularization strength for a given behavioral dataset via cross-validation. 
+Due to computational cost, we used the same regularization strength as was identified for the data from \citet{deGardelle2010AnOI} by \citet{hahn2024unifying}, and used this across all datasets.
+A control study (Section~\ref{sec:robustness-reg}) shows that the regularization strength has little impact on the identifiability.
+
+

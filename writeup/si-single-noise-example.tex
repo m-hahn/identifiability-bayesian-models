@@ -1,0 +1,139 @@
+
+
+
+
+\subsection{Single-Noise-Level Identification of the Loss Exponent at Finite Noise}
+
+
+%We consider an interval stimulus space $\mathcal{X}=[0,1]$ with uniform encoding
+%\begin{equation}
+%F(\theta)=\theta,
+%\end{equation}
+%and an arbitrary smooth strictly positive asymmetric prior. For concreteness, take the exponential family
+%\begin{equation}
+%\Prior(\theta)=\frac{\lambda e^{\lambda \theta}}{e^\lambda-1}
+%\end{equation}
+%for some fixed $\lambda\neq 0$.
+%Sensory encoding is
+%\begin{equation}
+%m=\theta+\varepsilon, \qquad \varepsilon\sim N(0,t),
+%\end{equation}
+%where $t>0$ is the sensory-noise variance.
+%
+%For uniform encoding, the single-noise low-noise confounding transformation from Theorem~\ref{thm:identifiability} becomes trivial, because
+%\begin{equation}
+%p_q(\theta)\propto \Prior(\theta) F'(\theta)^{\frac{\tilde q-\tilde p}{2}}=\Prior(\theta)
+%\end{equation}
+%for every pair of exponents $p,q$.
+%Thus the infinitesimal-noise argument does not distinguish exponents here.
+%However, the \emph{exact} finite-noise posterior does:
+%\begin{align}
+%p(\theta|m) &\propto \exp\left(-\frac{(\theta-m)^2}{2t}\right)e^{\lambda \theta}\mathbf{1}_{[0,1]}(\theta) \\
+%&\propto \exp\left(-\frac{(\theta-\mu)^2}{2t}\right)\mathbf{1}_{[0,1]}(\theta),
+%\end{align}
+%where
+%\begin{equation}
+%\mu:=m+\lambda t.
+%\end{equation}
+%So the posterior is exactly a Gaussian $N(\mu,t)$ truncated to the interval $[0,1]$.
+%
+%At a fixed nonzero noise level $t$, different $L_p$ estimators select different points of this asymmetric truncated posterior.
+%In particular:
+%\begin{align}
+%\hat\theta_{0}(m)&=\Pi_{[0,1]}(\mu), \\
+%\hat\theta_{1}(m)&=\mu+\sqrt{t}\,\Phi^{-1}\left(\frac{\Phi(a)+\Phi(b)}{2}\right), \\
+%\hat\theta_{2}(m)&=\mu+\sqrt{t}\,\frac{\phi(a)-\phi(b)}{\Phi(b)-\Phi(a)},
+%\end{align}
+%where
+%\begin{equation}
+%a=\frac{-\mu}{\sqrt{t}}, \qquad b=\frac{1-\mu}{\sqrt{t}},
+%\end{equation}
+%$\Pi_{[0,1]}$ denotes projection onto $[0,1]$, and $\phi,\Phi$ are the standard normal density and CDF.
+%
+%Now choose a measurement $m$ such that $\mu=1$, i.e.
+%\begin{equation}
+%m=1-\lambda t.
+%\end{equation}
+%Then
+%\begin{align}
+%\hat\theta_0 &= 1, \\
+%\hat\theta_1 &= 1+\sqrt{t}\,\Phi^{-1}(1/4) = 1-0.67449\sqrt{t}, \\
+%\hat\theta_2 &= 1-\sqrt{t}\,\frac{\phi(0)}{\Phi(0)} = 1-0.79788\sqrt{t}.
+%\end{align}
+%Therefore
+%\begin{equation}
+%\hat\theta_2 < \hat\theta_1 < \hat\theta_0.
+%\end{equation}
+%So the three exponents $p=2,1,0$ produce different deterministic decoders already at one fixed sensory-noise level.
+%Because the full response distribution at that noise level determines the decoder, the exponent is identifiable from one level of sensory noise in this example.
+%
+%This example also clarifies the role of noise magnitude.
+%As $t\to 0$, the separation between the estimators vanishes, recovering the low-noise confounding result.
+%But for finite $t$, the gap between estimators is of order $\sqrt{t}$ near the boundary.
+%Thus, departing from the infinitesimal-noise regime can \emph{improve} single-level identifiability of the loss exponent.
+%This does not imply that identifiability improves monotonically for arbitrarily large noise; rather, it shows analytically that intermediate nonzero noise can reveal the exponent even when the infinitesimal-noise approximation cannot.
+%
+%\paragraph*{Circular Analogue}
+
+
+Here we give an explicit analytical example showing that a single level of sensory noise can sometimes be sufficient for identifying the model.
+
+The same conceptual mechanism also appears on a circular stimulus space, though the formulas are somewhat less explicit.
+Take $\mathcal{X}=\mathbb{T}$, uniform encoding $F(\theta)=\theta$, and von Mises sensory noise
+\begin{equation}
+p(m|\theta)\propto \exp(\kappa \cos(\theta-m)),
+\end{equation}
+where $\kappa$ is the concentration parameter.
+Choose the smooth strictly positive prior
+\begin{equation}
+\Prior(\theta)=\frac{1+\varepsilon \sin(2\theta)}{2\pi},
+\qquad |\varepsilon|<1.
+\end{equation}
+This prior is periodic and similar to the prior used in (TODO XXX), but smooth and analytically more explicitly tractable.
+
+Again the low-noise confounding transformation is trivial because $F'(\theta)\equiv 1$.
+However, at finite $\kappa$, the exact posterior for a fixed measurement $m=0$ is
+\begin{equation}
+p(\theta|m=0)\propto e^{\kappa \cos\theta}\left(1+\varepsilon\sin(2\theta)\right),
+\end{equation}
+which is asymmetric as soon as $\varepsilon\neq 0$.
+
+For small $\varepsilon$, one can compute the first-order displacement of different circular estimators explicitly.
+If $\hat\theta_0$ denotes the MAP estimator, then differentiating the log posterior gives
+\begin{equation}
+\hat\theta_0=\frac{2\varepsilon}{\kappa}+O(\varepsilon^2).
+\end{equation}
+If $\hat\theta_2$ denotes the circular posterior mean direction, then
+\begin{equation}
+\hat\theta_2=
+\arg \int e^{i\theta} e^{\kappa\cos\theta}\left(1+\varepsilon\sin(2\theta)\right)d\theta
+=
+\frac{\varepsilon}{2}\frac{I_1(\kappa)-I_3(\kappa)}{I_1(\kappa)}+O(\varepsilon^2),
+\end{equation}
+where $I_j$ are modified Bessel functions of the first kind.
+Using the identity $I_1(\kappa)-I_3(\kappa)=\frac{4}{\kappa}I_2(\kappa)$, this becomes
+\begin{equation}
+\hat\theta_2=
+\frac{2\varepsilon\, I_2(\kappa)}{\kappa I_1(\kappa)}+O(\varepsilon^2).
+\end{equation}
+Therefore
+\begin{equation}
+\hat\theta_0-\hat\theta_2=
+\frac{2\varepsilon}{\kappa}\left(1-\frac{I_2(\kappa)}{I_1(\kappa)}\right)+O(\varepsilon^2),
+\end{equation}
+which is generically nonzero at any finite $\kappa$.
+So already at one fixed noise level, the circular MAP and circular posterior mean differ.
+
+Note that, by Theorem 1, the encoding and in particular $\kappa$, can be identified from a single noise level.
+
+The distinction between the two estimators disappears as $\kappa\to 0$ (very large noise), because the posterior becomes nearly uniform and the two estimators nearly coincide with gap $\sim \varepsilon/2$.
+The distinction between the two estimators disappears as $\kappa\to\infty$ (very small noise), because the two estimators nearly coincide with gap $\sim 3\varepsilon/\kappa^2$.
+
+This reveals that identifiability of the loss exponent at a single noise level may be present at certain noise levels, but is not generically guaranteed at all noise levels.
+Simulations show that there often is some noise level at which identifiability holds, but this noise level depends on the model.
+For instance, Figure~\ref{fig:known-loss-unknown-prior} shows one model (uniform prior and periodic encoding) where identifiability holds at a single level of \emph{low} noise (top of that figure), and a model (periodic prior and uniform encoding) where a single level of \emph{high} noise is more successful (mid of that figure); in both cases, data from four noise levels is however much more successful at narrowing down the exponent closely (bottom of that figure).
+
+%This circular example makes the same point as the interval example, but by a different mechanism.
+%On the interval, finite-noise identifiability comes from boundary asymmetry of a truncated posterior.
+%On the circle, there is no boundary, so the separation instead comes from prior-induced asymmetry of the posterior.
+%In both cases, the distinction disappears in the infinitesimal-noise limit and becomes visible once one moves away from that limit.

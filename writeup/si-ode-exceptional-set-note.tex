@@ -1,0 +1,681 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{fancyvrb}
+
+\newtheorem{proposition}{Proposition}
+
+\newcommand{\Prior}{p_{prior}}
+\newcommand{\FI}{\mathcal{J}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\revision}[1]{\textcolor{blue}{#1}}
+
+\title{Exceptional-Set ODE Note:\\
+Derivation, Implementation, and Circular Periodic Solutions}
+\author{Repository note for future reconstruction}
+\date{April 28, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Purpose of this note}
+
+This note records a complete account of the ``exceptional-set ODE'' work that was added to this repository under \texttt{code/identifiability-polynomial/}. It is written so that a future reader can recover the logic without having to reconstruct the full conversation history.
+
+The goal was the following:
+\begin{enumerate}
+\item Start from the SI definition of the exceptional set $\Omega$ of potentially unidentifiable models.
+\item Turn the condition ``two models have the same second-order coefficient $\mathcal{D}_M$'' into an explicit ODE for the log prior
+\[
+Q(\theta) := \log \Prior(\theta)
+\]
+when the encoding derivative $F'(\theta)$ and the pair of loss exponents $(p,p')$ are fixed.
+\item Solve that ODE numerically.
+\item Use it to construct explicit examples of distinct priors whose induced models remain in $\Omega$.
+\item In the circular case, search not only for arbitrary solutions on $[0,2\pi]$, but specifically for periodic solutions satisfying the circle seam conditions.
+\end{enumerate}
+
+The main empirical result is that for the smoothed circular encoding
+\[
+F'(\theta)=2-\sqrt{\sin^2\theta+\varepsilon^2},
+\qquad \varepsilon = 10^{-2},
+\]
+the ODE admits numerically stable periodic-shoot solutions for several pairs of loss exponents, including $(2,8)$.
+
+\section{What was fixed before the ODE search}
+
+\subsection{The original issue}
+
+The first implementation of $\mathcal{D}_M$ was based on draft hand algebra in the proof files. A decisive sanity check failed: for the SI log-normal solvable family, the implementation did \emph{not} produce the predicted degeneracy across loss functions.
+
+That indicated that the issue was not with the SI log-normal claim itself, but with the generic formula encoding for $\mathcal{D}_M$.
+
+\subsection{What was re-derived}
+
+The formulas were re-derived cleanly from the posterior expansion rather than copied from the draft derivation. The corrected implementation now lives in
+\begin{Verbatim}[fontsize=\small]
+code/identifiability-polynomial/generated_formulas.py
+\end{Verbatim}
+
+The important corrections are:
+\begin{enumerate}
+\item The sensory-coordinate log-prior jets were corrected. Writing
+\[
+P(x) := \log\left(\frac{\Prior(F^{-1}(x))}{F'(F^{-1}(x))}\right),
+\]
+the implementation now uses the correct finite jet relations between
+\[
+F',F'',F''',F'''',Q',Q'',Q'''
+\]
+and
+\[
+P_x,P_{xx},P_{xxx}.
+\]
+
+\item The MAP case ($p=0$) is now derived directly in stimulus coordinates.
+
+\item The $L_1$ case ($p=1$) is now derived from the posterior median condition rather than from the unreliable draft bookkeeping.
+
+\item The even-loss cases $p=2,4,6,\dots$ are now derived from the normalized posterior expectation condition using symbolic moment expansion.
+\end{enumerate}
+
+\subsection{Consistency check that now passes}
+
+The script
+\begin{Verbatim}[fontsize=\small]
+code/identifiability-polynomial/check_lognormal_family.py
+\end{Verbatim}
+checks the SI family
+\[
+F(\theta)=\log\theta,
+\qquad
+\Prior(\theta)\propto \text{LogNormal}\left(\log\mu-\frac{\tilde p}{2}v, v\right),
+\]
+and now verifies exactly that the induced $\mathcal{D}_M$ is independent of $p$ for
+\[
+p \in \{0,1,2,4,6,8\}.
+\]
+
+This should be treated as the primary correctness check for the generic formulas.
+
+\section{ODE formulation}
+
+\subsection{Exceptional-set condition}
+
+Fix a pair of loss exponents $(p,p')$ and a fixed encoding derivative $F'(\theta)$. Let
+\[
+Q(\theta)=\log \Prior(\theta).
+\]
+For the transformed comparison model, the low-noise confoundedness condition from the SI implies
+\[
+Q_{\mathrm{alt}}(\theta)
+=
+Q(\theta)
++
+\frac{\tilde p'-\tilde p}{2}\log F'(\theta)
++\text{const}.
+\]
+
+The exceptional-set condition is imposed pointwise as
+\[
+\mathcal{D}_{M}(\theta)=\mathcal{D}_{M'}(\theta).
+\]
+
+After substituting the transformed prior jets, this becomes a finite-order ODE in the jets of $Q$.
+
+\subsection{Order of the ODE}
+
+For the Gaussian cases currently implemented here, the comparison equation depends only on
+\[
+F',F'',F''',F'''',Q',Q'',Q'''.
+\]
+Therefore, after fixing $F'$, the exceptional-set condition becomes an ODE in $Q$ of order at most three.
+
+In practice, the current implementation checks the actual symbolic dependence and determines the induced order automatically. For the pairs investigated in this note, including MAP versus $L_1$, the resulting equation is third-order.
+
+\subsection{How the code solves it}
+
+The key API is:
+\begin{Verbatim}[fontsize=\small]
+omega_difference(p_base, p_alt, f1, f2, f3, f4, q1, q2, q3)
+solve_q3_from_difference(p_base, p_alt, f1, f2, f3, f4, q1, q2)
+\end{Verbatim}
+
+Numerically, we solve
+\[
+Q' = q_1,\qquad
+q_1' = q_2,\qquad
+q_2' = q_3,
+\]
+where $q_3$ is obtained at each point by solving
+\[
+\omega_{p,p'}(F',F'',F''',F'''',Q',Q'',Q''')=0
+\]
+for $Q'''$.
+
+This is wrapped in:
+\begin{Verbatim}[fontsize=\small]
+code/identifiability-polynomial/solver.py
+\end{Verbatim}
+
+\section{Repository structure}
+
+The files added or materially changed for this work are:
+
+\begin{longtable}{p{0.33\textwidth}p{0.61\textwidth}}
+\toprule
+\textbf{Path} & \textbf{Role} \\
+\midrule
+\endhead
+\texttt{code/identifiability-polynomial/generated\_formulas.py} & Correct symbolic/numeric formulas for $\mathcal{D}_M$, prior-jet transforms, and ODE helpers. \\
+\texttt{code/identifiability-polynomial/derive\_formulas.py} & Minimal SymPy reproduction script for the formula structure. \\
+\texttt{code/identifiability-polynomial/check\_lognormal\_family.py} & Exact symbolic sanity check for the SI log-normal degeneracy. \\
+\texttt{code/identifiability-polynomial/solver.py} & Generic ODE solver for polynomial encodings on intervals. \\
+\texttt{code/identifiability-polynomial/find\_sine\_priors\_p2\_p8.py} & Interval solve on $[0,\pi]$ for the $p=2$ versus $p=8$ example. \\
+\texttt{code/identifiability-polynomial/plot\_sine\_priors\_p2\_p8.py} & Plotting script for the $[0,\pi]$ example. \\
+\texttt{code/identifiability-polynomial/find\_abs\_sine\_circle\_priors\_p2\_p8.py} & Circular solve on $[0,2\pi]$ for the smoothed $2-|\sin\theta|$ encoding, including periodic shooting. \\
+\texttt{code/identifiability-polynomial/plot\_abs\_sine\_circle\_priors\_p2\_p8.py} & Figure for the circular $(2,8)$ case. \\
+\texttt{code/identifiability-polynomial/find\_abs\_sine\_circle\_priors\_generic.py} & Generic circular solver and shooting code for arbitrary third-order loss pairs. \\
+\texttt{code/identifiability-polynomial/survey\_abs\_sine\_circle\_pairs.py} & Pairwise survey script for representative loss-exponent comparisons. \\
+\texttt{code/identifiability-polynomial/plot\_abs\_sine\_circle\_pair\_survey.py} & Combined paper-style figure over several loss pairs. \\
+\texttt{code/identifiability-polynomial/fourier\_encodings.py} & Continuous analogue of the Synthetic \texttt{FOURIER\_<seed>} encoding family. \\
+\texttt{code/identifiability-polynomial/find\_fourier\_circle\_priors\_generic.py} & ODE solve and periodic shooting for Fourier encodings on the circle. \\
+\texttt{code/identifiability-polynomial/plot\_fourier\_circle\_pair\_survey.py} & Four-seed exploratory Fourier survey figure. \\
+\texttt{code/identifiability-polynomial/plot\_fourier\_circle\_pair\_survey\_si\_p2.py} & SI-consistent Fourier survey for the three encoding seeds used in the existing $p=2$ Fourier panels. \\
+\texttt{code/identifiability-polynomial/plot\_fourier\_circle\_pair\_survey\_si\_p8.py} & SI-consistent Fourier survey for the three encoding seeds used in the existing $p=8$ Fourier panels. \\
+\texttt{writeup/identifiability-proofs/main.tex} & Annotated with corrected blue derivations for $\mathcal{D}_M$. \\
+\texttt{writeup/identifiability-proofs/main-solvable.tex} & Annotated to record that the SI log-normal family remains correct and now serves as a consistency check. \\
+\bottomrule
+\end{longtable}
+
+\section{Why smoothing is needed on the circle}
+
+The user originally requested the encoding
+\[
+\sqrt{J(\theta)} \propto 2-|\sin\theta|
+\]
+on $[0,2\pi]$.
+
+On $[0,\pi]$, this coincides with $2-\sin\theta$, so the interval example required no extra work. On the full circle, however, $|\sin\theta|$ has cusps at
+\[
+\theta \in \{0,\pi,2\pi\},
+\]
+and therefore the jet-based ODE formula involving derivatives up to $F''''$ is not directly applicable.
+
+The repair used here is the smooth surrogate
+\[
+|\sin\theta| \approx \sqrt{\sin^2\theta+\varepsilon^2},
+\qquad \varepsilon>0.
+\]
+Thus the circular encoding used numerically was
+\[
+F'(\theta)=2-\sqrt{\sin^2\theta+\varepsilon^2}.
+\]
+
+In all reported circular experiments, the default choice was
+\[
+\varepsilon = 10^{-2}.
+\]
+
+\section{Periodic shooting method}
+
+\subsection{Motivation}
+
+For a circular prior, it is not enough to solve the ODE on $[0,2\pi]$. One also wants seam consistency:
+\[
+Q(2\pi)=Q(0),\qquad
+Q'(2\pi)=Q'(0),\qquad
+Q''(2\pi)=Q''(0).
+\]
+
+Since the ODE is third-order and we fix $Q(0)=0$ as an arbitrary normalization, the free initial data are
+\[
+Q'(0),\quad Q''(0).
+\]
+Therefore periodicity becomes a shooting problem for the endpoint mismatch vector
+\[
+\Delta(Q'(0),Q''(0))
+=
+\begin{bmatrix}
+Q(2\pi)-Q(0) \\
+Q'(2\pi)-Q'(0) \\
+Q''(2\pi)-Q''(0)
+\end{bmatrix}.
+\]
+
+\subsection{Numerical procedure}
+
+The code minimizes $\|\Delta\|$ with \texttt{scipy.optimize.least\_squares}. The relevant implementation is in
+\begin{Verbatim}[fontsize=\small]
+code/identifiability-polynomial/find_abs_sine_circle_priors_p2_p8.py
+code/identifiability-polynomial/find_abs_sine_circle_priors_generic.py
+\end{Verbatim}
+
+This is not a proof of exact existence for the nonsmoothed cusp case. It is a numerical existence result for the smoothed family, with residuals small enough to be interesting and stable across several loss pairs.
+
+\subsection{Exact analytic branch for MAP versus $L_1$}
+
+The numerical searches repeatedly returned almost constant priors for the comparison $(p,p')=(0,1)$. This is not a numerical accident. It is an exact analytic fact.
+
+\begin{proposition}
+Fix any smooth strictly monotone encoding $F$ on an interval or circle, and suppose sensory noise is symmetric in sensory coordinates. Consider two observer models with the same encoding:
+\begin{enumerate}
+\item a MAP model ($p=0$) with constant prior on stimulus space,
+\item an $L_1$ model ($p=1$) with prior
+\[
+\Prior^{L_1}(\theta)\propto F'(\theta).
+\]
+\end{enumerate}
+Then both models induce the same decoder:
+\[
+\widehat\theta(m)=F^{-1}(m),
+\]
+up to the usual boundary/circular conventions. In particular, they are exactly confounded, not merely equal up to the second-order coefficient $\mathcal{D}_M$.
+\end{proposition}
+
+\begin{proof}
+Write $m$ for the sensory observation and $x=F(\theta)$ for the sensory coordinate corresponding to stimulus $\theta$.
+
+\paragraph*{MAP model}
+If the prior on stimulus space is constant, then the posterior density in stimulus coordinates is proportional to the likelihood:
+\[
+\Prior(\theta\mid m)\propto p(m\mid \theta).
+\]
+Because the sensory noise is symmetric and centered at zero, the likelihood as a function of the sensory coordinate $x=F(\theta)$ is maximized at $x=m$. Since $F$ is strictly monotone, this implies that the unique MAP estimate is
+\[
+\widehat\theta_{\mathrm{MAP}}(m)=F^{-1}(m).
+\]
+
+\paragraph*{$L_1$ model}
+Now suppose instead that the prior on stimulus space is
+\[
+\Prior^{L_1}(\theta)\propto F'(\theta).
+\]
+Passing to sensory coordinates $x=F(\theta)$, the prior density transforms by the Jacobian factor:
+\[
+\Prior^{x}(x)
+\propto
+\frac{\Prior^{L_1}(F^{-1}(x))}{F'(F^{-1}(x))}
+\propto
+\frac{F'(F^{-1}(x))}{F'(F^{-1}(x))}
+=
+\text{const}.
+\]
+So the prior is uniform in sensory space. Therefore the posterior density in sensory space is simply proportional to the sensory likelihood centered at $m$:
+\[
+\Prior(x\mid m)\propto p(m\mid x).
+\]
+By symmetry of the noise, this posterior is symmetric around $x=m$. Hence its median is exactly $m$. The Bayes estimator under $L_1$ loss is the posterior median, so the optimal sensory-space estimate is $x=m$, and therefore
+\[
+\widehat\theta_{L_1}(m)=F^{-1}(m).
+\]
+
+\paragraph*{Conclusion}
+The MAP decoder with constant prior and the $L_1$ decoder with prior proportional to $F'$ coincide pointwise:
+\[
+\widehat\theta_{\mathrm{MAP}}(m)=\widehat\theta_{L_1}(m)=F^{-1}(m).
+\]
+Thus the two models are exactly behaviorally identical at the decoder level. In particular, all low-noise expansion coefficients agree, including the exceptional-set condition used in the ODE calculations.
+\end{proof}
+
+Equivalently, in the notation of the ODE solver, the branch
+\[
+Q'(\theta)=Q''(\theta)=Q'''(\theta)=0
+\]
+solves the $(p,p')=(0,1)$ exceptional-set equation identically. This is why the numerical periodic shooting for MAP versus $L_1$ keeps returning an almost constant prior: it is converging to the exact analytic branch.
+
+\section{Main numerical results}
+
+\subsection{Interval example on $[0,\pi]$}
+
+For $F'(\theta)=2-\sin\theta$ on $[0,\pi]$, several priors were found for which $p=2$ and $p=8$ lie in the exceptional set. Representative initial data and induced priors were plotted in:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/sine_priors_p2_p8.png
+\end{Verbatim}
+
+The ODE residuals were at the scale of $10^{-15}$.
+
+\subsection{Circular example for $p=2$ vs.\ $p'=8$}
+
+For the smoothed circular encoding with $\varepsilon=10^{-2}$, a periodic-shoot solution was found with
+\[
+Q'(0) \approx -1.1962\times 10^{-8},
+\qquad
+Q''(0) \approx 50.8089,
+\]
+and endpoint mismatch norm
+\[
+\|\Delta\| \approx 4.42\times 10^{-8}.
+\]
+
+This result is visualized in:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/abs_sine_circle_priors_p2_p8.png
+\end{Verbatim}
+
+That figure also includes:
+\begin{enumerate}
+\item several nonperiodic ODE solutions on $[0,2\pi]$,
+\item the periodic-shoot branch,
+\item the pointwise ODE residual,
+\item the smoothed encoding derivative $F'(\theta)$ itself.
+\end{enumerate}
+
+\subsection{Survey over other loss pairs}
+
+The work was then generalized to several other representative pairs:
+\[
+(0,1),\ (0,2),\ (1,2),\ (2,4),\ (4,8),\ (2,8).
+\]
+
+For each pair, we searched for:
+\begin{enumerate}
+\item a periodic-shoot branch,
+\item one representative nonperiodic branch with visually nontrivial shape on a linear prior scale.
+\end{enumerate}
+
+The resulting summary figure is:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/abs_sine_circle_pair_survey.png
+\end{Verbatim}
+
+The periodic-shoot initial conditions used in that figure are listed in Table~\ref{tab:periodic}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.14\textwidth} >{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{0.18\textwidth}}
+\toprule
+Pair $(p,p')$ & Periodic initial data $(Q(0),Q'(0),Q''(0))$ & $\|\Delta\|$ \\
+\midrule
+$(0,1)$ & $(0,\,-4.86\cdot 10^{-15},\,-1.15\cdot 10^{-15})$ & $3.10\cdot 10^{-14}$ \\
+$(0,2)$ & $(0,\,-2.50\cdot 10^{-9},\,12.6186)$ & $1.14\cdot 10^{-8}$ \\
+$(1,2)$ & $(0,\,1.50\cdot 10^{-9},\,-12.3955)$ & $4.40\cdot 10^{-9}$ \\
+$(2,4)$ & $(0,\,-8.29\cdot 10^{-10},\,0.334592)$ & $3.53\cdot 10^{-9}$ \\
+$(4,8)$ & $(0,\,-7.29\cdot 10^{-9},\,25.7948)$ & $2.83\cdot 10^{-8}$ \\
+$(2,8)$ & $(0,\,-1.20\cdot 10^{-8},\,50.8089)$ & $4.42\cdot 10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\caption{Periodic-shoot solutions for the smoothed circular encoding $F'(\theta)=2-\sqrt{\sin^2\theta+\varepsilon^2}$ with $\varepsilon=10^{-2}$.}
+\label{tab:periodic}
+\end{table}
+
+\subsection{Interpretation of the survey}
+
+The main qualitative pattern was:
+\begin{enumerate}
+\item MAP versus $L_1$ has an essentially trivial periodic branch, corresponding numerically to the flat prior.
+\item MAP versus $L_2$ and $L_1$ versus $L_2$ both admit nontrivial periodic branches.
+\item Even-versus-even comparisons also admit periodic branches.
+\item The initial curvature $Q''(0)$ required by the periodic branch grows substantially as the two exponents become more separated.
+\end{enumerate}
+
+This is why the $(2,8)$ periodic branch is especially striking: it is far from the trivial flat solution and yet remains numerically well-behaved.
+
+\subsection{Fourier encodings from the existing Synthetic experiments}
+
+After the smoothed $2-|\sin\theta|$ experiments, the same ODE machinery was applied to the Fourier encoding family already used in the repository's Synthetic experiments. In the original Synthetic code, the encoding logits are generated as a random Fourier series from a seed:
+\[
+\ell(\theta)=\sum_{k=0}^{4} a_k \sin(k\theta) + \sum_{k=0}^{4} b_k \cos(k\theta),
+\]
+with coefficients determined by the Python \texttt{random.Random(seed)} stream, and the discrete resource profile on a $180$-point grid is then set to
+\[
+\mathrm{volume}_i = 2\pi \cdot \mathrm{softmax}(\ell_i).
+\]
+
+For the ODE calculations, we used the corresponding continuous density
+\[
+F'(\theta)=\frac{2\pi e^{\ell(\theta)}}{\int_0^{2\pi} e^{\ell(u)}\,du},
+\]
+and computed its first four derivatives analytically from the derivatives of $\ell$.
+
+\paragraph*{Important comparison to the old SI plots}
+The new encoding plots match the old Synthetic/SI Fourier resource curves \emph{in shape}, but not in absolute vertical scale. This is expected. The old plots display discrete grid weights whose sum over $180$ bins is $2\pi$, whereas the ODE solver requires a continuous density whose \emph{integral} over the circle is $2\pi$. Therefore the old and new curves differ by an overall constant factor associated with the grid spacing, but their shape is the same.
+
+This was checked numerically on the $180$-point grid used in the old Synthetic simulations for the six SI Fourier encoding seeds discussed below:
+\[
+221,222,223,281,282,283.
+\]
+For each seed, the correlation between the old discrete encoding profile and the new continuous encoding profile sampled on the same grid was numerically equal to $1.0$ up to floating-point precision, confirming that the shape is exactly preserved and only the global normalization changes.
+
+\subsection{SI-consistent Fourier survey for the existing $p=2$ and $p=8$ examples}
+
+The existing SI Fourier panels use three randomly constructed Fourier encodings for $p=2$ and three for $p=8$:
+\begin{align*}
+\text{$p=2$ encoding seeds: } & 221,\ 222,\ 223 \\
+\text{$p=8$ encoding seeds: } & 281,\ 282,\ 283.
+\end{align*}
+
+These seed assignments were read directly from:
+\begin{Verbatim}[fontsize=\small]
+writeup/individual-fourier/p2.tex
+writeup/individual-fourier/p8.tex
+\end{Verbatim}
+
+For each of these six encodings, we solved the exceptional-set ODE for the same six loss-pair comparisons as above:
+\[
+(0,1),\ (0,2),\ (1,2),\ (2,4),\ (4,8),\ (2,8).
+\]
+
+The resulting SI-consistent survey figures are:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/fourier_circle_pair_survey_si_p2.png
+writeup/figures/fourier_circle_pair_survey_si_p8.png
+\end{Verbatim}
+
+\paragraph*{Qualitative summary}
+\begin{enumerate}
+\item All six SI Fourier encoding seeds admit periodic-shoot branches for all six loss-pair comparisons.
+\item The seed dependence is substantial: some encodings produce moderate nonperiodic alternatives for many pairs, while others mainly expose the periodic branch.
+\item The periodic branch therefore appears to be the robust structural phenomenon, while the availability of a visually moderate nonperiodic branch depends strongly on the detailed encoding geometry.
+\end{enumerate}
+
+\paragraph*{$p=2$ SI encoding seeds}
+For the three SI $p=2$ encoding seeds $(221,222,223)$:
+\begin{enumerate}
+\item \texttt{FOURIER\_221} admits periodic branches for all pairs, and gives visible nonperiodic alternatives for the lower-separation comparisons such as $(0,1)$ and $(0,2)$.
+\item \texttt{FOURIER\_222} is notably more rigid: the periodic branch exists for all pairs, but under the current visual filter there are few or no moderate nonperiodic alternatives for the more separated comparisons.
+\item \texttt{FOURIER\_223} again yields several visible nonperiodic alternatives, including for higher even-vs-even comparisons.
+\end{enumerate}
+
+\paragraph*{$p=8$ SI encoding seeds}
+For the three SI $p=8$ encoding seeds $(281,282,283)$:
+\begin{enumerate}
+\item \texttt{FOURIER\_281} exhibits a robust periodic branch for all pairs, but only a small number of moderate nonperiodic alternatives under the current filter.
+\item \texttt{FOURIER\_282} has especially clean periodic branches with very small mismatch norms for several pairs, but again relatively few nonperiodic alternatives worth plotting.
+\item \texttt{FOURIER\_283} yields the richest collection of moderate nonperiodic alternatives among the $p=8$ SI encodings.
+\end{enumerate}
+
+\section{Exact replication instructions}
+
+\subsection{Environment}
+
+The symbolic and numerical scripts were run with the local Conda Python at:
+\begin{Verbatim}[fontsize=\small]
+/Users/mhahn/anaconda3/bin/python
+\end{Verbatim}
+
+This mattered because the sandbox \texttt{python3} did not have the needed scientific packages installed in the default environment.
+
+The code uses:
+\begin{enumerate}
+\item \texttt{sympy}
+\item \texttt{numpy}
+\item \texttt{scipy}
+\item \texttt{matplotlib}
+\end{enumerate}
+
+\subsection{Minimal correctness checks}
+
+From the repository root:
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+python3 -m py_compile generated_formulas.py solver.py \
+  check_lognormal_family.py \
+  find_sine_priors_p2_p8.py \
+  find_abs_sine_circle_priors_p2_p8.py \
+  find_abs_sine_circle_priors_generic.py \
+  plot_abs_sine_circle_priors_p2_p8.py \
+  plot_abs_sine_circle_pair_survey.py \
+  fourier_encodings.py \
+  find_fourier_circle_priors_generic.py \
+  plot_fourier_circle_pair_survey.py \
+  plot_fourier_circle_pair_survey_si_p2.py \
+  plot_fourier_circle_pair_survey_si_p8.py
+\end{Verbatim}
+
+Then run:
+\begin{Verbatim}[fontsize=\small]
+/Users/mhahn/anaconda3/bin/python check_lognormal_family.py
+\end{Verbatim}
+
+Expected result: exact agreement of the implemented $\mathcal{D}_M$ with the shared SI log-normal expression for
+\[
+p \in \{0,1,2,4,6,8\}.
+\]
+
+\subsection{Regenerating the interval $(2,8)$ figure}
+
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+/Users/mhahn/anaconda3/bin/python find_sine_priors_p2_p8.py
+/Users/mhahn/anaconda3/bin/python plot_sine_priors_p2_p8.py
+\end{Verbatim}
+
+This writes:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/sine_priors_p2_p8.png
+\end{Verbatim}
+
+\subsection{Regenerating the circular $(2,8)$ figure}
+
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+/Users/mhahn/anaconda3/bin/python find_abs_sine_circle_priors_p2_p8.py
+/Users/mhahn/anaconda3/bin/python plot_abs_sine_circle_priors_p2_p8.py
+\end{Verbatim}
+
+This writes:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/abs_sine_circle_priors_p2_p8.png
+\end{Verbatim}
+
+\subsection{Regenerating the pair survey}
+
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+/Users/mhahn/anaconda3/bin/python survey_abs_sine_circle_pairs.py
+/Users/mhahn/anaconda3/bin/python plot_abs_sine_circle_pair_survey.py
+\end{Verbatim}
+
+This writes:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/abs_sine_circle_pair_survey.png
+\end{Verbatim}
+
+\subsection{Regenerating the Fourier surveys}
+
+For the exploratory four-seed Fourier survey:
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+/Users/mhahn/anaconda3/bin/python plot_fourier_circle_pair_survey.py
+\end{Verbatim}
+
+This writes:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/fourier_circle_pair_survey.png
+\end{Verbatim}
+
+For the SI-consistent Fourier survey using the three encoding seeds from the existing $p=2$ Fourier panels:
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+/Users/mhahn/anaconda3/bin/python plot_fourier_circle_pair_survey_si_p2.py
+\end{Verbatim}
+
+This writes:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/fourier_circle_pair_survey_si_p2.png
+\end{Verbatim}
+
+For the SI-consistent Fourier survey using the three encoding seeds from the existing $p=8$ Fourier panels:
+\begin{Verbatim}[fontsize=\small]
+cd code/identifiability-polynomial
+/Users/mhahn/anaconda3/bin/python plot_fourier_circle_pair_survey_si_p8.py
+\end{Verbatim}
+
+This writes:
+\begin{Verbatim}[fontsize=\small]
+writeup/figures/fourier_circle_pair_survey_si_p8.png
+\end{Verbatim}
+
+\subsection{Compiling this note}
+
+From \texttt{writeup/}:
+\begin{Verbatim}[fontsize=\small]
+pdflatex -interaction=nonstopmode -halt-on-error si-ode-exceptional-set-note.tex
+\end{Verbatim}
+
+\section{Practical caveats}
+
+\begin{enumerate}
+\item The circular results are for the \emph{smoothed} encoding family, not the nonsmooth cusp case itself.
+\item The shooting residuals are numerical endpoint mismatches, not formal proofs of exact periodicity.
+\item Some broad seed searches generate priors with enormous dynamic range. Those are mathematically acceptable ODE solutions but usually uninteresting on a linear plot, and they were filtered out when choosing representative nonperiodic examples.
+\item The nonperiodic branches shown in the figures are meant to be visually informative examples, not exhaustive parameterizations of the full solution manifold.
+\item For the Fourier encodings, the new ODE code uses the continuous density corresponding to the old Synthetic discrete softmax profile. Therefore the new and old encoding curves should be compared up to a constant vertical rescaling, not by absolute y-axis values.
+\end{enumerate}
+
+\section{Bottom line}
+
+The important durable conclusions are:
+\begin{enumerate}
+\item The corrected $\mathcal{D}_M$ derivation is implemented and passes the decisive log-normal degeneracy check.
+\item The exceptional-set condition can be solved numerically as a finite-order ODE for $Q=\log \Prior$.
+\item For the circular encoding derived from the smoothed version of $2-|\sin\theta|$, the ODE admits nontrivial periodic-shoot solutions for several loss-function pairs.
+\item The strongest example found so far is the periodic branch for $(p,p')=(2,8)$.
+\item The same phenomenon extends to the Fourier encoding family already used in the existing Synthetic/SI experiments, including the specific encoding seeds used in the existing $p=2$ and $p=8$ Fourier panels.
+\end{enumerate}
+
+If this work is resumed later, the best entry points are:
+\begin{Verbatim}[fontsize=\small]
+code/identifiability-polynomial/generated_formulas.py
+code/identifiability-polynomial/find_abs_sine_circle_priors_generic.py
+code/identifiability-polynomial/plot_abs_sine_circle_pair_survey.py
+writeup/figures/abs_sine_circle_pair_survey.png
+\end{Verbatim}
+
+\clearpage
+\section*{Figures}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/abs_sine_circle_priors_p2_p8.png}
+\caption{Circular $p=2$ versus $p'=8$ example for the smoothed encoding.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/abs_sine_circle_pair_survey.png}
+\caption{Survey of periodic and nonperiodic branches for several loss-pair comparisons.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.97\textwidth]{figures/fourier_circle_pair_survey_si_p2.png}
+\caption{Exceptional-set priors for the three SI Fourier encodings used in the existing $p=2$ Synthetic panels.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.97\textwidth]{figures/fourier_circle_pair_survey_si_p8.png}
+\caption{Exceptional-set priors for the three SI Fourier encodings used in the existing $p=8$ Synthetic panels.}
+\end{figure}
+
+\end{document}
