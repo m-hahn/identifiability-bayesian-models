@@ -1,0 +1,77 @@
+\providecommand{\safegraphic}[4]{%
+  \IfFileExists{#2}{%
+    \adjustbox{valign=t}{\includegraphics[width=#1]{#2}}%
+  }{%
+    \adjustbox{valign=t}{%
+      \fcolorbox{gray}{white}{%
+        \begin{minipage}[c][#3][c]{#1}%
+        \centering
+        \scriptsize Missing PDF\\
+        \scriptsize #4
+        \end{minipage}%
+      }%
+    }%
+  }%
+}
+
+
+\newcommand{\efficientcodingrowTwoEight}[4]{%
+#2 &
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_#4_#1_2_0_10.0_180.pdf}{2.2cm}{gt #2 N#3} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_2_0_10.0_180.pdf}{3.0cm}{fit p=2 #2 N#3} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 #2 N#3} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N#3_#4_#1.txt_8_0_10.0_180.pdf}{3.0cm}{fit p=8 #2 N#3} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N#3_#4_#1.txt_RelativeLF.pdf}{3.0cm}{NLL p=8 #2 N#3} \\
+}
+
+\newcommand{\efficientcodingrowTwo}[4]{%
+#2 &
+\safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_#4_#1_2_0_10.0_180.pdf}{2.2cm}{gt #2 N#3} &
+\safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_2_0_10.0_180.pdf}{3.0cm}{fit p=2 #2 N#3} &
+\safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 #2 N#3} \\
+}
+
+\begin{figure}[p]
+\centering
+\begin{tabular}{>{\centering\arraybackslash}m{0.13\textwidth}c@{\hspace{0.020\textwidth}}cc@{\hspace{0.020\textwidth}}cc}
+& \textbf{Ground truth} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=8\)}} \\
+\textbf{Exponent} $\alpha$ & \textbf{Model} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL} & \textbf{Fit at \(p=8\)} & \textbf{\(\Delta\)NLL} \\
+\efficientcodingrowTwoEight{STEEPPERIODICa0b5}{$1/2$}{10000}{STEEPPERIODIC}
+\efficientcodingrowTwoEight{STEEPPERIODIC}{$1$}{10000}{STEEPPERIODIC}
+\efficientcodingrowTwoEight{STEEPPERIODICa2b0}{$2$}{10000}{STEEPPERIODIC}
+\end{tabular}
+\caption{
+Identifiability of models where prior and encoding are linked directly via efficient coding. We simulate data (10K trials, four noise levels) where $\Prior$ is periodic, and the encoding resources are directly proportional to either the prior itself, its square root, or its square.
+}
+\label{fig:si-alt-efficient-coding-periodic}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\begin{tabular}{>{\centering\arraybackslash}m{0.13\textwidth}ccccc}
+& \textbf{Ground truth} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}}  \\
+\textbf{Exponent} $\alpha$ & \textbf{Model} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL}  \\
+\efficientcodingrowTwo{FOURIERa0b5_121}{$1/2$}{10000}{FOURIER_121}
+\efficientcodingrowTwo{FOURIERa1b0_121}{$1$}{10000}{FOURIER_121}
+\efficientcodingrowTwo{FOURIERa2b0_121}{$2$}{10000}{FOURIER_121}
+\end{tabular}
+
+\ 
+
+\ 
+
+\begin{tabular}{>{\centering\arraybackslash}m{0.13\textwidth}ccccc}
+& \textbf{Ground truth} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}}  \\
+\textbf{Exponent} $\alpha$ & \textbf{Model} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL}  \\
+\efficientcodingrowTwo{FOURIERa0b5_122}{$1/2$}{10000}{FOURIER_122}
+\efficientcodingrowTwo{FOURIERa1b0_122}{$1$}{10000}{FOURIER_122}
+\efficientcodingrowTwo{FOURIERa2b0_122}{$2$}{10000}{FOURIER_122}
+\end{tabular}
+\caption{
+Identifiability of models where prior and encoding are linked directly via efficient coding. We show two randomly generated models (10K trials, four noise levels, $p=2$).
+}
+\label{fig:si-alt-efficient-coding-fourier}
+\end{figure}
+
+
+

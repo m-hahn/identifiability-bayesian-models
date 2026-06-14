@@ -691,15 +691,13 @@ The full proof approaches this challenge by first obtaining estimates of $\frac{
         (b-a)\mathcal{A}(\theta)t &= var_2(\theta) - var_1(\theta) + O(t^2)\\
         b\mathcal{A}t &= \frac{var_2(\theta) - var_1(\theta) + O(t^2)}{1 -  \frac{a}{b}}
         \end{align*}
-        We now define a first, coarse, estimator of $\frac{a}{b}$ based on the observed bias and variability.
-        Let $\theta^* \in \mathcal{X}$ be such that
-        \begin{equation}
-            |bias_1(\theta^*)| = \max_\theta |bias_1(\theta)|
-        \end{equation}
-        Under the assumption that $\mathcal{C}(\theta)$ is nonzero at least for some $\theta$, then, when $t$ is small, $\theta^*$ will satisfy $\mathcal{C}(\theta^*) \neq 0$.
-        Then we define an estimate of $\frac{a}{b}$ based on the observed quantities:
+        We now define a first, coarse, estimator of \(\frac{a}{b}\) based on the observed bias and variability.
+ Since \(\mathcal{C}\) is not identically zero,  \(\int |\mathcal C(\theta)|\,d\theta\neq 0\).
+Define
         \begin{align*}
-        \widehat{(\frac{a}{b})} &:= \frac{bias_1(\theta^*)}{bias_2(\theta^*)} = \frac{a\cdot \mathcal{C}(\theta^*)t + \mathcal{O}(t^2)}{b\cdot \mathcal{C}(\theta^*)t + \mathcal{O}(t^2)} = \frac{a}{b} + \mathcal{O}(t)
+        \widehat{\left(\frac{a}{b}\right)} &:= \frac{\int |bias_1(\theta)|\,d\theta}{\int |bias_2(\theta)|\,d\theta}
+        = \frac{a\int|\mathcal{C}(\theta)|\,d\theta \cdot t + \mathcal{O}(t^2)}{b\int|\mathcal{C}(\theta)|\,d\theta \cdot t + \mathcal{O}(t^2)}
+        = \frac{a}{b} + \mathcal{O}(t)
         \end{align*}
         Based on this, we define the estimator
         \begin{align*}
@@ -709,7 +707,7 @@ The full proof approaches this challenge by first obtaining estimates of $\frac{
         \end{align*}
         and from it the scalar estimator
         \begin{align*}
-        \widehat{\rho^2t} &:= \frac{1}{|\mathcal{X}|}\int \left[var_2 - \widehat{b\mathcal{A}t} = \frac{bias_2 \cdot var_1 - bias_1 \cdot var_2}{bias_2 - bias_1}\right]d\theta
+        \widehat{\rho^2t} &:= \frac{1}{|\mathcal{X}|}\int \left[var_2(\theta) - \widehat{b\mathcal{A}t}(\theta)\right]d\theta
         = \rho^2t + \mathcal{O}(t^2).
     \end{align*}
 A first approach to concluding the proof might be to substitute $t' := bt$, insert $\widehat{(\frac{a}{b})}$ instead of $a$ and $\widehat{\rho^2t}$ instead of $\rho^2t$ into (\ref{eq:four-expansions}), so that this system of equations is now linear in the four remaining unknowns $\mathcal{A}t', \mathcal{B}t', \mathcal{C}t'^2, \mathcal{D}t'^2$. A linear system of four equations in four unknowns should now admit a unique solution, allowing us to extract $\mathcal{A}, \mathcal{B}, \mathcal{C}, \mathcal{D}$ up to the scalar parameter $t'$. While on the right track, this idea requires refinement. The reason is that the estimates $\widehat{\rho^2t}$ and $\widehat{(\frac{a}{b})}$ have an estimation error that, upon inserting these quantities instead of $\rho^2t$ and $a$ would uncontrollably contaminate the terms at order $t^2$, preventing extraction of $\mathcal{C}$ and $\mathcal{D}$. We solve this puzzle by first refining $\widehat{(\frac{a}{b})}$ to a more precise estimator whose estimation error is $O(t^2)$, based on fine-grained understanding of the second-order behavior of the variability; once this has been achieved, we can realize the approach outlined above.
@@ -785,9 +783,9 @@ Based on this, we estimate the derivative of the prior as follows (taking $\tild
 \end{align*}
 %}
 %
-By differentiating, we establish
+It follows that
 \begin{equation}
-    \left\|\log \widehat{\Prior}(\theta) - (\mathrm{U} + \log (F')^{\frac{p'-p}{2}}  + \log \Prior(\theta))\right\|_{\infty,3} = O(t)
+\left\|\log \widehat{\Prior}(\theta) - (\log U + \log (F')^{\frac{\tilde{p}'-\tilde{p}}{2}}  + \log \Prior(\theta))\right\|_{\infty,3} = O(t).
 \end{equation}
 for the scalar
 \begin{equation}
