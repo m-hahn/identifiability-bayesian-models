@@ -639,7 +639,7 @@ There is a function $\Phi_{p'}$ mapping biases and variances to a model $\langle
 \begin{enumerate}
     \item $\|\widehat{F} - F\|_{\infty,4} = O(t)$
 
-\item $\left\|\frac{d}{d\theta}\log\widehat{\Prior}-\frac{d}{d\theta}\log\Prior\right\|_{\infty,2} = O(t)$
+\item $\left\|\frac{d}{d\theta}\log\widehat{\Prior}-\frac{d}{d\theta}\log\left(U\cdot (F')^{\frac{\tilde p'-\tilde p}{2}}\Prior\right)\right\|_{\infty,2} = O(t)$
 
 
     \item $\|\tilde{\mathcal{D}}(\theta) - \mathcal{D}(\theta)\|_\infty = O(t)$ where $\mathcal{D}$ is the second-order component of the bias of the model $\langle F', \Prior, p\rangle$
@@ -784,6 +784,31 @@ Based on this, we estimate the derivative of the prior as follows (taking $\tild
 \end{align*}
 %}
 %
+We now make this estimate explicit. Set
+\begin{align*}
+    G(\theta) := \frac{d}{d\theta}\log\widehat{\Prior}(\theta) - \frac{d}{d\theta}\log\left((F'(\theta))^{\frac{\tilde{p}'-\tilde{p}}{2}}\Prior(\theta)\right).
+\end{align*}
+The preceding calculation shows \(G(\theta)=O(t)\) uniformly in \(\theta\). Further, by Section~\ref{sec:variance-two-derivatives}, differentiating once and twice preserves the order of the remainder, so
+\begin{equation}
+    \|G\|_{\infty,2} = O(t).
+\end{equation}
+Now define
+\begin{align*}
+    H(\theta) := \log\widehat{\Prior}(\theta) - \log\left((F'(\theta))^{\frac{\tilde{p}'-\tilde{p}}{2}}\Prior(\theta)\right).
+\end{align*}
+Then \(H' = G\), hence \(\|H'\|_{\infty,2}=O(t)\). Integrating from \(0\) to \(\theta\),
+\begin{align*}
+    H(\theta)-H(0) = \int_0^\theta G(\theta')\,d\theta' = O(t)
+\end{align*}
+uniformly in \(\theta\). Therefore
+\begin{align*}
+    H(\theta) = c_t + O(t)
+\end{align*}
+for some scalar \(c_t\). Equivalently,
+\begin{align*}
+    \widehat{\Prior}(\theta) = e^{c_t+O(t)}\cdot (F'(\theta))^{\frac{\tilde{p}'-\tilde{p}}{2}}\Prior(\theta).
+\end{align*}
+Since \(\widehat{\Prior}\) and \(U\cdot (F')^{\frac{\tilde{p}'-\tilde{p}}{2}}\Prior\) are both normalized to integrate to \(1\), we must have \(e^{c_t}=U\cdot e^{O(t)}\), i.e. \(c_t=\log U + O(t)\). 
 It follows that
 \begin{equation}
 \left\|\log \widehat{\Prior}(\theta) - (\log U + \log (F')^{\frac{\tilde{p}'-\tilde{p}}{2}}  + \log \Prior(\theta))\right\|_{\infty,3} = O(t).
@@ -1147,12 +1172,25 @@ Using the expansion (and suppressing the $M$ subscript where unambiguous),
     f(\vartheta) = &\vartheta + t \mathcal{C}_{dec}(\vartheta) + t^2 \mathcal{D}_{dec}(\vartheta) + O(t^3) \\
     \mathbb{E}_{m|\theta}[F^{-1}(m)] =& \theta + t \mathcal{C}_{enc}(\theta) + t^2 \mathcal{D}_{enc}(\theta) + O(t^3) 
 \end{align*}
-we find that the bias equals -- taking, without loss of generality, $\theta=0$ for simplicity:
+we write
+\[
+u:=F^{-1}(m)-\theta.
+\]
+Then
+\[
+\mathbb E[u]=t\mathcal C_{enc}(\theta)+t^2\mathcal D_{enc}(\theta)+O(t^3),\qquad \mathbb E[u^2]=t\mathcal A(\theta)+O(t^2),\qquad \mathbb E[u^3]=O(t^2).
+\]
+Evaluating the decoder expansion at \(\vartheta=\theta+u\) and Taylor-expanding in \(u\),
 \begin{align*}
-    =&  t \mathcal{C}_{dec}(\theta) + t^2 \mathcal{D}_{dec}(\theta)  + \mathbb{E}_{m|\theta}[(F^{-1}(m))] (1 + t \mathcal{C}_{dec}'(\theta)) +  \frac{1}{2} \mathbb{E}_{m|\theta}[(F^{-1}(m))^2] ( t \mathcal{C}_{dec}''(\theta)  ) + O(t^3) ] \\
-    =&  t \mathcal{C}_{dec}(\theta) + t^2 \mathcal{D}_{dec}(\theta) + ( t \mathcal{C}_{enc}(\theta) + t^2 \mathcal{D}_{enc}(\theta)) (1 + t \mathcal{C}_{dec}'(\theta)) +  \frac{1}{2} t \mathcal{A}(\theta) ( t \mathcal{C}_{dec}''(\theta)  ) + O(t^3) ] \\
-    =&     t [\mathcal{C}_{enc}(\theta)  + \mathcal{C}_{dec}(\theta) ] \\
-&         + t^2 \left[\mathcal{D}_{dec}(\theta) + \mathcal{C}_{enc}(\theta) \mathcal{C}_{dec}'(\theta) +  \mathcal{D}_{enc}(\theta) +  \frac{1}{2}  \mathcal{A}(\theta)   \mathcal{C}_{dec}''(\theta)  \right] + O(t^3) ] 
+    f(\theta+u)
+    =& \theta+u+t\mathcal C_{dec}(\theta)+t^2\mathcal D_{dec}(\theta)+tu\,\mathcal C_{dec}'(\theta)+\frac12tu^2\mathcal C_{dec}''(\theta)+O(t^3).
+\end{align*}
+where the omitted terms have expectation \(O(t^3)\) because the first neglected contributions are of the forms \(t^2u\), \(tu^3\), and \(t^2u^2\). Taking expectations gives
+\begin{align*}
+    \mathbb E[\widehat\theta]-\theta
+    =& t\mathcal C_{dec}(\theta)+t^2\mathcal D_{dec}(\theta)+\mathbb E[u]+t\mathbb E[u]\mathcal C_{dec}'(\theta)+\frac12 t\mathbb E[u^2]\mathcal C_{dec}''(\theta)+O(t^3) \\
+    =& t[\mathcal C_{enc}(\theta)+\mathcal C_{dec}(\theta)] \\
+    &+ t^2\left[\mathcal D_{dec}(\theta)+\mathcal C_{enc}(\theta)\mathcal C_{dec}'(\theta)+\mathcal D_{enc}(\theta)+\frac12\mathcal A(\theta)\mathcal C_{dec}''(\theta)\right]+O(t^3).
 \end{align*}
 In particular,
 \begin{equation}
@@ -1264,39 +1302,72 @@ Thus
         F^{-1}(x) &= m + Mx + Nx^2 + O(x^3)\\
         q_{prior}(x) &= q_{prior}(m) + Tx + Ux^2 + Vx^3 + O(x^4)
     \end{align*}
-    According to the previous proof in \cite{hahn2024unifying}, we have:
+For \(p=1\), the estimator is the posterior median. Let \(x_\ast\) be defined by
+\[
+F^{-1}(x_\ast)=F^{-1}(m)+r.
+\]
+Then
+\[
+x_\ast = \frac{r}{M} - \frac{N}{M^3}r^2 + O(r^3).
+\]
+According to the same Taylor-expansion approach as in \citet{hahn2024unifying}, but now applied to the posterior median condition
+\[
+\int_{-\infty}^{x_\ast} q_{prior}(x)\frac{1}{\sqrt{2\pi t}}e^{-x^2/(2t)}dx
+=
+\frac12\int_{-\infty}^{\infty} q_{prior}(x)\frac{1}{\sqrt{2\pi t}}e^{-x^2/(2t)}dx,
+\]
+we have, writing \(s:=x_\ast/\sqrt{t}\),
 \begin{align*}
-     0 &= 2q_{prior}(m)\left(\frac{r}{M\sqrt{t}} - \left(\frac{r}{M\sqrt{t}}\right)^3 \cdot \frac{1}{12} + \left(\frac{r}{M\sqrt{t}}\right)^5 \cdot \frac{1}{5\cdot16\cdot2!} + ...\right)\\
-     &+ 2 \frac{d}{d m} q_{prior}(m)\sqrt{t}\\
-     &- 2 \frac{d}{d m} q_{prior}(m)\sqrt{t} \left(\frac{r}{M\sqrt{t}})^2 \cdot \frac{1}{2} - \left(\frac{r}{M\sqrt{t}}\right)^4 \cdot \frac{1}{16} + \left(\frac{r}{M\sqrt{t}}\right)^6 \cdot \frac{1}{6 \cdot 16 \cdot 2!}+ ...\right)\\
-     &= \frac{2q_{prior(m)} \cdot r}{M} - \frac{q_{prior}(m) \cdot r^3}{6M^3t} + 2 \frac{d}{d m}q_{prior}(m) t - \frac{d}{d m} q_{prior}(m) \cdot \frac{r^2}{M^2} + O(t^3)
+0
+&=
+q_{prior}(m)\bigl(2\Phi(s)-1\bigr)-2T\sqrt{t}\,\phi(s)\\
+&\qquad + Ut\bigl(2\Phi(s)-1-2s\phi(s)\bigr)-2Vt^{3/2}(s^2+2)\phi(s)+O(t^{5/2})\\
+&=
+\sqrt{\frac{2}{\pi}}
+\left[
+q_{prior}(m)s
+-T\sqrt{t}
+-\frac{q_{prior}(m)}{6}s^3
++\frac{T}{2}\sqrt{t}\,s^2
+-2Vt^{3/2}
+\right]
++O(t^{5/2}),
 \end{align*}
-Let $r = Rt + St^2 + O(t^3)$ and compare the coefficients of the same order of t, we can get the value of $S$:
-\begin{flalign*}
-    0 =& \frac{2q_{prior}(m) \cdot (Rt + St^2 + O(t^3))}{M} - \frac{q_{prior}(m)(R^3t^3+O(t^4))}{6M^3t} + 2 \frac{d}{d m} q_{prior}(m)t \\
-    & - \frac{d}{d m}q_{prior}(m) \cdot \frac{R^2t^2+O(t^3)}{M^2} + O(t^3)\\
-    =& \frac{2q_{prior}(m) \cdot (Rt + St^2)}{M} - \frac{q_{prior}(m)R^3t^2}{6M^3} + 2 \frac{d}{d m} q_{prior}(m)t - \frac{d}{d m}q_{prior}(m) \cdot \frac{R^2t^2}{M^2} + O(t^3)
-    \end{flalign*}
-
-    Then we collect all the second order $t$ terms, the sum of these terms should be 0, i.e.
-    \begin{flalign*}
-    0 =& \frac{2q_{prior}(m)S}{M} - \frac{q_{prior}(m)R^3}{6M^3} - \frac{d}{d m}q_{prior}(m) \cdot \frac{R^2}{M^2}
-    \end{flalign*}
-    The lowest-order term is
-    \begin{flalign*}
-    R =& \frac{1}{\mathcal{S}}\frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}(\theta)}}
-    \end{flalign*}
-Now by solving this equation and using $R$ to express $S$, we have
-    \begin{flalign*}
-    S =& \frac{R^3}{12M^2} + \frac{R^2}{2M} \cdot \frac{d}{d m} \log q_{prior}(m)\\
-    =& \frac{R^3}{12M^2} + \frac{R^2}{2M} \cdot \frac{1}{\sqrt{\mathcal{S}}} \cdot \frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}}}
-    \end{flalign*}
-    Inserting the expression for $R$, we obtain:
-    \begin{flalign*}
-    S =&  \left(\frac{1}{\mathcal{S}}\frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}(\theta)}}\right)^3 \frac{1}{12M^2} + \left(\frac{1}{\mathcal{S}}\frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}(\theta)}}\right)^2 \frac{1}{2M} \cdot \frac{1}{\sqrt{\mathcal{S}}} \cdot \frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}}} \\
-     =&  \left(\frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}(\theta)}}\right)^3 \cdot \left[\frac{1}{\mathcal{S}}^3 \cdot  \frac{1}{12M^2} + \left(\frac{1}{\mathcal{S}}\right)^2 \frac{1}{2M} \cdot \frac{1}{\sqrt{\mathcal{S}}}  \right]
-\end{flalign*}
-which provides the desired $\mathcal{D}_{dec}$.
+where we used
+\[
+2\Phi(s)-1=\sqrt{\frac{2}{\pi}}\left(s-\frac{s^3}{6}\right)+O(s^5),
+\qquad
+\phi(s)=\frac{1}{\sqrt{2\pi}}\left(1-\frac{s^2}{2}\right)+O(s^4).
+\]
+Let \(r = Rt + St^2 + O(t^3)\). Then
+\[
+s=\frac{R}{M}\sqrt{t}
++\left(\frac{S}{M}-\frac{NR^2}{M^3}\right)t^{3/2}
++O(t^{5/2}),
+\]
+and comparing the coefficients of \(\sqrt{t}\) and \(t^{3/2}\), we get
+\begin{align*}
+R &= \frac{MT}{q_{prior}(m)},\\
+S &= \frac{2MV}{q_{prior}(m)} + \frac{NR^2}{M^2} + \frac{R^3}{6M^2} - \frac{TR^2}{2Mq_{prior}(m)}\\
+&= \frac{2MV}{q_{prior}(m)} + \frac{NT^2}{q_{prior}(m)^2} - \frac{MT^3}{3q_{prior}(m)^3}.
+\end{align*}
+The lowest-order term is
+\begin{align*}
+R
+= \frac{1}{\mathcal{S}}\frac{d}{d \theta} \log \frac{P_{prior}(\theta)}{\sqrt{\mathcal{S}(\theta)}},
+\end{align*}
+using \(M=(F^{-1})'(m)=1/\sqrt{\mathcal S(\theta)}\) and
+\[
+T = \frac{d}{dm}q_{prior}(m) = M\frac{d}{d\theta}q_{prior}(\theta),
+\qquad
+q_{prior}(\theta)=\frac{P_{prior}(\theta)}{\sqrt{\mathcal S(\theta)}},
+\]
+and this gives the desired \(\mathcal D_{dec}^{L_1}=S\).
+Combining the explicit \(p=0\) and \(p=1\) formulas for \(\mathcal D_{dec}\) with Eq.~\ref{eq:dm-decomposition} shows that \(\mathcal D_M\) depends, in these two cases, on
+\[
+(\log \Prior)'(\theta),\quad (\log \Prior)''(\theta),\quad (\log \Prior)'''(\theta),\quad F'(\theta),\quad F''(\theta),\quad F'''(\theta),\quad F''''(\theta),\quad \frac1{F'(\theta)},
+\]
+and in the even-\(p\) case the same dependence follows from Eq.~\ref{eq:d-even-p}, with affine linear dependence on \((\log \Prior)'''(\theta)\).
 \end{itemize}
 
 \end{proof}
