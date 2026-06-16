@@ -1113,9 +1113,10 @@ we have
 and the coefficient $\mathcal{D}_{dec,M}$ has the following properties:
     \begin{enumerate}
         \item Across $p=2,4,6,\dots$, it is polynomial in $p$ with degree at most 4. The coefficients of this polynomial are combined products of these factors and their powers 
-        \[
-            (\log \Prior)'(\theta), \quad (\log \Prior)''(\theta), \quad (\log \Prior)'''(\theta), \quad F'(\theta), \quad F''(\theta), \quad F'''(\theta), \quad F''''(\theta), \quad \frac{1}{F'(\theta)}, \quad \frac{1}{\Prior(\theta)}
-        \].
+        \begin{align*}
+            (\log \Prior)'(\theta), \quad (\log \Prior)''(\theta), \quad (\log \Prior)'''(\theta), \\
+\quad F'(\theta), \quad F''(\theta), \quad F'''(\theta), \quad F''''(\theta), \quad \frac{1}{F'(\theta)}, \quad \frac{1}{\Prior(\theta)}.
+        \end{align*}
         
         \item At $p=0$, the expression $\mathcal{D}_{\langle F', \Prior, p\rangle}(\theta)$ is a polynomial in
         \[
@@ -1139,17 +1140,22 @@ First, recall that the bias consists of encoding bias and decoding bias \citep{h
 \end{equation*}
 First, we treat the encoding bias, which is independent of the loss function. We use a Taylor expansion to expand $F^{-1}(m)$ at $m = F(\theta)$,
 \begin{align*}
-    F^{-1}(m) &= \theta + \frac{\delta}{F'} - \frac{F''}{2F'^3} \cdot \delta^2 + \frac{F^{-1^{(3)}}}{3!} \cdot \delta^3 + \frac{F^{-1^{(4)}}}{4!} \cdot \delta^4 + O(\delta^5)\\
+    F^{-1}(m) &= \theta + \frac{\delta}{F'} - \frac{F''}{2F'^3} \cdot \delta^2 + \frac{F^{-1^{(3)}}}{3!} \cdot \delta^3 + \frac{F^{-1^{(4)}}}{4!} \cdot \delta^4 + \frac{F^{-1^{(5)}}}{5!}\delta^5 + O(\delta^6).
     \end{align*}
-    Taking expectations over $\delta$,
+    Since \(\delta\sim N(0,t)\), we have
+    \[
+    \mathbb E[\delta]=0,\qquad \mathbb E[\delta^2]=t,\qquad \mathbb E[\delta^3]=0,\qquad \mathbb E[\delta^4]=3t^2,\qquad \mathbb E[\delta^5]=0,\qquad \mathbb E[\delta^6]=15t^3.
+    \]
+    Therefore
+    \[
+    \mathbb E\!\left[\frac{F^{-1^{(5)}}}{5!}\delta^5\right]=0,
+    \qquad
+    \mathbb E[O(\delta^6)]=O(t^3),
+    \]
+    and hence
     \begin{align*}
-\mathbb{E}[F^{-1}(m)] 
-    &= \theta + \frac{\mathbb{E}[\delta]}{F'} - \frac{F''}{2F'^3}\mathbb{E}[\delta^2] + \frac{F^{-1^{(3)}}}{3!} \mathbb{E}[\delta^3] + \frac{F^{-1^{(4)}}}{4!} \mathbb{E}[\delta^4] + \frac{F^{-1^{(5)}}}{5!} \mathbb{E}[\delta^5] + \mathbb{E}[O(\delta^6)]\\
-    &= \theta  - \frac{F''}{2F'^3} t + \frac{F^{-1^{(4)}}}{4!} 3t^2 + O(t^3)\\
-    \end{align*}
-    where we have used
-    \begin{align*}
-\mathbb{E}[\delta] = 0, E[\delta^2] &= t, E[\delta^3] =0, E[\delta^4] = 3t^2, E[\delta^5] = 0, E[\delta^6] = 15t^3\\
+    \mathbb E[F^{-1}(m)]
+    &= \theta - \frac{F''}{2F'^3}t + \frac{F^{-1^{(4)}}}{4!}\,3t^2 + O(t^3).
     \end{align*}
     Further, we find
     \begin{align*}
@@ -1167,7 +1173,7 @@ Then the bias is
     \mathbb{E}[\widehat{\theta}]-\theta =& \mathbb{E}_{m|\theta}[f(F^{-1}(m))]-\theta \\
     =& \mathbb{E}_{m|\theta}[f(\theta) + (F^{-1}(m)-\theta) f'(\theta) +  \frac{1}{2} (F^{-1}(m)-\theta)^2 f''(\theta) + h.o.t. ]-\theta 
 \end{align*}
-Using the expansion (and suppressing the $M$ subscript where unambiguous),
+Using the expansion (and suppressing the $M$ subscript where unambiguous), using $\vartheta$ for a general stimulus distinct from $\theta$,
 \begin{align*}
     f(\vartheta) = &\vartheta + t \mathcal{C}_{dec}(\vartheta) + t^2 \mathcal{D}_{dec}(\vartheta) + O(t^3) \\
     \mathbb{E}_{m|\theta}[F^{-1}(m)] =& \theta + t \mathcal{C}_{enc}(\theta) + t^2 \mathcal{D}_{enc}(\theta) + O(t^3) 
@@ -1208,13 +1214,14 @@ We need to distinguish the decoding bias by the loss function exponent $p$.
         q_{prior}(m) &:= \frac{P_{prior}(m)}{\sqrt{\mathcal{S}(F^{-1}(m))}} \\
     \end{align*} 
     Let $r := \widehat{\theta} - F^{-1}(m)$.
-    To solve for $\widehat{\theta}$, we expand -- taking without loss of generality $\theta, F(\theta)=0$ here:
+    To solve for $\widehat{\theta}$, we expand -- taking without loss of generality both $\theta$ and  $F(\theta)$ to be $0$ here:
+    %\reviewNotes{The notation in this even-\(p\) derivation is not internally consistent. Here \(m\) denotes the sensory observation, but the next line writes \(F^{-1}(x)=m+Mx+Nx^2+\cdots\), whose constant term should have stimulus units, not sensory-coordinate units. If the expansion variable is centered at \(m\), one would expect something like \(F^{-1}(m+x)=F^{-1}(m)+Mx+Nx^2+\cdots\). As written, the subsequent integral and the identifications of \(M,N,P,Q\) are difficult to audit because the roles of \(m\), \(x\), and the centering point are blurred.}
 \begin{align*}
 r=&Rt+St^2+O(t^3) \\
-F^{-1}(x)=&m + Mx + Nx^2 +Px^3 + Qx^4 + O(x^5) \\
+F^{-1}(x)=& Mx + Nx^2 +Px^3 + Qx^4 + O(x^5) \\
 q_{prior}(x) =& q_{prior}(m) + Tx + Ux^2 + Vx^3 + O(x^4)
 \end{align*}
-and then set
+and then set (dropping higher-order terms without further indication in the second equality):
 \begin{align*}
     0 &= \int (r - F^{-1}(x))^{2q-1} q_{prior}(x) \frac{1}{\sqrt{2\pi t}}\exp (-\frac{x^2}{2t})dx\\ 
     &= \int (Rt+St^2-Mx -Nx^2-Px^3-Qx^4)^{2q-1} \left( q_{prior}(m) + Tx + Ux^2+Vx^3 \right) \frac{1}{\sqrt{2\pi t}}\exp (-\frac{x^2}{2t})dx\\
@@ -1254,21 +1261,70 @@ We divide these terms by $(2q-1)M^{2q-2}q_{prior}(m)t^{q+1}(2q-3)!!$ to get
 \end{aligned}
 \end{equation}
 This $S$ is equal to the desired $\mathcal{D}_{dec}$.
+We need to unpack the terms in the above expression to check that dependence on exponent, encoding, and prior is as claimed.
+First, in the expansion
+\[
+F^{-1}(x)=\theta+Mx+Nx^2+Px^3+Qx^4+O(x^5)
+\]
+the individual coefficients are
+\begin{align*}
+M &= \frac{1}{F'},\\
+N &= -\frac{F''}{2F'^3},\\
+P &= -\frac{F'''}{6F'^4}+\frac{F''^2}{2F'^5},\\
+Q &= \frac{-F''''F'^2+10F'F''F'''-15F''^3}{24F'^7}.
+\end{align*}
+We next consider the expansion 
+\[
+q_{prior}(x)=\frac{\Prior(F^{-1}(x))}{F'(F^{-1}(x))}=q_0+Tx+Ux^2+Vx^3+O(x^4),
+\]
+Write \(L\) for \(\log\Prior\), and $q_0 := q_{prior}(0) = \frac{\Prior(\theta)}{F'(\theta)}$. Define
+\begin{align*}
+A_1 &:= L' - \frac{F''}{F'},\\
+A_2 &:= L'' - \frac{F'''}{F'} + \frac{F''^2}{F'^2},\\
+A_3 &:= L''' - \frac{F''''}{F'} + 3\frac{F''F'''}{F'^2} - 2\frac{F''^3}{F'^3},
+\end{align*}
+where all derivatives are evaluated at the same \(\theta\). 
+Then the coefficients are
+\begin{align*}
+T &= q_0\frac{A_1}{F'},\\
+U &= q_0\left[\frac{A_2+A_1^2}{2F'^2}-\frac{F''A_1}{2F'^3}\right],\\
+V &= q_0\left[\frac{A_3+3A_1A_2+A_1^3}{6F'^3}-\frac{F''(A_2+A_1^2)}{2F'^4}+\left(-\frac{F'''}{6F'^4}+\frac{F''^2}{2F'^5}\right)A_1\right].
+\end{align*}
+Finally, the coefficient $R$ corresponds to the first-order coefficient of the decoding bias computed in \citet{hahn2024unifying}; it can here be written as
+\begin{align*}
+R
+&= \frac{F' L' - \frac{2q+1}{2}F''}{F'^3}
+= \frac{A_1}{F'^2}-\frac{2q-1}{2}\frac{F''}{F'^3}.
+\end{align*}
+Now we substitute these identities into Eq.~\eqref{eq:d-even-p}. Every occurrence of \(q_{prior}(m)^{-1}\) is canceled by the prefactors in \(T,U,V\), so the result is a polynomial in
+\begin{align*}
+&L'=(\log\Prior)'(\theta),\quad L''=(\log\Prior)''(\theta),\quad L'''=(\log\Prior)'''(\theta),\\
+&\quad F',\quad F'',\quad F''',\quad F'''',\quad \frac1{F'},\quad \frac1{\Prior(\theta)}.
+\end{align*}
+Also, Eq.~\eqref{eq:d-even-p} contains at most cubic prefactors in \(2q\pm1\), while \(R\) is affine linear in \(q\).
+Thus, \(\mathcal D_{dec}\) is polynomial in \(q\) (hence, in $p=21$) of degree at most \(4\).
+
     
     \item $p = 0$
 
 As in \cite{Stocker2006NoiseCA,hahn2024unifying}, we obtain the MAP estimator by considering a stationary point of the log-posterior, but expand to the second order.
-We work at a general stimulus \(\theta\), set \(m=F(\theta)\), define
+We work at a general stimulus \(\theta\), set \(m=F(\theta)\), and define
 \[
 Q(\theta):=\log P_{prior}(\theta), \qquad \mathcal{S}(\theta):=F'(\theta)^2,
 \]
 and write the MAP estimate as \(\widehat{\theta}=\theta+r\). Then
     \begin{align*}
     \frac{d}{d r} \log P(\theta+r|m) &= 0\\
+\end{align*}
+We thus have
+\begin{align*}
     0 &= t \frac{d}{d r} \log P(\theta+r|m)\\
     &= t \frac{d}{d r} \log P(m|\theta+r) + t \frac{d}{d r} Q(\theta+r)\\
     &= -F'(\theta+r) \cdot (F(\theta+r) - m) + t Q'(\theta+r)\\
     &= -\mathcal{S}(\theta) \cdot r - \frac{3}{2}F'(\theta)F''(\theta) \cdot r^2 + t Q'(\theta) + trQ''(\theta) + O(r^3)\\
+\end{align*}
+Rearranging,
+\begin{align*}
     \mathcal{S}(\theta) \cdot r &= - \frac{3}{2}F'(\theta)F''(\theta) \cdot r^2 + t Q'(\theta) + trQ''(\theta) + O(r^3)\\
     \end{align*}
     We thus obtain
@@ -1310,7 +1366,7 @@ Then
 \[
 x_\ast = \frac{r}{M} - \frac{N}{M^3}r^2 + O(r^3).
 \]
-According to the same Taylor-expansion approach as in \citet{hahn2024unifying}, but now applied to the posterior median condition
+According to the same Taylor-expansion approach as in \citet{hahn2024unifying}, and applying it to the posterior median condition
 \[
 \int_{-\infty}^{x_\ast} q_{prior}(x)\frac{1}{\sqrt{2\pi t}}e^{-x^2/(2t)}dx
 =
@@ -1363,13 +1419,12 @@ T = \frac{d}{dm}q_{prior}(m) = M\frac{d}{d\theta}q_{prior}(\theta),
 q_{prior}(\theta)=\frac{P_{prior}(\theta)}{\sqrt{\mathcal S(\theta)}},
 \]
 and this gives the desired \(\mathcal D_{dec}^{L_1}=S\).
+\end{itemize}
 Combining the explicit \(p=0\) and \(p=1\) formulas for \(\mathcal D_{dec}\) with Eq.~\ref{eq:dm-decomposition} shows that \(\mathcal D_M\) depends, in these two cases, on
 \[
-(\log \Prior)'(\theta),\quad (\log \Prior)''(\theta),\quad (\log \Prior)'''(\theta),\quad F'(\theta),\quad F''(\theta),\quad F'''(\theta),\quad F''''(\theta),\quad \frac1{F'(\theta)},
+(\log \Prior)'(\theta),\quad (\log \Prior)''(\theta),\quad (\log \Prior)'''(\theta),\quad F'(\theta),\quad F''(\theta),\quad F'''(\theta),\quad F''''(\theta),\quad \frac1{F'(\theta)}.
 \]
-and in the even-\(p\) case the same dependence follows from Eq.~\ref{eq:d-even-p}, with affine linear dependence on \((\log \Prior)'''(\theta)\).
-\end{itemize}
-
+In the case of $p=2,4,6,\dots$, the same dependence follows from Eq.~\ref{eq:d-even-p}, with affine linear dependence on \((\log \Prior)'''(\theta)\).
 \end{proof}
 
 
