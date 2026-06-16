@@ -16,7 +16,10 @@
 
 
 \newcommand{\efficientcodingrowTwoEight}[4]{%
-#2 &
+\begin{minipage}[c][2.0cm][c]{0.04\textwidth}
+\centering
+#2
+\end{minipage} &
 \safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_#4_#1_2_0_10.0_180.pdf}{2.2cm}{gt #2 N#3} &
 \safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_2_0_10.0_180.pdf}{3.0cm}{fit p=2 #2 N#3} &
 \safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 #2 N#3} &
@@ -25,7 +28,10 @@
 }
 
 \newcommand{\efficientcodingrowTwo}[4]{%
-#2 &
+\begin{minipage}[c][2.0cm][c]{0.04\textwidth}
+\centering
+#2
+\end{minipage} &
 \safegraphic{0.14\textwidth}{../code/Synthetic/figures/CounterfactualModel_VIZ_ByNoiseMagnGauge_Components.py_2345_#4_#1_2_0_10.0_180.pdf}{2.2cm}{gt #2 N#3} &
 \safegraphic{0.18\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_2_0_10.0_180.pdf}{3.0cm}{fit p=2 #2 N#3} &
 \safegraphic{0.10\textwidth}{../code/Synthetic/figures/evaluateCrossValidationResults_Synthetic_Gardelle_NonF.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N#3_#4_#1.txt_RelativeLF.pdf}{3.0cm}{NLL p=2 #2 N#3} \\
@@ -49,8 +55,8 @@ Identifiability of models where prior and encoding are linked directly via effic
 \begin{figure}[p]
 \centering
 \begin{tabular}{>{\centering\arraybackslash}m{0.13\textwidth}ccccc}
-& \textbf{Ground truth} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}}  \\
-\textbf{Exponent} $\alpha$ & \textbf{Model} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL}  \\
+& \textbf{Ground truth} &  \\
+\textbf{Exponent} $\alpha$ & \textbf{model ($p=2$)} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL}  \\
 \efficientcodingrowTwo{FOURIERa0b5_121}{$1/2$}{10000}{FOURIER_121}
 \efficientcodingrowTwo{FOURIERa1b0_121}{$1$}{10000}{FOURIER_121}
 \efficientcodingrowTwo{FOURIERa2b0_121}{$2$}{10000}{FOURIER_121}
@@ -61,8 +67,8 @@ Identifiability of models where prior and encoding are linked directly via effic
 \ 
 
 \begin{tabular}{>{\centering\arraybackslash}m{0.13\textwidth}ccccc}
-& \textbf{Ground truth} & \multicolumn{2}{c}{\textbf{Ground truth: \(p=2\)}}  \\
-\textbf{Exponent} $\alpha$ & \textbf{Model} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL}  \\
+& \textbf{Ground truth} &  \\
+\textbf{Exponent} $\alpha$ & \textbf{model ($p=2$)} & \textbf{Fit at \(p=2\)} & \textbf{\(\Delta\)NLL}  \\
 \efficientcodingrowTwo{FOURIERa0b5_122}{$1/2$}{10000}{FOURIER_122}
 \efficientcodingrowTwo{FOURIERa1b0_122}{$1$}{10000}{FOURIER_122}
 \efficientcodingrowTwo{FOURIERa2b0_122}{$2$}{10000}{FOURIER_122}

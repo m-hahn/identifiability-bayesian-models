@@ -8,7 +8,10 @@
 }
 
 \newcommand{\regsweeprowlabel}[3]{%
-\raisebox{0pt}[0pt][0pt]{\makebox[0.08\textwidth][c]{\textit{#3}}} &
+\begin{minipage}[c][2.0cm][c]{0.08\textwidth}
+\centering
+\textit{#3}
+\end{minipage} &
 \safegraphic{0.17\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N10000_#1.txt_2_0_#2_180.pdf}{3.0cm}{fit 2 reg #2} &
 \safegraphic{0.10\textwidth}{../code/Synthetic/figures/regularization_sweep_nll/SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_2_2345_N10000_#1.txt_reg_#2_RelativeLF.pdf}{3.0cm}{nll 2 reg #2} &
 \safegraphic{0.17\textwidth}{../code/Synthetic/figures/RunSynthetic_FreePrior_CosineLoss_OnSim_VIZ_OnlyModel_OtherNoiseLevels_WithGroundTruthPrior.py_SimulateSynthetic_Parameterized_OtherNoiseLevels_Grid_VarySize.py_180_8_2345_N10000_#1.txt_8_0_#2_180.pdf}{3.0cm}{fit 8 reg #2} &

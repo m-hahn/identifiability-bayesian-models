@@ -80,7 +80,7 @@ We show the resulting noise distributions, in comparison to those used in our ma
 
 We then applied our fitting procedure to these datasets.
 In one case, we used our standard fitting procedure assuming von Mises noise; in the other case, we adapted our fitting procedure to asume Laplace-like noise (\ref{eq:laplace-noise}).
-Results are shown in Figures~\ref{fig:si-alt-von-mises-on-laplace} and \ref{fig:si-alt-von-mises-on-laplace}.
+Results are shown in Figures~\ref{fig:si-alt-von-mises-on-laplace} and \ref{fig:si-alt-laplace-on-laplace}.
 In both cases, the shape of the encoding and prior are recovered appropriately in most cases; the true $L_p$ exponent has minimal or close-to-minimal NLL.
 In the misspecified case (fitting assuming von Mises noise), there are a few cases of incompletely identified loss function (e.g., at prioridic encoding and shifted prior at $L_2$ loss, NLL is low for $p=2,4,6,8$) or mismatch in the shape of the prior (periodic encoding and uniform prior at $L_8$ loss; the recovered prior appears to have bumps).
 In the correctly specified case (fitting asuming Laplace-like noise), prior and encoding are recovered closely throughout, at least at 40K trials.
