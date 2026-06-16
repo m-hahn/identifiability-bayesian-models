@@ -44,6 +44,13 @@ plt.rcParams['mathtext.it'] = 'Helvetica:italic'
 plt.rcParams['mathtext.bf'] = 'Helvetica:bold'
 ########################
 
+DURATION_COLORS = {
+    2: '#1f77b4',
+    3: '#ff7f0e',
+    4: '#2ca02c',
+    5: '#d62728',
+}
+
 OPTIMIZER_VERBOSE = False
 
 P = int(sys.argv[1])
@@ -334,6 +341,7 @@ def model(grid):
    for DURATION in range(2,6):
     if (duration == DURATION).long().sum() == 0:
        continue
+    curveColor = DURATION_COLORS.get(DURATION, "gray")
     for SUBJECT in [1]:
      ## Run the model at its current parameter values.
 
@@ -341,12 +349,18 @@ def model(grid):
      loss += loss_model
 
      if iteration % 100 == 0:
-       axis[ENC].plot(grid, 2*computeResources(volume.detach(), inverse_variance=1/float((4 * torch.sigmoid(init_parameters["sigma_logit"][DURATION])))), color="gray")
+       resource_curve = 2*computeResources(volume.detach(), inverse_variance=1/float((4 * torch.sigmoid(init_parameters["sigma_logit"][DURATION]))))
+       axis[ENC].plot(grid, resource_curve, color=curveColor)
        y_set, sd_set = retrieveObservations(x, None, DURATION, meanMethod="circular")
-       axis[TOT].plot(grid, (bayesianEstimate_model-grid).detach()/2)
-
-     axis[ATT].plot(grid, (attraction_model).detach()/2)
-     axis[REP].plot(grid, (bayesianEstimate_model-attraction_model-grid).detach()/2)
+       bias_curve = (bayesianEstimate_model-grid).detach()/2
+       attraction_curve = (attraction_model).detach()/2
+       repulsion_curve = (bayesianEstimate_model-attraction_model-grid).detach()/2
+       axis[TOT].plot(grid, bias_curve, color=curveColor)
+       axis[ATT].plot(grid, attraction_curve, color=curveColor)
+       axis[REP].plot(grid, repulsion_curve, color=curveColor)
+     else:
+       axis[ATT].plot(grid, (attraction_model).detach()/2, color=curveColor)
+       axis[REP].plot(grid, (bayesianEstimate_model-attraction_model-grid).detach()/2, color=curveColor)
 
      for w in PAD:
        axis[w].set_visible(False)

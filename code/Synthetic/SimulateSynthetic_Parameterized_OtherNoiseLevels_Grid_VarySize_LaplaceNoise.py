@@ -211,8 +211,35 @@ def samplePredictions(stimulus_, sigma_logit, prior, volumeElement, n_samples=10
   ## `similarity`
   sensory_likelihoods_vonMises = torch.softmax(((SQUARED_SENSORY_SIMILARITY(F[:-1].unsqueeze(0) - F[:-1].unsqueeze(1)))/(sigma2))  + volumeElement.unsqueeze(1).log(), dim=0)
   sensory_likelihoods_laplace = torch.softmax(((-wrapped_circular_unsigned_distance(F[:-1].unsqueeze(0) - F[:-1].unsqueeze(1)))/(sigma2).sqrt())  + volumeElement.unsqueeze(1).log(), dim=0)
-  sensory_likelihoods = sensory_likelihoods_laplace
 
+  # plot sensory_likelihoods_vonMises[:,0]
+  figure, axis = plt.subplots(1, 1)
+  axis.plot(grid.detach(), sensory_likelihoods_vonMises[:,170].detach(), label="von Mises")
+  axis.plot(grid.detach(), sensory_likelihoods_laplace[:,170].detach(), label="Laplace")
+  axis.legend()
+#  plt.show()
+  plt.close()
+#  quit()
+
+
+#  print(sensory_likelihoods_vonMises)
+ # print(sensory_likelihoods_laplace)
+  
+  
+  sensory_loglikelihoods = sensory_likelihoods_vonMises.log()
+  # Compute the FI using the expected squared derivative of the log-likelihood
+  derivative_logsoftmax = (torch.roll(sensory_loglikelihoods, shifts=-1, dims=1) - sensory_loglikelihoods) * INVERSE_DISTANCE_BETWEEN_NEIGHBORING_GRID_POINTS
+  fisherInformation_vonMises = (derivative_logsoftmax.pow(2) * sensory_likelihoods_vonMises).sum(dim=1)
+
+
+  sensory_loglikelihoods = sensory_likelihoods_laplace.log()
+  # Compute the FI using the expected squared derivative of the log-likelihood
+  derivative_logsoftmax = (torch.roll(sensory_loglikelihoods, shifts=-1, dims=1) - sensory_loglikelihoods) * INVERSE_DISTANCE_BETWEEN_NEIGHBORING_GRID_POINTS
+  fisherInformation_Laplace = (derivative_logsoftmax.pow(2) * sensory_likelihoods_laplace).sum(dim=1)
+  print(f"Mean FI von Mises: {fisherInformation_vonMises.mean().item()}, Mean FI Laplace: {fisherInformation_Laplace.mean().item()}")
+#  quit()
+
+  sensory_likelihoods = sensory_likelihoods_laplace
 
 
   if sigma2_stimulus == 0:
