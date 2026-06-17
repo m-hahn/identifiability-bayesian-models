@@ -390,7 +390,7 @@ We define $\Phi_q$ by setting
     \mathcal{E}(\theta) := & \frac{(bias(\theta) - \frac{\tilde{q}+2}{4} v'(\theta))}{v(\theta)} \\
     \widehat{\Prior}(\theta) \propto & \exp\left( \int_0^\theta \mathcal{E}(\theta') d\theta' \right)
 \end{align*}
-Since the fist two moments $bias(\theta)$ (bias) and $var(\theta)$ (variance) of the response distribution $P(\widehat{\theta}|M,\theta, \sigma)$ are given at each $\theta$, and the sensory noise obeys Gaussian distribution $\mathcal{N}(0, \sigma^2)$, we have (Section~\ref{sec:background} and Lemma~\ref{lemma:expansion}):
+Since the first two moments $bias(\theta)$ (bias) and $var(\theta)$ (variance) of the response distribution $P(\widehat{\theta}|M,\theta, \sigma)$ are given at each $\theta$, and the sensory noise obeys Gaussian distribution $\mathcal{N}(0, \sigma^2)$, we have (Section~\ref{sec:background} and Lemma~\ref{lemma:expansion}):
 \begin{align*}
     var(\theta) &= \mathcal{A}(\theta)\sigma^2 + \mathcal{B}(\theta)\sigma^4 + O(\sigma^6)\\
     bias(\theta) &= \mathcal{C}(\theta)\sigma^2 + \mathcal{D}(\theta)\sigma^4 + O(\sigma^6)
@@ -524,7 +524,7 @@ The proof is similar if $p$ or $p' < 2$.
 \end{proof}
 
 
-\subsubsection{Proof of Theorem}
+\subsubsection{Proof of the Theorems}
 
 
 We jointly prove Theorems 3 and 4. Recall that Theorem 4 extends Theorem 3 by allowing nonzero motor noise.
@@ -555,7 +555,7 @@ Our proof applies directly to the overall result covering both Theorems 3 and 4:
 Consider the extended model with symmetric isotropic motor noise and guessing.
 There is a subset $\Omega \subset \mathfrak{M}$ of volume $0$ such that the following holds.
 Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise. Let $\tau^2$ be the variance of motor noise.
-Assume the fist two moments of the response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
+Assume the first two moments of the response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma_i)$ are given at each $\theta$ and for both $\sigma_1, \sigma_2$, under a ground-truth model $M = \langle F', \Prior,p \rangle \in \mathfrak{M}$.
 There is a functional $\Phi$ mapping the collection of these distributions to $\langle \widehat{F}', \widehat{\Prior},q \rangle \in \mathfrak{M}$
 such that---provided $M \not\in \Omega$---we have
 \begin{align*}

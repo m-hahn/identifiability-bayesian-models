@@ -1,6 +1,6 @@
 Here, we provide a self-contained tutorial for the model and fitting procedure, with the goal of making it easier for readers to understand the model and reproduce the results.
 The fitting procedure is from \citet{hahn2024unifying}, and we refer to the formal description there.
-Here, we intend to give a user-friendly tutorial to readers interested in applying the fitting procedure to psychophysical data.
+Here, we intend to give a user-friendly exposition to readers interested in applying the fitting procedure to psychophysical data.
 
 The codebase provides instructions for running on a simulated dataset\footnote{\url{https://github.com/m-hahn/identifiability-bayesian-models/tree/main/code}}, on the original dataset by \citet{deGardelle2010AnOI}\footnote{\url{https://github.com/m-hahn/identifiability-bayesian-models/tree/main/code/Gardelle}} and on the dataset by \citet{Remington2018LateBI}\footnote{\url{https://gitlab.com/m-hahn/unifying-theory-biases/-/tree/main/code/Remington} in the codebase from \citet{hahn2024unifying}.}, including for visualizing the resulting fits.
 
@@ -37,7 +37,7 @@ Note that the model is fitted separately for each potential loss function expone
 
 \paragraph*{Parameterization of Prior and Encoding}
 The model is implemented computationally on a regularly spaced discretized grid $\theta_1, \dots, \theta_N$.
-We paramaterize the encoding and prior by assigning one value of $F'$, $\Prior$ to each grid point $\theta_i$.
+We parameterize the encoding and prior by assigning one value of $F'$, $\Prior$ to each grid point $\theta_i$.
 The encoding and prior are parameterized in terms of logarithms of these values, and obtained by normalizing the exponentiated parameters (softmax transform), as follows:
 \begin{align}\label{eq:fprime-param}
 	F'(\theta_i) =& \operatorname{Vol}(\mathcal{Y}) \frac{\exp(\alpha(\theta_i))}{\sum_{j=1}^N\exp(\alpha(\theta_j))} \\
@@ -53,7 +53,7 @@ on the discretized grid, and obtain the $L_p$ estimator via Newton's method.
 We fit all model parameters end-to-end via gradient descent to maximize the likelihood of the behavioral data.
 We refer to \citet{hahn2024unifying} for technical details.
 
-\citet{hahn2024unifying} mitigate overfitting in the shapes or prior and encoding by adding a regularization term penalizing the squared distances between $\alpha(\theta_i), \alpha(\theta_{i+1})$ and similarly for $\beta$, modulated with a regularization strength $\lambda$ that is set by the user.
+\citet{hahn2024unifying} mitigate overfitting in the shapes of prior and encoding by adding a regularization term penalizing the squared distances between $\alpha(\theta_i), \alpha(\theta_{i+1})$ and similarly for $\beta$, modulated with a regularization strength $\lambda$ that is set by the user.
 In principle, one can determine the regularization strength for a given behavioral dataset via cross-validation, though this comes with computational cost. 
 As described in Materials and Methods, we used the same regularization strength as was identified for the data from \citet{deGardelle2010AnOI} by \citet{hahn2024unifying}, and used this across all datasets.
 A control study (Section~\ref{sec:robustness-reg}) shows that the regularization strength has little impact on the identifiability.
