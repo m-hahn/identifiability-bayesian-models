@@ -54,8 +54,8 @@ We fit all model parameters end-to-end via gradient descent to maximize the like
 We refer to \citet{hahn2024unifying} for technical details.
 
 \citet{hahn2024unifying} mitigate overfitting in the shapes or prior and encoding by adding a regularization term penalizing the squared distances between $\alpha(\theta_i), \alpha(\theta_{i+1})$ and similarly for $\beta$, modulated with a regularization strength $\lambda$ that is set by the user.
-In principle, one can determine the regularization strength for a given behavioral dataset via cross-validation. 
-Due to computational cost, we used the same regularization strength as was identified for the data from \citet{deGardelle2010AnOI} by \citet{hahn2024unifying}, and used this across all datasets.
+In principle, one can determine the regularization strength for a given behavioral dataset via cross-validation, though this comes with computational cost. 
+As described in Materials and Methods, we used the same regularization strength as was identified for the data from \citet{deGardelle2010AnOI} by \citet{hahn2024unifying}, and used this across all datasets.
 A control study (Section~\ref{sec:robustness-reg}) shows that the regularization strength has little impact on the identifiability.
 
 
