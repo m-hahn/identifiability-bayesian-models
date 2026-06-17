@@ -45,15 +45,17 @@ output by $\Phi$, we have -- provided $M \not\in \Omega$ -- the following for al
     \tilde{\Prior}(\theta) &= \Prior(\theta) + \mathcal{O}(\sigma_1^2) &
     \tilde{q} &= p  \text{ for $\sigma_1^2$ small}
 \end{align*}
-in the limit where $\sigma_1, \sigma_2, \sigma_3 \rightarrow 0$, provided: 
-\begin{align*}
-0 < C_1 < \frac{\sigma_1}{\sigma_2}, \frac{\sigma_2}{\sigma_3} < C_2 < 1 < \infty     
-\end{align*}
-for some $C_1, C_2$, and $\sigma_2-\sigma_1 \neq \sigma_3-\sigma_2$.
+in the limit where $\sigma_1, \sigma_2, \sigma_3 \rightarrow 0$.
+%, provided: 
+%\begin{align*}
+%0 < C_1 < \frac{\sigma_1}{\sigma_2}, \frac{\sigma_2}{\sigma_3} < C_2 < 1 < \infty     
+%\end{align*}
+%for some $C_1, C_2$, and $\sigma_2-\sigma_1 \neq \sigma_3-\sigma_2$.
 Constants in the $\mathcal{O}(\cdot)$ expressions depend on the ratios  $\frac{\sigma_1^2}{\sigma_2^2}, \frac{\sigma_2^2}{\sigma_3^2}$, and on the regularity of $F$ and $\Prior$ and their derivatives, but not on $\theta$.
 %Membership in $\Omega$ can be explicitly verified. For any model in $\Omega$, there are at most five models indistinguishable from it, and they can be explicitly enumerated.
 
 \end{thm}
+See Corollary~\ref{cor:2afc-two-levels} below for the case where one of the two stimuli is noise-free, and the other is presented at two noise levels.
 
 \begin{proof}
 As in the proof of Theorem 2, we introduce a parameter \(t\) such that the \emph{sensory noise variances} satisfy \(\sigma_1^2=at\), \(\sigma_2^2=bt\), and \(\sigma_3^2=ct\) for fixed constants \(a,b,c>0\) as \(t\rightarrow 0\).
@@ -71,17 +73,36 @@ This permits recovering the function
 \begin{align*}
     f_1^{-1} \circ f_2 : \theta \mapsto f_1^{-1}(f_2(\theta))
 \end{align*}
-In the low-noise regime, writing $\sigma_1 = at$ and $\sigma_2 = bt$, we can write
+In the low-noise regime, writing $\sigma_1^2 = at$ and $\sigma_2^2 = bt$, we can write
 \begin{align*}
     f_1(\theta) = \theta + at\mathcal{C}_{dec}(\theta)+ a^2t^2 \mathcal{D}_{dec}(\theta) + O(t^3) \\
     f_2(\theta) = \theta + bt\mathcal{C}_{dec}(\theta)+ b^2t^2 \mathcal{D}_{dec}(\theta) + O(t^3) 
 \end{align*}
 where $\mathcal{C}_{dec}$ and $\mathcal{D}_{dec}$ as per Eq.~\ref{eq:expansion-f}. 
-We now aim to show the following:
+We will aim to show the following:
 \begin{equation}\label{eq:f1-f2-composed}
 f_1^{-1}(f_2(\theta)) = \theta + (b-a)t\,\mathcal{C}_{dec}(\theta) + t^2\Bigl[(b^2-a^2)\mathcal{D}_{dec}(\theta)-a(b-a)\mathcal{C}_{dec}(\theta)\mathcal{C}_{dec}'(\theta)\Bigr] + O(t^3).
 \end{equation}
-Now, comparing the expression for $f_1^{-1}(f_2(\theta))$ between two different  noise level pairs (e.g. $\sigma_1$ and $\sigma_2$ vs $\sigma_2$ and $\sigma_3$) permits identifying $\mathcal{C}_{dec}$ and $\mathcal{D}_{dec}$ up to error $O(t)$ each.
+Now, comparing the expression for $f_1^{-1}(f_2(\theta))$ between different noise level pairs permits identifying $\mathcal{C}_{dec}$ and $\mathcal{D}_{dec}$ up to error $O(t)$ each.
+Specifically, we consider the pairs $(\sigma_1,\sigma_2)$ and $(\sigma_1,\sigma_3)$ and set
+Set
+\[
+g_{12}(\theta)=f_1^{-1}(f_2(\theta)), \qquad g_{13}(\theta)=f_1^{-1}(f_3(\theta)).
+\]
+Then (\ref{eq:f1-f2-composed}) and its analogue for $(\sigma_1,\sigma_3)$ give
+\begin{align*}
+\frac{g_{12}(\theta)-\theta}{(b-a)t}
+=& \mathcal{C}_{dec}(\theta) + t\Bigl[(a+b)\mathcal{D}_{dec}(\theta)-a\mathcal{C}_{dec}(\theta)\mathcal{C}_{dec}'(\theta)\Bigr] + O(t^2), \\
+\frac{g_{13}(\theta)-\theta}{(c-a)t}
+=& \mathcal{C}_{dec}(\theta) + t\Bigl[(a+c)\mathcal{D}_{dec}(\theta)-a\mathcal{C}_{dec}(\theta)\mathcal{C}_{dec}'(\theta)\Bigr] + O(t^2).
+\end{align*}
+Subtracting these two expressions cancels both the leading $\mathcal{C}_{dec}$ term and the term involving $\mathcal{C}_{dec}\mathcal{C}_{dec}'$, yielding
+\[
+\frac{g_{13}(\theta)-\theta}{(c-a)t} - \frac{g_{12}(\theta)-\theta}{(b-a)t}
+= (c-b)t\,\mathcal{D}_{dec}(\theta) + O(t^2).
+\]
+Since $c-b \neq 0$, this identifies $\mathcal{D}_{dec}$ up to error $O(t)$.
+Having obtained $\mathcal{D}_{dec}$, we also obtain $\mathcal{C}_{dec}$ up to error $O(t)$.
 This, in turn, permits identifying the full model as long as it is not in $\Omega$.
 This is because two models have identical $F, \mathcal{C}_{dec}, \mathcal{D}_{dec}$ if and only they have identical $F, \mathcal{C}, \mathcal{D}$ (see Eq.~\ref{eq:dm-decomposition} for $\mathcal{D}$).
 
@@ -167,6 +188,21 @@ Substituting the values of \(\epsilon_1\) and \(\epsilon_2\) into the expansion 
 f_1^{-1}(f_2(\theta)) = \theta + (b-a)t\,\mathcal{C}_{dec}(\theta) + t^2\Bigl[(b^2-a^2)\mathcal{D}_{dec}(\theta)-a(b-a)\mathcal{C}_{dec}(\theta)\mathcal{C}_{dec}'(\theta)\Bigr] + O(t^3).
 \]
     \end{proof}
+
+\begin{corollary}\label{cor:2afc-two-levels}
+Assume the setup of the theorem, except that one of the two stimuli in each 2AFC comparison is perceived without sensory noise, while the other is perceived at two sensory noise variances \(0 < \sigma_1^2 < \sigma_2^2\).
+Then the same conclusion holds from 2AFC response distributions at just these two nonzero sensory noise levels.
+\end{corollary}
+
+\begin{proof}
+The proof changes only in the step where one compares two nonzero noise pairs.
+If the reference stimulus is noise-free, its decoding function is the identity, so instead of recovering \(f_1^{-1}\circ f_2\), one directly recovers each decoding function \(f_i\) itself by comparing the noise-free condition against the condition with sensory noise \(\sigma_i\), for \(i=1,2\).
+Applying the expansion
+\[
+f_i(\theta) = \theta + a_it\,\mathcal{C}_{dec}(\theta) + a_i^2 t^2 \mathcal{D}_{dec}(\theta) + O(t^3)
+\]
+to the two nonzero noise levels therefore directly provides the analogue of the two equations used in the theorem, so the remainder of the proof is unchanged.
+\end{proof}
 
 
 
