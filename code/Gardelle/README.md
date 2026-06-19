@@ -58,6 +58,8 @@ figures/RunGardelle_FreePrior_CosineLoss_VIZFig7.py_8_0_10.0_180.pdf
 
 This is the fit shown in the Figure 7 writeup file at `../../writeup/figure7a_byFI.tex`.
 
+You can apply the same pipeline to datasets with circular stimulus spaces generally, if you adapt the dataset loader. For interval stimulus spaces, instead start from `../Remington/`.
+
 ### 3. Reproduce the Figure 6 analyses on the original data
 
 Figure 6 in the writeup (`../../writeup/figure6.tex`) uses 1,000-trial downsampled fits at each individual noise level, with `p=8` and seed `21`.
