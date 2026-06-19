@@ -124,8 +124,8 @@ These write the subplot PDFs and legend used by `../../writeup/figure7a_byFI.tex
 
 ### 5. Notes
 
-* Many scripts stop early, or assert, if their expected output file already exists. If you want to rerun a fit from scratch, move or delete the corresponding files in `logs/CROSSVALID/`, `losses/`, or `figures/`.
-* The downsampling scripts use the integer noise-level labels `1, 2, 3, 4, 5` found in this codebase. For Figure 6, the writeup commands use the fixed seed `21`.
+* Many scripts stop (via an assert) if their expected output file already exists. If you want to rerun a fit from scratch, move or delete the corresponding files in `logs/CROSSVALID/`, `losses/`, or `figures/`.
+* The downsampling scripts use five noise-level labels `1, 2, 3, 4, 5` used in the dataset (`1` largest noise, `5` smallest noise).
 * Outputs for the original-data analyses are written locally in this directory, mainly under `logs/CROSSVALID/`, `losses/`, and `figures/`.
 
 ## Fitting on Downsampled Dataset (Material for Figures 6 and 7)
