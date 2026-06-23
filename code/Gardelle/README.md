@@ -58,6 +58,8 @@ figures/RunGardelle_FreePrior_CosineLoss_VIZFig7.py_8_0_10.0_180.pdf
 
 This is the fit shown in the Figure 7 writeup file at `../../writeup/figure7a_byFI.tex`.
 
+You can apply the same pipeline to datasets with circular stimulus spaces generally, if you adapt the dataset loader. For interval stimulus spaces, instead start from `../Remington/`.
+
 ### 3. Reproduce the Figure 6 analyses on the original data
 
 Figure 6 in the writeup (`../../writeup/figure6.tex`) uses 1,000-trial downsampled fits at each individual noise level, with `p=8` and seed `21`.
@@ -124,8 +126,8 @@ These write the subplot PDFs and legend used by `../../writeup/figure7a_byFI.tex
 
 ### 5. Notes
 
-* Many scripts stop early, or assert, if their expected output file already exists. If you want to rerun a fit from scratch, move or delete the corresponding files in `logs/CROSSVALID/`, `losses/`, or `figures/`.
-* The downsampling scripts use the integer noise-level labels `1, 2, 3, 4, 5` found in this codebase. For Figure 6, the writeup commands use the fixed seed `21`.
+* Many scripts stop (via an assert) if their expected output file already exists. If you want to rerun a fit from scratch, move or delete the corresponding files in `logs/CROSSVALID/`, `losses/`, or `figures/`.
+* The downsampling scripts use five noise-level labels `1, 2, 3, 4, 5` used in the dataset (`1` largest noise, `5` smallest noise).
 * Outputs for the original-data analyses are written locally in this directory, mainly under `logs/CROSSVALID/`, `losses/`, and `figures/`.
 
 ## Fitting on Downsampled Dataset (Material for Figures 6 and 7)
