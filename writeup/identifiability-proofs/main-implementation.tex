@@ -2,7 +2,7 @@
 
 
 
-\section{Implementation}
+\section{Implementation}\label{sec:implementation}
 
 \subsection{Fitting Procedure}
 
@@ -33,7 +33,7 @@ Here, we discuss its definition and implementation.
 We first discuss the setting where $\mathcal{X}$ is an interval.
 Given a neural encoding $m \in \mathcal{Y}$ and the corresponding posterior $P(x|m)$ over $\mathcal{X}$, the $L_1$ loss for an estimate $\theta \in \mathcal{X}$ is defined as
 \begin{equation}\label{eq:l1-loss}
-    \int |x-\theta| P(x|m) dx
+    \int_{\mathcal{X}} |x-\theta| P(x|m) dx
 \end{equation}
 In the implementation of \citet{hahn2024unifying}, we are given the discretized posterior $P(x_1|m), \dots, P(x_N|m)$ based on the discretization $x_1, ..., x_N$ of the stimulus space $\mathcal{X}$ ($x_{i+1}-x_i = \Gamma$).
 %The reason for defining the median on an interpolation is that, otherwise, it would not be uniquely defined, or would not smoothly depend on $P$.

@@ -9,20 +9,20 @@ The user specifies the following parts:
 \begin{enumerate}
 \item The stimulus space $\mathcal{X}$; it may be a finite interval or a circle.
 The  sensory space $\mathcal{Y}$ has the same topology; in practice, it can be chosen to be $[0,1]$ (interval) or $[0,2\pi)$ (circular).
-\item The exponent $p \geq 0$ of the $L_p$ loss function. The fitting procedure admits $p=0,1,2,4,6,8,\dots$.
-\item The number $k$ of sensory noise levels.
+\item The exponent $p \geq 0$ of the $L_p$ loss function. The fitting procedure admits any nonnegative integer; we use $p=0,1,2,4,6,8,\dots$.
+\item The number $L$ of sensory noise levels.
 \end{enumerate}
 The behavioral data is expected to consist of trials that each consist of
 \begin{enumerate}
 \item the true stimulus $\theta \in \mathcal{X}$,
 \item the observed response $x \in \mathcal{X}$,
-\item an index for the sensory noise level, $l \in \{1, \dots, k\}$ (e.g., an index for a condition under a manipulation of exposure duration, contrast, or another manipulation affecting the magnitude of sensory noise).
+\item an index for the sensory noise level, $l \in \{1, \dots, L\}$ (e.g., an index for a condition under a manipulation of exposure duration, contrast, or another manipulation affecting the magnitude of sensory noise).
 \end{enumerate}
 Given these, the fitting procedure determines
 \begin{enumerate}
 	\item A prior $\Prior(\theta)$, which is a probability density on $\mathcal{X}$.
 	\item An encoding function $F(\theta) : \mathcal{X} \rightarrow \mathcal{Y}$; equivalently, a function $F'(\theta) : \mathcal{X} \mapsto (0,\infty)$ describing the slope of $F(\theta)$.
-	\item Sensory noise magnitudes  $\sigma_1, \dots, \sigma_k > 0$, which specify the magnitude of sensory noise in the $k$ different noise level conditions
+	\item Sensory noise magnitudes  $\sigma_1, \dots, \sigma_L > 0$, which specify the magnitude of sensory noise in the $L$ different noise level conditions
         \item The variance  $\rho^2$ of motor noise. 
 	\item $\xi \in [0,1)$, the guessing rate.
 \end{enumerate}
@@ -34,6 +34,26 @@ The quality-of-fit statistic is negative log-likelihood (NLL) on held-out data, 
 Note that the model is fitted separately for each potential loss function exponent $p$ (giving a different heldout NLL for each $p$), whereas the other parameters (prior, encoding, noise and guessing parameters) are jointly fitted.
 
 
+By Bayes' rule, the posterior over $\theta$ given an encoding $m$ in the $l$-th noise level ($l = 1, \dots, L$) is
+\begin{equation}
+P(\theta|m; \sigma_l) \propto P_{sensory}(m|\theta; \sigma_l^2) \Prior(\theta)
+\end{equation}
+where $P_{sensory}(m|\theta; \sigma_l^2)$ is the sensory noise distribution over $\mathcal{Y}$ (Gaussian with variance $\sigma_l^2$ or von Mises with concentration $1/\sigma_l^2$, for the corresponding noise level $l$).
+The $L_p$-estimator $\hat{\theta}$ is obtained from the posterior $P(\theta|m; \sigma_l^2)$ by minimizing the $L_p$ loss function.
+Then, the data log-likelihood for a single pair of true stimulus $\theta \in \mathcal{X}$ and observed response $x \in \mathcal{X}$ at the $l$-th noise level ($l=1, \dots, L$) is defined as follows:
+\begin{equation}\label{eq:data-likelihood-raw}
+\log P(x|\theta; \sigma_l^2) = \log \left\{ \frac{\xi}{\operatorname{Vol}(\mathcal{X})} + (1-\xi)  \int_{m \in \mathcal{Y}} P_{motor}(x|\hat{\theta}_m) P_{sensory}(m|\theta; \sigma_l^2) dm \right\}
+\end{equation}
+where $\hat{\theta}_m \in \mathcal{X}$ is the $L_p$-estimator given the posterior $P(\hat{\theta}|m; \sigma_l^2)$ for an encoding $m \in \mathcal{Y}$, and $P_{motor}(x|\hat{\theta}_m)$ is the motor noise distribution over $\mathcal{X}$ (Gaussian with variance $\rho^2$ or von Mises with concentration $1/\rho^2$).
+This can equivalently be expressed, by transforming the integral over $m$ to an integral over $F^{-1}(m)$, as
+\begin{equation}\label{eq:data-likelihood}
+\log P(x|\theta; \sigma_l^2) = \log \left\{ \frac{\xi}{\operatorname{Vol}(\mathcal{X})} + (1-\xi)  \int_{m \in \mathcal{X}} P_{motor}(x|\hat{\theta}_m) P_{sensory-transformed}(m|\theta; \sigma_l^2) dm \right\}
+\end{equation}
+where, by the transformation law for probability densities,
+\begin{equation}
+P_{sensory-transformed}(m|\theta; \sigma_l^2) \propto P_{sensory}(F(m)|\theta; \sigma_l^2) \cdot F'(m)
+\end{equation}
+This is advantageous for implementation because it avoids the need to separately represent $\mathcal{X}$ and $\mathcal{Y}$.
 
 \paragraph*{Parameterization of Prior and Encoding}
 The model is implemented computationally on a regularly spaced discretized grid $\theta_1, \dots, \theta_N$.
@@ -42,20 +62,51 @@ The encoding and prior are parameterized in terms of logarithms of these values,
 \begin{align}\label{eq:fprime-param}
 	F'(\theta_i) =& \operatorname{Vol}(\mathcal{Y}) \frac{\exp(\alpha(\theta_i))}{\sum_{j=1}^N\exp(\alpha(\theta_j))} \\
 \label{eq:prior-param}
-	\Prior(\theta_i) =& \frac{\exp(\beta(\theta_i))}{\sum_{j=1}^N\exp(\beta(\theta_j))}
+		\Prior(\theta_i) =& \frac{\exp(\beta(\theta_i))}{\sum_{j=1}^N\exp(\beta(\theta_j))}
 \end{align}
-for $\theta$ on the grid; here, $\alpha(\theta_i)$ and $\beta(\theta_i)$ ($i=1,\dots, N$) are real-valued parameters of the model. 
+for $\theta_i$ on the grid; here, $\alpha(\theta_i)$ and $\beta(\theta_i)$ ($i=1,\dots, N$) are real-valued parameters of the model. 
 We note that this is a discretized version of the theoretical construction of a measure over models (Section~\ref{sec:measure-mu}).
 
 \paragraph*{Implementation of Model}
-We map the  input stimulus $\theta$  to the closest grid point $\theta_i$ and then compute likelihoods and posteriors exactly 
+We map the  input stimulus $\theta$  to the closest grid point $\theta_i$ ($i = 1,\dots, N$) and then compute likelihoods and posteriors exactly 
 on the discretized grid, and obtain the $L_p$ estimator via Newton's method.
-We fit all model parameters end-to-end via gradient descent to maximize the likelihood of the behavioral data.
+First, the sensory likelihood is, for the $l$-th noise level ($k, i = 1, \dots, N$):
+\begin{equation}
+P_{sensory-transformed}(\theta_k|\theta_i; \sigma_l^2) \propto \exp(-\frac{(F(\theta_k) - F(\theta_i))^2}{2\sigma_l^2}) \cdot F'(\theta_k)
+\end{equation}
+(analogously in the case of von Mises noise).
+Second, the posterior is ($j, k = 1, \dots, N$):
+\begin{equation}
+P(\theta_j|\theta_k; \sigma_l^2) \propto P_{sensory-transformed}(\theta_k|\theta_j; \sigma_l^2) \Prior(\theta_j)
+\end{equation}
+The estimator $\hat{\theta} \in \mathcal{X}$ is obtained from the posterior $P(\theta_k|\theta_i; \sigma_l^2)$ by minimizing the expected $L_p$ loss function:
+\begin{equation}\label{eq:lp-estimator-discretized}
+\hat{\theta} = \argmin_{\hat{\theta} \in \mathcal{X}} \sum_{k=1}^N P(\theta_k|\theta_i; \sigma_l^2) |\hat{\theta}-\theta_k|^p
+\end{equation}
+or, in the case of a circular space,
+\begin{equation}\label{eq:lp-estimator-discretized-circular}
+\hat{\theta} = \argmin_{\hat{\theta} \in \mathcal{X}} \sum_{k=1}^N P(\theta_k|\theta_i; \sigma_l^2) (1-\cos(\hat\theta-\theta))^{p/2}
+\end{equation}
+These formulas are used for $p \geq 2$; implementations for $p=0,1$ are described in Section~\ref{sec:implementation}. 
+%
+%On interval spaces, the $L_p$ loss function is defined as $|\hat\theta-\theta|^p$ (for $p>0$).
+%On circular spaces, the $L_p$ loss function is defined as $(1-\cos(\hat\theta-\theta))^{p/2}$ (for $p>1$).
+%The $L_0$ estimator is operationalized as the maximum of a kernel-smoothed version of the posterior (see \citet{hahn2024unifying} for details).
+
+\paragraph*{Model Fitting}
+The data log-likelihood for a single pair consisting of a true stimulus mapped to a grid point $\theta_i$ ($i=1, \dots, N$) and an observed response $x \in \mathcal{X}$, under the $l$-th noise level ($l=1,\dots,L$), is defined by discretizing the integral in Eq.~\eqref{eq:data-likelihood}:
+\begin{equation}\label{eq:data-likelihood-discretized}
+\log P(x|\theta_i; \sigma_l^2) = \log \left\{\frac{\xi}{\operatorname{Vol}(\mathcal{X})} + (1-\xi)  \sum_k P_{motor}(x|\hat{\theta}_{\theta_k}) P_{sensory-transformed}(\theta_k|\theta_i; \sigma_l^2) \right\}
+\end{equation}
+where $k$ runs over the points on the discretized grid, and $\hat{\theta}_{\theta_k}$ is the $L_p$ estimator derived from posterior $P(\theta|\theta_k; \sigma_l^2)$.
+Summing this over all datapoints gives the log-likelihood of the behavioral dataset.
+
+We fit all model parameters (prior, encoding, noise magnitudes, guessing rate) end-to-end via gradient descent to maximize the likelihood of the behavioral data.
+We implement (\ref{eq:data-likelihood-discretized}) in PyTorch \citep{DBLP:conf/nips/PaszkeGMLBCKLGA19}, which provides differentiation out-of-the box.
+Notably, we provide a custom implementation for the $L_p$ optimizers as standalone PyTorch modules, allowing differentiating through $\hat{\theta}$. In the forward pass, this module obtains $\hat{\theta}$ from the posterior $P(\theta|\theta_k; \sigma_l^2)$ by minimizing (\ref{eq:lp-estimator-discretized}--\ref{eq:lp-estimator-discretized-circular}) via Newton's method. For the backward pass, we compute the derivatives of $\hat{\theta}$ w.r.t. the weights of the posterior $P(\theta_j|\theta_k; \sigma_l^2)$ ($j, k = 1, \dots, N$) via implicit differentiation.
 We refer to \citet{hahn2024unifying} for technical details.
 
-\citet{hahn2024unifying} mitigate overfitting in the shapes of prior and encoding by adding a regularization term penalizing the squared distances between $\alpha(\theta_i), \alpha(\theta_{i+1})$ and similarly for $\beta$, modulated with a regularization strength $\lambda$ that is set by the user.
+\citet{hahn2024unifying} mitigate overfitting in the shapes of prior and encoding by adding a regularization term penalizing\footnote{For circular spaces, $\left(\alpha(\theta_N), \alpha(\theta_{1})\right)^2$ is added additionally.} $\sum_{i=1}^{N-1} \left(\alpha(\theta_i), \alpha(\theta_{i+1})\right)^2$ and similarly for $\beta$, modulated with a regularization strength $\lambda$ that is set by the user.
 In principle, one can determine the regularization strength for a given behavioral dataset via cross-validation, though this comes with computational cost. 
 As described in Materials and Methods, we used the same regularization strength as was identified for the data from \citet{deGardelle2010AnOI} by \citet{hahn2024unifying}, and used this across all datasets.
 A control study (Section~\ref{sec:robustness-reg}) shows that the regularization strength has little impact on the identifiability.
-
-
