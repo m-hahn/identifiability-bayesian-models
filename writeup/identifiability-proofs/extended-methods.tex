@@ -1,5 +1,7 @@
 
 
+\newcommand{\correspondingSIVersion}[2]{#2}
+
 \setcounter{section}{-1}
 
 
@@ -21,7 +23,7 @@ Given a particular loss function $\ell$ and an encoding model $m\in\mathcal{Y}$,
 At a stimulus $\theta$, the estimator $\widehat{\theta}$ has bias $\mathbb{E}[\widehat{\theta}]-\theta$.
 
 The resource allocation is $\sqrt{\mathcal{J}(\theta)} = \frac{F'(\theta)}{\sigma}$, which is proportional to the slope $F'(\theta)$ of the encoding function,  with proportionality factor given by the reciprocal of the sensory noise SD. %
-We study model variants where noise may also enter \emph{before} the map $F(\cdot)$ in SI Appendix S5.2.
+We study model variants where noise may also enter \emph{before} the map $F(\cdot)$ in \correspondingSIVersion{SI Appendix S5.2}{Section~\ref{sec:stimulus-noise}}.
 
 
 %
@@ -44,7 +46,7 @@ The space of encoding models is then the product space $\mathfrak{M} := \mathcal
 We quantify volume on the infinite-dimensional space $\mathfrak{M}$ by %
 parameterizing both $\Prior$ and $F'$ in terms of their logarithms, and placing a Gaussian process measure on these.
 Independently sampling prior, encoding, and loss function determines a notion of measure or volume on the space of models.
-See SI Appendix S2.1 for details.
+See \correspondingSIVersion{SI Appendix S2.1}{Section~\ref{sec:model-space-and-measure}} for details.
 %
 %
 %
@@ -75,8 +77,8 @@ Our first theorem concerns recovery of the encoding, providing an explicit formu
 where the derivative is evaluated at $h=0$, and $\widehat{\theta}(\theta+h)$ and $\widehat{\theta}(\theta)$ are independent response samples at stimuli $\theta+h$ and $\theta$, respectively.
 %
 \end{thm}
-The proof of this theorem is in SI Appendix S2.4.
-Numerical approximation of this formula allows straightforward estimation, independent of the loss function, as we illustrate in SI Appendix, Figure S3.
+The proof of this theorem is in \correspondingSIVersion{SI Appendix S2.4}{Section~\ref{sec:proof-theorem-1}}.
+Numerical approximation of this formula allows straightforward estimation, independent of the loss function, as we illustrate in \correspondingSIVersion{SI Appendix, Figure S3}{Figure~\ref{fig:recover-encoding}}.
 
 
 
@@ -135,7 +137,7 @@ Theorem~\ref{thm:3} is not affected by adding symmetric isotropic motor noise of
 
 
 
-The proofs of Theorems~\ref{thm:2}--\ref{thm:4}, provided in SI Appendix S2.5 and S2.6, recover model components using the Method of Moments, %
+The proofs of Theorems~\ref{thm:2}--\ref{thm:4}, provided in \correspondingSIVersion{SI Appendix S2.5 and S2.6}{Sections~\ref{sec:proof-theorem-2} and \ref{sec:theorems-two-levels}}, recover model components using the Method of Moments, %
 by matching observed moments of the response distribution to truncated Taylor expansions of the moments in powers of the noise magnitude $\sigma^2$, with coefficients reflecting the model components $F', \Prior, p$.
 The key intuition behind the proofs of Theorems~\ref{thm:3}--\ref{thm:4} is that observing multiple sensory noise levels allows recovering multiple coefficients of these Taylor expansions. Even if the lowest-order coefficient does not allow uniquely identifying the model, the next-order coefficient provides sufficient information to uniquely identify any model outside of the exceptional set $\Omega$ of unidentifiable models.
 
@@ -148,11 +150,11 @@ Our simulation experiments indicate that conclusions remain valid at finite nois
 
 
 \subsection*{Implementation}
-We use the fitting procedure introduced in \cite{hahn2024unifying}, which, given a loss function, jointly fits encoding, prior, motor and sensory noise magnitudes, and guessing rate, by maximizing the data's likelihood under the model. Prior and encoding are specified on a discretized grid over $\mathcal{X}$. Following \cite{hahn2024unifying}, its size is 180 in the models in Figures 1--7, and 200 in the model in Figure~\ref{fig:remington}. Following \cite{hahn2024unifying}, we implement the $L_p$ loss function on circular spaces via powers of the cosine ($\ell(x,y) := (1-\cos(x-y))^{p/2}$), as they found this to provide better fit to behavioral data than a version based on absolute distance. In the low-noise setting, $\ell(x,y) \sim |x-y|^p$, i.e., our theoretical results apply to this implementation.
+We use the fitting procedure introduced in \cite{hahn2024unifying}, which, given a loss function, jointly fits encoding, prior, motor and sensory noise magnitudes, and guessing rate, by maximizing the data's likelihood under the model. Prior and encoding are specified on a discretized grid over $\mathcal{X}$. Following \cite{hahn2024unifying}, its size is 180 in the models in \correspondingSIVersion{Figures 1--7}{Main Text, Figures 1--7}, and 200 in the model in \correspondingSIVersion{Figure~\ref{fig:remington}}{Main Text, Figure 8}. Following \cite{hahn2024unifying}, we implement the $L_p$ loss function on circular spaces via powers of the cosine ($\ell(x,y) := (1-\cos(x-y))^{p/2}$), as they found this to provide better fit to behavioral data than a version based on absolute distance. In the low-noise setting, $\ell(x,y) \sim |x-y|^p$, i.e., our theoretical results apply to this implementation.
 
-We provide a description of the practical model fitting procedure in SI Appendix, Section S8. As in \cite{hahn2024unifying}, the fitting procedure includes regularization encouraging smooth fits for prior and encoding.
-For synthetic data in Figures 2--7, we used the same regularization strength as \cite{hahn2024unifying} used for the data collected by \cite{deGardelle2010AnOI}.
-In Figure~\ref{fig:remington}, we used the same regularization strength as in the fit to the original data from \cite{hahn2024unifying}.
+We provide a description of the practical model fitting procedure in \correspondingSIVersion{SI Appendix, Section S8}{Section~\ref{sec:tutorial}}. As in \cite{hahn2024unifying}, the fitting procedure includes regularization encouraging smooth fits for prior and encoding.
+For synthetic data in \correspondingSIVersion{Figures 2--7}{Main Text, Figures 2--7}, we used the same regularization strength as \cite{hahn2024unifying} used for the data collected by \cite{deGardelle2010AnOI}.
+In \correspondingSIVersion{Figure~\ref{fig:remington}}{Main Text, Figure 8}, we used the same regularization strength as in the fit to the original data from \cite{hahn2024unifying}.
 
 
 Note that this method is applicable even outside of the small-noise regime, allowing us to verify the generalizability of the theoretical conclusions beyond it.
@@ -173,7 +175,7 @@ Following \cite{hahn2024unifying}, simulated datasets include Gaussian (or von M
 
 %
 %
-The numbers of trials in simulated data are as indicated in Fig.~\ref{fig:2}, 10K in Fig.~\ref{fig:confounded-prior}, 10K in Fig.~\ref{fig:random-models}, and as indicated in Fig.~\ref{fig:levels-sizes-synthetic}.
+The numbers of trials in simulated data are as indicated in \correspondingSIVersion{Fig.~\ref{fig:2}}{Main Text, Figure 2}, 10K in \correspondingSIVersion{Fig.~\ref{fig:confounded-prior}}{Main Text, Figure 3}, 10K in \correspondingSIVersion{Fig.~\ref{fig:random-models}}{Main Text, Figure 4}, and as indicated in \correspondingSIVersion{Fig.~\ref{fig:levels-sizes-synthetic}}{Main Text, Figure 5}.
 
 %
 For experiments on circular stimulus spaces, we focus on the orientation domain, with stimulus space $[0^\circ, 180^\circ]$. 
@@ -182,35 +184,35 @@ For experiments on circular stimulus spaces, we focus on the orientation domain,
 %
 As in \cite{hahn2024unifying}, we randomly partition each dataset into 10 folds. We fit models on 9 and evaluate negative log-likelihood (NLL) on one fold. We plot $\Delta$NLL relative to the NLL achieved by the ground-truth loss function exponent.
 
-Confidence bands in Figure~\ref{fig:2} are obtained by resampling 2K replicates of the dataset, and obtaining 95\% confidence intervals for the values at 45 regularly spaced grid points with Bonferroni correction.
+Confidence bands in \correspondingSIVersion{Figure~\ref{fig:2}}{Main Text, Figure 2} are obtained by resampling 2K replicates of the dataset, and obtaining 95\% confidence intervals for the values at 45 regularly spaced grid points with Bonferroni correction.
 
 %
-For Fig.~\ref{fig:random-models}, we randomized models as follows.
+For \correspondingSIVersion{Fig.~\ref{fig:random-models}}{Main Text, Figure 4}, we randomized models as follows.
 We sampled $F'$ and $\Prior$ each by parameterizing their logarithms in terms of the first four terms of their Fourier series, with coefficients uniformly in $[-0.5, 0.5]$.
 
 
 %
-For Fig.~\ref{fig:levels-sizes-synthetic}, we considered (i) uniform prior and periodic resources $\sqrt{\FI(\theta)} \propto \frac{3}{2} - \left|\sin(\frac{\theta}{2})\right|$ (stylized from the fit to the data collected by \cite{deGardelle2010AnOI}), (ii) matched periodic prior and encoding, (iii) periodic prior and uniform encoding, (iv) a periodic resource allocation and a shifted prior $\Prior \propto \frac{3}{2} - \left|\sin(\frac{\theta+\pi}{2})\right|$.
-The same periodic encoding was used in Figs.~\ref{fig:2} and \ref{fig:confounded-prior}.
+For \correspondingSIVersion{Fig.~\ref{fig:levels-sizes-synthetic}}{Main Text, Figure 5}, we considered (i) uniform prior and periodic resources $\sqrt{\FI(\theta)} \propto \frac{3}{2} - \left|\sin(\frac{\theta}{2})\right|$ (stylized from the fit to the data collected by \cite{deGardelle2010AnOI}), (ii) matched periodic prior and encoding, (iii) periodic prior and uniform encoding, (iv) a periodic resource allocation and a shifted prior $\Prior \propto \frac{3}{2} - \left|\sin(\frac{\theta+\pi}{2})\right|$.
+The same periodic encoding was used in \correspondingSIVersion{Figs.~\ref{fig:2} and \ref{fig:confounded-prior}}{Main Text, Figures 2 and 3}.
 
 
 
 
 %
-In Fig.~\ref{fig:recovered-fi}, we show results fitted at $p=8$, selected based on quality of fit on the full dataset.  Fit of the encoding is highly consistent even when fitting at other exponents (SI Appendix, Figure S33).
-In Fig.~\ref{fig:recovered-fi}c, we obtained the environmental prior from the ``Blended'' distribution in Supplementary Figure 4 of \cite{Girshick2011CardinalRV}, at 640 x 480 resolution. We further obtained discrimination thresholds from Figure 1 in \cite{westheimer2003meridional}, averaging over the five subjects reported there.
+In \correspondingSIVersion{Fig.~\ref{fig:recovered-fi}}{Main Text, Figure 6}, we show results fitted at $p=8$, selected based on quality of fit on the full dataset.  Fit of the encoding is highly consistent even when fitting at other exponents (\correspondingSIVersion{SI Appendix, Figure S33}{Figure~\ref{fig:gardelle-one-level-pri-enc}}).
+In \correspondingSIVersion{Fig.~\ref{fig:recovered-fi}c}{Main Text, Figure 6C}, we obtained the environmental prior from the ``Blended'' distribution in Supplementary Figure 4 of \cite{Girshick2011CardinalRV}, at 640 x 480 resolution. We further obtained discrimination thresholds from Figure 1 in \cite{westheimer2003meridional}, averaging over the five subjects reported there.
 
 %
 
 %
-In Fig.~\ref{fig:gardelle-fits}, we averaged the NLL over five random seeds for downsampling the dataset.
+In \correspondingSIVersion{Fig.~\ref{fig:gardelle-fits}}{Main Text, Figure 7}, we averaged the NLL over five random seeds for downsampling the dataset.
 
 
 
 %
-In Fig.~\ref{fig:remington}, parameters for the unimodal model are taken from the fit to the behavioral data, which is from \cite{hahn2024unifying}. Parameters for the bimodal model are identical except for the prior.
+In \correspondingSIVersion{Fig.~\ref{fig:remington}}{Main Text, Figure 8}, parameters for the unimodal model are taken from the fit to the behavioral data, which is from \cite{hahn2024unifying}. Parameters for the bimodal model are identical except for the prior.
 %
-In Fig.~\ref{fig:remington}, all fits presuppose a logarithmic encoding consistent with Weber's law, as in the analysis of the dataset in \cite{hahn2024unifying}. Corresponding model fit statistics for freely fitted encodings (SI Appendix, Fig. S34) show that the bimodal model is identifiable even without assuming a specific encoding.
+In \correspondingSIVersion{Fig.~\ref{fig:remington}}{Main Text, Figure 8}, all fits presuppose a logarithmic encoding consistent with Weber's law, as in the analysis of the dataset in \cite{hahn2024unifying}. Corresponding model fit statistics for freely fitted encodings (\correspondingSIVersion{SI Appendix, Fig. S34}{Figure~\ref{fig:remington-nll-free-or-weber}}) show that the bimodal model is identifiable even without assuming a specific encoding.
 
 \subsection*{Experimental data} The experimental data used in this paper are published in ref \cite{deGardelle2010AnOI} and \cite{Remington2018LateBI}. Data collection and analysis were not performed blind to the conditions of the experiments.
 
