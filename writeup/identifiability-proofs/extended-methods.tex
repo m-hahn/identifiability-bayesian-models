@@ -10,16 +10,16 @@
 \paragraph*{Model of Encoding and Decoding}
 We assume a general encoding and decoding model for one-dimensional stimulus variables. Specifically, we assume that the stimulus space $\mathcal{X}$ is a circle or a bounded interval, the space of measurement (the neural encoding signal in the brain) is denoted as $\mathcal{Y}$, and the map $F : \mathcal{X} \rightarrow \mathcal{Y}$ is a bijection.
 Formally, the neural encoding can be described by the following equation
-\begin{equation}\label{eq:encoding}
+\begin{equation*} %\label{eq:encoding}
     m = F(\theta) + \epsilon
-\end{equation}
+\end{equation*}
 We assume, without loss of generality, that $\mathcal{Y}$ has volume 1.
 Given a particular loss function $\ell$ and an encoding model $m\in\mathcal{Y}$, the Bayesian  estimator $\widehat{\theta} \in \mathcal{X}$ that minimizes the loss function is obtained as 
-\begin{equation}\label{sec:lp-estimator}
+\begin{equation*} %\label{sec:lp-estimator}
 	\widehat{\theta} := \arg_{\widehat\theta\in\mathcal{X}} \min \int_{\mathcal{X}}
 	\ell({\widehat\theta}, \theta)
 	p(\theta|m) d\theta
-\end{equation}
+\end{equation*}
 At a stimulus $\theta$, the estimator $\widehat{\theta}$ has bias $\mathbb{E}[\widehat{\theta}]-\theta$.
 
 The resource allocation is $\sqrt{\mathcal{J}(\theta)} = \frac{F'(\theta)}{\sigma}$, which is proportional to the slope $F'(\theta)$ of the encoding function,  with proportionality factor given by the reciprocal of the sensory noise SD. %
