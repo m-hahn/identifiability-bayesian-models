@@ -69,21 +69,21 @@ Our first theorem concerns recovery of the encoding, providing an explicit formu
 
 
 
-\begin{thm}[Recovering Encoding from Response Distribution]\label{thm:1}
+\begin{thm*}[Theorem 3.1 in Main Text: Recovering Encoding from Response Distribution] %\label{thm:1}
     In the absence of motor noise, the encoding $F$ and the sensory noise magnitude can be recovered from the response distribution at a single level of sensory noise, with estimation error exponentially small in $\frac{1}{\sigma}$:
 \begin{align*}
  \sqrt{\mathcal{J}(\theta)} = \sqrt{4\pi} \cdot \frac{\operatorname{d}}{\operatorname{d}h} \mathbb{P}\left(\widehat{\theta}(\theta+h) > \widehat{\theta}(\theta)\right) + O(\exp(-1/\sigma))
 \end{align*}
 where the derivative is evaluated at $h=0$, and $\widehat{\theta}(\theta+h)$ and $\widehat{\theta}(\theta)$ are independent response samples at stimuli $\theta+h$ and $\theta$, respectively.
 %
-\end{thm}
+\end{thm*}
 The proof of this theorem is in \correspondingSIVersion{SI Appendix S2.4}{Section~\ref{sec:proof-theorem-1}}.
 Numerical approximation of this formula allows straightforward estimation, independent of the loss function, as we illustrate in \correspondingSIVersion{SI Appendix, Figure S3}{Figure~\ref{fig:recover-encoding}}.
 
 
 
 Our next theorem concerns recovery of the prior conditional on the loss function. It guarantees recovery of the prior when the loss function is known: %
-\begin{thm}[One Level of Sensory Noise]\label{thm:2}
+\begin{thm*}[Theorem 3.2 in Main Text: One Level of Sensory Noise] %\label{thm:2}
 Let $\sigma > 0$ be the SD of sensory noise, and $p \in \mathcal{P}$.
 Assume the %
 response distribution $\mathbb{P}(\widehat{\theta}|M,\theta, \sigma)$ is given at each $\theta$, under a ground-truth model $\langle F', \Prior,p \rangle \in \mathfrak{M}$. 
@@ -94,10 +94,10 @@ There is a functional $\Phi_p$ mapping these distributions to $\langle \widehat{
 \end{align*}
 as $\sigma \rightarrow 0$.
 Constants in $\mathcal{O}(\cdot)$ depend on $F$ and $\Prior$, but not  $\theta$. 
-\end{thm}
+\end{thm*}
 We next state our identifiability theorem for the more general setup where encoding, prior, and loss function are all unknown a priori.
 We use $\Omega$ to denote the exceptional set of unidentifiable models.
-\begin{thm}[Two Levels of Sensory Noise]\label{thm:3}
+\begin{thm*}[Theorem 3.3 in Main Text: Two Levels of Sensory Noise] %\label{thm:3}
 There is a subset $\Omega \subset \mathfrak{M}$ of volume $0$ such that the following holds.
 Let $0 < \sigma_1 < \sigma_2$ be two levels of sensory noise. %
 Assume the %
@@ -113,7 +113,7 @@ such that---provided $M \not\in \Omega$---we have
 Constants in the $\mathcal{O}(\cdot)$ expressions depend on the ratio $\frac{\sigma_2}{\sigma_1}$, and on $F$ and $\Prior$, but not on $\theta$.
 
 %
-\end{thm}
+\end{thm*}
 %
 This theorem provides in-principle identification of the loss function in all models outside of $\Omega$. %
 Importantly, this theorem does not presuppose that the magnitudes $\sigma_1, \sigma_2$ are known. It only requires that $\sigma_1, \sigma_2$ are small and distinct.
@@ -124,12 +124,12 @@ Although in theory, two levels of noise is sufficient, practically, it may be ad
 
 
 
-\begin{thm}[Role of Motor Noise]\label{thm:4}
+\begin{thm*}[Theorem 3.4 in Main Text: Role of Motor Noise] %\label{thm:4}
 %
 
 
-Theorem~\ref{thm:3} is not affected by adding symmetric isotropic motor noise of variance $\tau^2$, and by guessed responses appearing at a rate $0 < \gamma < 1$. The constants in the $\mathcal{O}(\cdot)$ expressions then depend additionally on the ratio $\frac{\tau}{\sigma_1}$ and on $\gamma$.
-\end{thm}
+Theorem 3.3 is not affected by adding symmetric isotropic motor noise of variance $\tau^2$, and by guessed responses appearing at a rate $0 < \gamma < 1$. The constants in the $\mathcal{O}(\cdot)$ expressions then depend additionally on the ratio $\frac{\tau}{\sigma_1}$ and on $\gamma$.
+\end{thm*}
 
 
 
@@ -137,9 +137,9 @@ Theorem~\ref{thm:3} is not affected by adding symmetric isotropic motor noise of
 
 
 
-The proofs of Theorems~\ref{thm:2}--\ref{thm:4}, provided in \correspondingSIVersion{SI Appendix S2.5 and S2.6}{Sections~\ref{sec:proof-theorem-2} and \ref{sec:theorems-two-levels}}, recover model components using the Method of Moments, %
+The proofs of Theorems~3.3 and 3.4, provided in \correspondingSIVersion{SI Appendix S2.5 and S2.6}{Sections~\ref{sec:proof-theorem-2} and \ref{sec:theorems-two-levels}}, recover model components using the Method of Moments, %
 by matching observed moments of the response distribution to truncated Taylor expansions of the moments in powers of the noise magnitude $\sigma^2$, with coefficients reflecting the model components $F', \Prior, p$.
-The key intuition behind the proofs of Theorems~\ref{thm:3}--\ref{thm:4} is that observing multiple sensory noise levels allows recovering multiple coefficients of these Taylor expansions. Even if the lowest-order coefficient does not allow uniquely identifying the model, the next-order coefficient provides sufficient information to uniquely identify any model outside of the exceptional set $\Omega$ of unidentifiable models.
+The key intuition behind the proofs of Theorems~3.3 and 3.4 is that observing multiple sensory noise levels allows recovering multiple coefficients of these Taylor expansions. Even if the lowest-order coefficient does not allow uniquely identifying the model, the next-order coefficient provides sufficient information to uniquely identify any model outside of the exceptional set $\Omega$ of unidentifiable models.
 
 
 
